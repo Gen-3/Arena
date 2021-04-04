@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93de5a8631fe455283ec553a42cdfa1, type: 3}
+  m_Name: Weapon Shop Item Database SO
+  m_EditorClassIdentifier: 
+  EquipList:
+  - {fileID: 11400000, guid: a6e4ff04c22b14980bc202dc08dff9e2, type: 2}
+  - {fileID: 11400000, guid: 3c0ce6d9e216f420dae704400e28e012, type: 2}
+  - {fileID: 11400000, guid: 8f7a0904117d448949c7e16b93264c96, type: 2}
+  - {fileID: 11400000, guid: fd70058e5d28c4d57adec244b5ac3846, type: 2}
+  - {fileID: 11400000, guid: 4da070b603c8b49799e86e107141c708, type: 2}
+  - {fileID: 11400000, guid: 6adcc30873c1740eca3d5e941f821fe3, type: 2}
+  - {fileID: 11400000, guid: 723a4de9c60744b198d1da0ee89b1e1f, type: 2}
+  - {fileID: 11400000, guid: 8fa31d46d0f184bccba83a53fabae7b0, type: 2}
+  - {fileID: 11400000, guid: cbae87aec150543a9b79774182814ed3, type: 2}
+  - {fileID: 11400000, guid: 5cd176b8fabf0475987eef2cce5a7f28, type: 2}
+  - {fileID: 11400000, guid: 1e2183560c9bd483cbe0e6b1b9422b5a, type: 2}

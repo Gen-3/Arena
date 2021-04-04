@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8fd0ede6a9d41ccbe00d5759169c7a, type: 3}
+  m_Name: Enemy Table SO
+  m_EditorClassIdentifier: 
+  enemyTable:
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 9, y: 5, z: 0}
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 9, y: 3, z: 0}
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 9, y: 1, z: 0}
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 8f028bfe05a8f4c7cad1a4b422498183, type: 2}
+        position: {x: 10, y: 4, z: 0}
+      - enemy: {fileID: 11400000, guid: 8f028bfe05a8f4c7cad1a4b422498183, type: 2}
+        position: {x: 10, y: 2, z: 0}
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: cd5a1d7f93cd64d0a9eecaf748e8d02b, type: 2}
+        position: {x: 9, y: 3, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 119be4327ed2c4ec281b233a88948b50, type: 2}
+        position: {x: 10, y: 4, z: 0}
+      - enemy: {fileID: 11400000, guid: 119be4327ed2c4ec281b233a88948b50, type: 2}
+        position: {x: 10, y: 2, z: 0}
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: cd5a1d7f93cd64d0a9eecaf748e8d02b, type: 2}
+        position: {x: 10, y: 4, z: 0}
+      - enemy: {fileID: 11400000, guid: cd5a1d7f93cd64d0a9eecaf748e8d02b, type: 2}
+        position: {x: 10, y: 2, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 9, y: 5, z: 0}
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 10, y: 4, z: 0}
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 9, y: 3, z: 0}
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 10, y: 2, z: 0}
+      - enemy: {fileID: 11400000, guid: 4c031192c43814d85b56c5a98c21b5c9, type: 2}
+        position: {x: 9, y: 1, z: 0}
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 8f028bfe05a8f4c7cad1a4b422498183, type: 2}
+        position: {x: 10, y: 4, z: 0}
+      - enemy: {fileID: 11400000, guid: 8f028bfe05a8f4c7cad1a4b422498183, type: 2}
+        position: {x: 9, y: 3, z: 0}
+      - enemy: {fileID: 11400000, guid: 8f028bfe05a8f4c7cad1a4b422498183, type: 2}
+        position: {x: 10, y: 2, z: 0}
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: da0e5f721da784055b2f2cf5bb044c02, type: 2}
+        position: {x: 9, y: 3, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: cd5a1d7f93cd64d0a9eecaf748e8d02b, type: 2}
+        position: {x: 10, y: 4, z: 0}
+      - enemy: {fileID: 11400000, guid: cd5a1d7f93cd64d0a9eecaf748e8d02b, type: 2}
+        position: {x: 9, y: 3, z: 0}
+      - enemy: {fileID: 11400000, guid: cd5a1d7f93cd64d0a9eecaf748e8d02b, type: 2}
+        position: {x: 10, y: 2, z: 0}
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: da0e5f721da784055b2f2cf5bb044c02, type: 2}
+        position: {x: 9, y: 3, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: cccf7eafb23054d289d02f55e6fe3fc8, type: 2}
+        position: {x: 9, y: 3, z: 0}
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []
+  - enemyTable: []

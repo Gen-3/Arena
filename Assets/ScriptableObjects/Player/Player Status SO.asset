@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2d17fc759d04aaf9e8aa43b4afa07a, type: 3}
+  m_Name: Player Status SO
+  m_EditorClassIdentifier: 
+  playerName: 
+  str: 0
+  dex: 0
+  agi: 0
+  vit: 0
+  men: 0
+  hp: 0
+  magicLevel: 0
+  weapon: {fileID: 11400000, guid: a6e4ff04c22b14980bc202dc08dff9e2, type: 2}
+  subWeapon: {fileID: 11400000, guid: 3c0ce6d9e216f420dae704400e28e012, type: 2}
+  shield: {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
+  armor: {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
+  gold: 0
+  exp: 0
+  fame: 0
+  maxFame: 0
+  runtimePlayerName: 
+  runtimeStr: 60
+  runtimeDex: 60
+  runtimeAgi: 60
+  runtimeVit: 20
+  runtimeMen: 0
+  runtimeHp: 16
+  runtimeMagicLevel: 0
+  runtimeWeapon: {fileID: 11400000, guid: a6e4ff04c22b14980bc202dc08dff9e2, type: 2}
+  runtimeSubWeapon: {fileID: 11400000, guid: 3c0ce6d9e216f420dae704400e28e012, type: 2}
+  runtimeShield: {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
+  runtimeArmor: {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
+  runtimeGold: 0
+  runtimeExp: 0
+  runtimeFame: 0
+  runtimeMaxFame: 0
