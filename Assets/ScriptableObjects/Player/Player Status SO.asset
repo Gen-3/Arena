@@ -20,26 +20,28 @@ MonoBehaviour:
   men: 0
   hp: 0
   magicLevel: 0
-  weapon: {fileID: 11400000, guid: a6e4ff04c22b14980bc202dc08dff9e2, type: 2}
-  subWeapon: {fileID: 11400000, guid: 3c0ce6d9e216f420dae704400e28e012, type: 2}
-  shield: {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
-  armor: {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
+  weapon: {fileID: 0}
+  subWeapon1: {fileID: 0}
+  subWeapon2: {fileID: 0}
+  shield: {fileID: 0}
+  armor: {fileID: 0}
   gold: 0
   exp: 0
   fame: 0
   maxFame: 0
   runtimePlayerName: 
-  runtimeStr: 60
-  runtimeDex: 60
-  runtimeAgi: 60
-  runtimeVit: 20
+  runtimeStr: 0
+  runtimeDex: 0
+  runtimeAgi: 0
+  runtimeVit: 0
   runtimeMen: 0
-  runtimeHp: 16
+  runtimeHp: 0
   runtimeMagicLevel: 0
-  runtimeWeapon: {fileID: 11400000, guid: a6e4ff04c22b14980bc202dc08dff9e2, type: 2}
-  runtimeSubWeapon: {fileID: 11400000, guid: 3c0ce6d9e216f420dae704400e28e012, type: 2}
-  runtimeShield: {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
-  runtimeArmor: {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
+  runtimeWeapon: {fileID: 0}
+  runtimeSubWeapon1: {fileID: 0}
+  runtimeSubWeapon2: {fileID: 0}
+  runtimeShield: {fileID: 0}
+  runtimeArmor: {fileID: 0}
   runtimeGold: 0
   runtimeExp: 0
   runtimeFame: 0

@@ -88,6 +88,8 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
         {
             Debug.Log($"{player.hp}/{MaxHP}={HPSlider.value}");
+            Debug.Log(player.mob);
+            Debug.Log(player.agi / 33 + Mathf.Log(player.agi * 1.5f) - player.weight * 10 / (player.str + 1));
         }
         if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
         {

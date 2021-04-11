@@ -28,8 +28,9 @@ public class PlayerManager : MonoBehaviour
 
     //装備
     WeaponSO weapon;
-    WeaponSO subWeapon;
-    ShieldSO shild;
+    WeaponSO subWeapon1;
+    WeaponSO subWeapon2;
+    ShieldSO shield;
     ArmorSO armor;
 
 
@@ -50,8 +51,9 @@ public class PlayerManager : MonoBehaviour
     void LoadStatus()
     {
         weapon = PlayerStatusSO.runtimeWeapon;
-        subWeapon = PlayerStatusSO.runtimeSubWeapon;
-        shild = PlayerStatusSO.runtimeShield;
+        subWeapon1 = PlayerStatusSO.runtimeSubWeapon1;
+        subWeapon2 = PlayerStatusSO.runtimeSubWeapon2;
+        shield = PlayerStatusSO.runtimeShield;
         armor = PlayerStatusSO.runtimeArmor;
 //装備ごとの重量などはweapon.weightなどで取得できる
         
@@ -64,9 +66,39 @@ public class PlayerManager : MonoBehaviour
         hp = PlayerStatusSO.runtimeHp;
         if (hp < 10) { hp = 10; }
 
-        atk = (int)(str + weapon.atk * (1 + dex / 100));
-        def = vit + shild.def + armor.def;
-        weight = weapon.weight + subWeapon.weight + shild.weight + armor.weight;
+        if (weapon != null)
+        {
+            atk = (int)(str + weapon.atk * (1 + dex / 100));
+        }
+        else
+        {
+            atk = str;
+        }
+
+        if (shield != null && armor != null)
+        {
+            def = vit + shield.def + armor.def;
+        }
+        else if (shield == null && armor == null)
+        {
+            def = vit;
+        }
+        else if (shield == null)
+        {
+            def = vit + armor.def;
+        }
+        else if (armor == null)
+        {
+            def = vit + shield.def;
+        }
+
+        weight = 0;
+        if (weapon != null) { weight += weapon.weight; }
+        if (subWeapon1 != null) { weight += subWeapon1.weight; }
+        if (subWeapon2 != null) { weight += subWeapon2.weight; }
+        if (shield != null) { weight += shield.weight; }
+        if (armor != null) { weight += armor.weight; }
+
         mob = (int)(agi/33+ Mathf.Log(agi*1.5f) - weight * 10 / (str + 1));//暫定的な式
         if (mob < 1) { mob = 1; }
     }

@@ -11,8 +11,11 @@ public class ShopItemButton : MonoBehaviour
     [SerializeField] Text priceText = default;
     [SerializeField] Text weightText = default;
 
+    EquipDataSO equipDataSO = default;
+
     public void Set(EquipDataSO equipDataSO)
     {
+        this.equipDataSO = equipDataSO;
         nameText.text = equipDataSO.equipName;
         if(equipDataSO is WeaponSO)
         {
@@ -40,7 +43,7 @@ public class ShopItemButton : MonoBehaviour
 
     public void OnClickThis()
     {
-        Debug.Log("aaaaaaaaaaaaaaaaa");
+        ShopManager.instance.SelectItem(equipDataSO);
     }
 
     public void SendID()

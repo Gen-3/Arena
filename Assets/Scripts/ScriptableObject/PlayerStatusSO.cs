@@ -14,20 +14,14 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     [SerializeField] int hp = default;
     [SerializeField] int magicLevel = default;
     [SerializeField] WeaponSO weapon = default;
-    [SerializeField] WeaponSO subWeapon = default;
+    [SerializeField] WeaponSO subWeapon1 = default;
+    [SerializeField] WeaponSO subWeapon2 = default;
     [SerializeField] ShieldSO shield = default;
     [SerializeField] ArmorSO armor = default;
     [SerializeField] int gold = default;
     [SerializeField] int exp = default;
     [SerializeField] int fame = default;
     [SerializeField] int maxFame = default;
-
-    /*publicの分はruntimeHogehogeでしか取得しないから、元の変数はpublicじゃなくてserializeFieldでいいっぽい？？
-    public WeaponSO weapon = default;
-    public WeaponSO subweapon = default;
-    public ShieldSO shield = default;
-    public ArmorSO armor = default;
-    */
 
     public string runtimePlayerName;
     public int runtimeStr;
@@ -38,13 +32,14 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     public int runtimeHp;
     public int runtimeMagicLevel;
     public WeaponSO runtimeWeapon;
-    public WeaponSO runtimeSubWeapon;
+    public WeaponSO runtimeSubWeapon1;
+    public WeaponSO runtimeSubWeapon2;
     public ShieldSO runtimeShield;
     public ArmorSO runtimeArmor;
-    public int runtimeGold;
-    public int runtimeExp;
-    public int runtimeFame;
-    public int runtimeMaxFame;
+    public int runtimeGold = default;
+    public int runtimeExp = default;
+    public int runtimeFame = default;
+    public int runtimeMaxFame = default;
 
 
     public enum Status
@@ -54,6 +49,45 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         agi,
         vit,
         men,
+    }
+
+    public bool TrySetWeapon(WeaponSO weaponSO)
+    {
+        if (runtimeWeapon == null)
+        {
+            runtimeWeapon = weaponSO;
+            return true;
+        }
+        if (runtimeSubWeapon1 == null)
+        {
+            runtimeSubWeapon1 = weaponSO;
+            return true;
+        }
+        if (runtimeSubWeapon2 == null)
+        {
+            runtimeSubWeapon2 = weaponSO;
+            return true;
+        }
+
+        return false;
+    }
+    public bool TrySetShield(ShieldSO shieldSO)
+    {
+        if (runtimeShield == null)
+        {
+            runtimeShield = shieldSO;
+            return true;
+        }
+        return false;
+    }
+    public bool TrySetArmor(ArmorSO armorSO)
+    {
+        if (runtimeArmor == null)
+        {
+            runtimeArmor = armorSO;
+            return true;
+        }
+        return false;
     }
 
     public int GetStatus(Status type)
@@ -108,7 +142,8 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         runtimeHp = hp;
         runtimeMagicLevel = magicLevel;
         runtimeWeapon = weapon;
-        runtimeSubWeapon = subWeapon;
+        runtimeSubWeapon1 = subWeapon1;
+        runtimeSubWeapon2 = subWeapon2;
         runtimeShield = shield;
         runtimeArmor = armor;
         runtimeGold = gold;

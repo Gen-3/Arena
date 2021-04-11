@@ -32,7 +32,8 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] Text hpText = default;
     [SerializeField] Text MagicLevelText = default;
     [SerializeField] Text weaponText = default;
-    [SerializeField] Text subWeaponText = default;
+    [SerializeField] Text subWeapon1Text = default;
+    [SerializeField] Text subWeapon2Text = default;
     [SerializeField] Text shieldText = default;
     [SerializeField] Text armorText = default;
     [SerializeField] Text goldText = default;
@@ -55,10 +56,26 @@ public class PlayerStatusManager : MonoBehaviour
             menText.text = playerStatusSO.runtimeMen.ToString();
             hpText.text = playerStatusSO.runtimeHp.ToString();
             MagicLevelText.text = playerStatusSO.runtimeMagicLevel.ToString();
-            weaponText.text = playerStatusSO.runtimeWeapon.equipName;
-            subWeaponText.text = playerStatusSO.runtimeSubWeapon.equipName;
-            shieldText.text = playerStatusSO.runtimeShield.equipName;
-            armorText.text = playerStatusSO.runtimeArmor.equipName;
+            if (playerStatusSO.runtimeWeapon != null)
+            {
+                weaponText.text = playerStatusSO.runtimeWeapon.equipName;
+            }
+            if (playerStatusSO.runtimeSubWeapon1 != null)
+            {
+                subWeapon1Text.text = playerStatusSO.runtimeSubWeapon1.equipName;
+            }
+            if (playerStatusSO.runtimeSubWeapon2 != null)
+            {
+                subWeapon2Text.text = playerStatusSO.runtimeSubWeapon2.equipName;
+            }
+            if (playerStatusSO.runtimeShield != null)
+            {
+                shieldText.text = playerStatusSO.runtimeShield.equipName;
+            }
+            if (playerStatusSO.runtimeArmor != null)
+            {
+                armorText.text = playerStatusSO.runtimeArmor.equipName;
+            }
             goldText.text = playerStatusSO.runtimeGold.ToString();
             expText.text = playerStatusSO.runtimeExp.ToString();
             fameText.text = playerStatusSO.runtimeFame.ToString();
