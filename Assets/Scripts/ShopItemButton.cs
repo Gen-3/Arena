@@ -43,6 +43,7 @@ public class ShopItemButton : MonoBehaviour
 
     public void OnClickThis()
     {
+        //ボタン一つ一つがequipDataSOを持っていて、クリック時にそれをShopManager.SelectItem()に送っている
         ShopManager.instance.SelectItem(equipDataSO);
     }
 

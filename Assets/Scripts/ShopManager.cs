@@ -12,7 +12,12 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] GameObject confirmPanel = default;
     [SerializeField] Text confirmText = default;
-    [SerializeField] GameObject confirmButton = default;
+
+    [SerializeField] GameObject exchangePanel = default;
+    [SerializeField] GameObject exchangeWeaponPanel = default;
+    [SerializeField] Text exchangeWeaponText = default;
+    [SerializeField] Text exchangeSubWeapon1Text = default;
+    [SerializeField] Text exchangeSubWeapon2Text = default;
 
     EquipDataSO selectedEquipSO = default;
 
@@ -51,7 +56,13 @@ public class ShopManager : MonoBehaviour
     //アイテムの購入
     public void BuyItem()
     {
-        if(selectedEquipSO is WeaponSO)
+        if (playerStatusSO.runtimeGold < selectedEquipSO.price)
+        {
+            Debug.Log("所持金がたりない");
+            return;
+        }
+
+        if (selectedEquipSO is WeaponSO)
         {
             if (playerStatusSO.TrySetWeapon(selectedEquipSO as WeaponSO))//as節抜いたらどうなる？
             {
@@ -60,7 +71,10 @@ public class ShopManager : MonoBehaviour
             else
             {
                 Debug.Log("どれと交換するか確認");
-                //現在の手持ち武器3つを表示
+                exchangeWeaponText.text = playerStatusSO.runtimeWeapon.equipName;
+                exchangeSubWeapon1Text.text = playerStatusSO.runtimeSubWeapon1.equipName;
+                exchangeSubWeapon2Text.text = playerStatusSO.runtimeSubWeapon2.equipName;
+                exchangeWeaponPanel.SetActive(true);
             }
         }
         if (selectedEquipSO is ShieldSO)
@@ -72,6 +86,7 @@ public class ShopManager : MonoBehaviour
             else
             {
                 Debug.Log("盾を交換していいか確認");
+                exchangePanel.SetActive(true);
             }
         }
         if(selectedEquipSO is ArmorSO)
@@ -83,6 +98,7 @@ public class ShopManager : MonoBehaviour
             else
             {
                 Debug.Log("鎧を交換していいか確認");
+                exchangePanel.SetActive(true);
             }
         }
         confirmPanel.SetActive(false);
@@ -90,27 +106,66 @@ public class ShopManager : MonoBehaviour
 
     public void SelectItem(EquipDataSO equipDataSO)
     {
+        //ボタンをクリックしたときに、引数としてそのボタンのequipDataSOを渡させてここでShopManagerのequipDataSOを書き換える
         selectedEquipSO = equipDataSO;
-        //        Debug.Log(selectedEquipSO.equipName + "を選択");
     }
 
+
+
     //アイテムの購入
-    public void OnConfirmBuy()
+    private void OnConfirmBuy()
     {
         confirmText.text = $"{selectedEquipSO.equipName}を買いますか？";
         Debug.Log(selectedEquipSO.equipName);
         confirmPanel.SetActive(true);
     }
-
     public void OnYesBuy()
     {
         BuyItem();
     }
-
     public void OnNoBuy()
     {
         confirmPanel.SetActive(false);
     }
+
+
+
+    //アイテムの入れ替え（盾・鎧）
+    private void OnYesExchange()
+    {
+        if(selectedEquipSO is ShieldSO)
+        {
+            playerStatusSO.runtimeShield = selectedEquipSO as ShieldSO;
+        }
+        else if(selectedEquipSO is ArmorSO)
+        {
+            playerStatusSO.runtimeArmor = selectedEquipSO as ArmorSO;
+        }
+        exchangePanel.SetActive(false);
+    }
+    public void OnNoExchange()
+    {
+        exchangePanel.SetActive(false);
+    }
+
+
+    //武器の入れ替え
+    public void ExchangeWeapon(string slot)//"main"/"sub1"/"sub2"
+    {
+        if (slot == "main")
+        {
+            playerStatusSO.runtimeWeapon = selectedEquipSO as WeaponSO;
+        }
+        if (slot == "sub1")
+        {
+            playerStatusSO.runtimeSubWeapon1 = selectedEquipSO as WeaponSO;
+        }
+        if (slot == "sub2")
+        {
+            playerStatusSO.runtimeSubWeapon2 = selectedEquipSO as WeaponSO;
+        }
+    }
+
 
     public void OnBack()
     {
