@@ -67,6 +67,8 @@ public class ShopManager : MonoBehaviour
             if (playerStatusSO.TrySetWeapon(selectedEquipSO as WeaponSO))//as節抜いたらどうなる？
             {
                 Debug.Log("武器の装備に成功（空きがあった）");
+                playerStatusSO.runtimeGold -= selectedEquipSO.price;
+                selectedEquipSO = default;
             }
             else
             {
@@ -82,6 +84,8 @@ public class ShopManager : MonoBehaviour
             if (playerStatusSO.TrySetShield(selectedEquipSO as ShieldSO))
             {
                 Debug.Log("盾の装備に成功（空きがあった）");
+                playerStatusSO.runtimeGold -= selectedEquipSO.price;
+                selectedEquipSO = default;
             }
             else
             {
@@ -94,6 +98,8 @@ public class ShopManager : MonoBehaviour
             if(playerStatusSO.TrySetArmor(selectedEquipSO as ArmorSO))
             {
                 Debug.Log("鎧の装備に成功（空きがあった）");
+                playerStatusSO.runtimeGold -= selectedEquipSO.price;
+                selectedEquipSO = default;
             }
             else
             {
@@ -141,6 +147,8 @@ public class ShopManager : MonoBehaviour
         {
             playerStatusSO.runtimeArmor = selectedEquipSO as ArmorSO;
         }
+        playerStatusSO.runtimeGold -= selectedEquipSO.price;
+        selectedEquipSO = default;
         exchangePanel.SetActive(false);
     }
     public void OnNoExchange()
@@ -149,21 +157,48 @@ public class ShopManager : MonoBehaviour
     }
 
 
+    public string slot = default;
     //武器の入れ替え
-    public void ExchangeWeapon(string slot)//"main"/"sub1"/"sub2"
+    public void SelectSlotOfExchangeWeapon(string selectedSlot)//"main"/"sub1"/"sub2"//交換する部位をクリックしたとき
     {
+        Debug.Log(selectedSlot+"がクリックされた");
+        slot = selectedSlot;
+    }
+    public void OnYesExchangeWeapon()//交換する部位をクリックした後にYesボタンを押したとき
+    {
+
+        Debug.Log("selectedEquipSOは"+selectedEquipSO);
+        Debug.Log("slotは"+slot);
+        Debug.Log("OnYesExchangeWeapon()が呼ばれた");
         if (slot == "main")
         {
             playerStatusSO.runtimeWeapon = selectedEquipSO as WeaponSO;
+            Debug.Log("メインウェポンを入れ替えました");
+            playerStatusSO.runtimeGold -= selectedEquipSO.price;
+            selectedEquipSO = default;
+            exchangeWeaponPanel.SetActive(false);
         }
         if (slot == "sub1")
         {
             playerStatusSO.runtimeSubWeapon1 = selectedEquipSO as WeaponSO;
+            Debug.Log("サブウェポン1を入れ替えました");
+            playerStatusSO.runtimeGold -= selectedEquipSO.price;
+            selectedEquipSO = default;
+            exchangeWeaponPanel.SetActive(false);
         }
         if (slot == "sub2")
         {
             playerStatusSO.runtimeSubWeapon2 = selectedEquipSO as WeaponSO;
+            Debug.Log("サブウェポン2を入れ替えました");
+            playerStatusSO.runtimeGold -= selectedEquipSO.price;
+            selectedEquipSO = default;
+            exchangeWeaponPanel.SetActive(false);
         }
+        slot = default;
+    }
+    public void OnNoExchangeWeapon()
+    {
+        exchangeWeaponPanel.SetActive(false);
     }
 
 

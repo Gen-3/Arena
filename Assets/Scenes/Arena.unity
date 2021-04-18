@@ -4746,17 +4746,22 @@ MonoBehaviour:
   name: 
   PlayerStatusSO: {fileID: 11400000, guid: f86ec52a916d94e828a7eb780a293f98, type: 2}
   battleManager: {fileID: 148473276}
-  str: 50
-  dex: 50
-  agi: 50
-  vit: 50
-  men: 50
+  str: 0
+  dex: 0
+  agi: 0
+  vit: 0
+  men: 0
   wt: 0
   hp: 0
-  atk: 70
-  def: 15
-  weight: 5
+  atk: 0
+  def: 0
+  weight: 0
   mob: 0
+  weapon: {fileID: 0}
+  subWeapon1: {fileID: 0}
+  subWeapon2: {fileID: 0}
+  shield: {fileID: 0}
+  armor: {fileID: 0}
   tilemap: {fileID: 1230656393}
   destination: {x: 0, y: 0, z: 0}
   destinationC: {x: 0, y: 0, z: 0}

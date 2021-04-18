@@ -27,11 +27,11 @@ public class PlayerManager : MonoBehaviour
     public int mob;
 
     //装備
-    WeaponSO weapon;
-    WeaponSO subWeapon1;
-    WeaponSO subWeapon2;
-    ShieldSO shield;
-    ArmorSO armor;
+    public WeaponSO weapon;
+    public WeaponSO subWeapon1;
+    public WeaponSO subWeapon2;
+    public ShieldSO shield;
+    public ArmorSO armor;
 
 
     public Tilemap tilemap;
@@ -102,6 +102,7 @@ public class PlayerManager : MonoBehaviour
         mob = (int)(agi/33+ Mathf.Log(agi*1.5f) - weight * 10 / (str + 1));//暫定的な式
         if (mob < 1) { mob = 1; }
     }
+
 
     public void MovePlayerPosition(Vector3 clickedPosition)//タイルマップから呼び出す
     {

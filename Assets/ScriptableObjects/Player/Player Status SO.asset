@@ -25,7 +25,7 @@ MonoBehaviour:
   subWeapon2: {fileID: 0}
   shield: {fileID: 0}
   armor: {fileID: 0}
-  gold: 99999
+  gold: 0
   exp: 0
   fame: 0
   maxFame: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
   runtimeSubWeapon2: {fileID: 0}
   runtimeShield: {fileID: 0}
   runtimeArmor: {fileID: 0}
-  runtimeGold: 99999
+  runtimeGold: 0
   runtimeExp: 0
   runtimeFame: 0
   runtimeMaxFame: 0
