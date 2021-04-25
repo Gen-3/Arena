@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+using System;
+using System.Linq;
+
 public class PlayerStatusManager : MonoBehaviour
 {
 
@@ -83,6 +86,48 @@ public class PlayerStatusManager : MonoBehaviour
         }
     }
 
+    private void Update()//押下したキーボードの名前を調べるためのコード、開発用。
+    {
+
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            playerStatusSO.runtimeStr += 5;
+            playerStatusSO.runtimeDex += 5;
+            playerStatusSO.runtimeAgi += 5;
+            playerStatusSO.runtimeVit += 5;
+            playerStatusSO.runtimeMen += 5;
+            Debug.Log("ステータス＋５");
+            Start();
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            playerStatusSO.runtimeStr -= 5;
+            playerStatusSO.runtimeDex -= 5;
+            playerStatusSO.runtimeAgi -= 5;
+            playerStatusSO.runtimeVit -= 5;
+            playerStatusSO.runtimeMen -= 5;
+            Debug.Log("ステータス−５");
+            Start();
+            return;
+        }
+
+        KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().ToArray();
+
+        if (Input.anyKeyDown) //※KeyDown のみ
+        {
+            foreach (var key in keyCodes)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    Debug.Log(key);
+                    break;
+                }
+            }
+        }
+
+    }
+
     public void DicideEdit(string sceneName)
     {
         if (usablePoint == 0)
@@ -99,9 +144,9 @@ public class PlayerStatusManager : MonoBehaviour
         {
             return;
         }
-        usablePoint -= 10;
+        usablePoint -= 5;
         usablePointText.text = $"残りポイント:{usablePoint}";
-        playerStatusSO.SetStatus(type, 10);
+        playerStatusSO.SetStatus(type, 5);
     }
     public void DownStatus(PlayerStatusSO.Status type)
     {
@@ -111,9 +156,9 @@ public class PlayerStatusManager : MonoBehaviour
         {
             return;
         }
-        usablePoint += 10 ;
+        usablePoint += 5 ;
         usablePointText.text = $"残りポイント:{usablePoint}";
-        playerStatusSO.SetStatus(type, -10);
+        playerStatusSO.SetStatus(type, -5);
     }
 
     public int GetStatus(PlayerStatusSO.Status type)

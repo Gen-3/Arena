@@ -23,6 +23,10 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     [SerializeField] int fame = default;
     [SerializeField] int maxFame = default;
 
+    // 覚えている魔法:魔法レベルに応じて覚えている魔法が変わる？
+    public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
+
+
     public string runtimePlayerName;
     public int runtimeStr;
     public int runtimeDex;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -63,65 +64,22 @@ public class BattleManager : MonoBehaviour
 
     int addWtPoint = default;
 
+    [SerializeField] GameObject selectRankPanel = default;
+
     private void Start()
     {
-        //        Random.InitState(0);
-        Setup();
+        selectRankPanel.SetActive(true);
     }
 
-    private void Update()//デバッグ用コマンド！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+    public void SelectRank(int selectedRank)
     {
-        if (Input.GetKeyDown(KeyCode.R))//Reset
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Arena");
-        }
-        if (Input.GetKeyDown(KeyCode.N))//NextStage
-        {
-            DebugStageClear();
-        }
-        if (Input.GetKeyDown(KeyCode.M))//MapDebug
-        {
-            MapDebug();
-        }
-        if (Input.GetKeyDown(KeyCode.P))//PoolDebug
-        {
-            PoolDebug();
-        }
-        if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
-        {
-            Debug.Log($"{player.hp}/{MaxHP}={HPSlider.value}");
-            Debug.Log(player.mob);
-            Debug.Log(player.agi / 33 + Mathf.Log(player.agi * 1.5f) - player.weight * 10 / (player.str + 1));
-        }
-        if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
-        {
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {
-                Debug.Log(enemies[i]);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.S))// StatusLogDebug
-        {
-            Debug.Log("ステータスのデバッグ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Debug.Log("wt="+ player.wt);
-            Debug.Log("hp=" + player.hp);
-            Debug.Log("atk=" + player.atk);
-            Debug.Log("def=" + player.def);
-            Debug.Log("weight=" + player.weight);
-            Debug.Log("mob=" + player.mob);
-            Debug.Log("str=" + player.str);
-            Debug.Log("dex=" + player.dex);
-            Debug.Log("agi=" + player.agi);
-            Debug.Log("vit=" + player.vit);
-            Debug.Log("weapon=" + player.weapon) ;
-            Debug.Log("sub1=" + player.subWeapon1) ;
-            Debug.Log("sub2=" + player.subWeapon2) ;
-            Debug.Log("shield=" + player.shield) ;
-            Debug.Log("armor=" + player.armor) ;
-            Debug.Log("addWtPoint=" + addWtPoint);
-        }
+        rank = selectedRank;
+        Setup(rank);
+        selectRankPanel.SetActive(false);
     }
-    private void Setup()//将来的には、敵のセットリストを引数に渡して敵をセットする感じ？
+
+
+    private void Setup(int rank)//将来的には、敵のセットリストを引数に渡して敵をセットする感じ？
     {
         StopAllCoroutines();
         //プレイヤーの座標とHP、装備を戦闘開始状態に戻す
@@ -237,9 +195,9 @@ public class BattleManager : MonoBehaviour
 
             //各ユニットのwt変数にagi変数を加える
 //            Debug.Log("addWT関係のバグ調査");
-//            Debug.Log("現在のplayer.agiは"+player.agi);//ここがなぜかはじめは「５０」
-//            Debug.Log("現在のplayer.weightは"+player.weight);//ここもなぜかはじめは「５」
-            addWtPoint = player.agi - player.weight;//だからここが最初はなぜか「４５」になってる。なんでやろ？
+//            Debug.Log("現在のplayer.agiは"+player.agi);
+//            Debug.Log("現在のplayer.weightは"+player.weight);
+            addWtPoint = player.agi - player.weight;
             if (addWtPoint < 10)
             {
                 addWtPoint = 10;
@@ -294,19 +252,13 @@ public class BattleManager : MonoBehaviour
                     int moveCount = 1;
                     while (moveCount <= enemies[0].mob && Vector3.Distance(player.transform.position, enemies[0].transform.position) > 1)
                     {
-                        //Debug.Log(moveCount + "回目");
-
                         enemies[0].MoveTo(player.transform.position);
-
-
-
                         moveCount++;
                         yield return new WaitForSeconds(0.2f);
                     }
                 }
 
                 enemies[0].done = true;
-                //Debug.Log(enemies[0].name + "の行動が終了しました");
             }
 
             //player.wtが最も大きければStartPlayersTurnを呼ぶ////////////////////////////////////////////////////////////////////////////////////////////プレイヤーのターン
@@ -322,11 +274,19 @@ public class BattleManager : MonoBehaviour
                 else
                 {
                     //Debug.Log("プレイヤーを行動可能にします（ボタンを表示して押されるまで待機します");
-                    commandButtons.SetActive(true);
 
-                    if (EnemyContact())
+                    if (EnemyContact())//敵接触時、近接攻撃ボタンをオン、魔法攻撃・ボウボタンをオフ
                     {
                         AttackButton.GetComponent<Button>().interactable = true;
+                        MagicButton.GetComponent<Button>().interactable = false;
+                        BowButton.GetComponent<Button>().interactable = false;
+                        ThrowButton.GetComponent<Button>().interactable = false;
+                    }
+                    else
+                    {
+                        MagicButton.GetComponent<Button>().interactable = true;
+                        BowButton.GetComponent<Button>().interactable = true;
+                        ThrowButton.GetComponent<Button>().interactable = true;
                     }
 
                     if (tilemap.WorldToCell(player.transform.position) == new Vector3Int(0, 0, 0) ||//マップ四隅にいたら脱出ボタンを選択可能に
@@ -341,6 +301,8 @@ public class BattleManager : MonoBehaviour
                     {
                         OnClickAttackButton();
                     }
+
+                    commandButtons.SetActive(true);
 
                     yield return new WaitUntil(() => playerDone);//プレイヤーがコマンドを入力するまで待機
 
@@ -395,6 +357,27 @@ public class BattleManager : MonoBehaviour
         }
         return false;
     }
+
+    public void ExecutePlayerMagic()
+    {
+        player.ExecuteMagic();
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //各ボタンを押したときの処理
@@ -463,16 +446,71 @@ public class BattleManager : MonoBehaviour
         Debug.Log("脱出ボタンが押されました");
         QuitConfirmButtons.SetActive(true);
     }
+
+    public GameObject quitPanel;
+    public GameObject quit2Panel;
     public void QuitConfirm()
     {
-        sceneTransitionManager.LoadTo("Home");
+        //「丸々は逃げ出した」的なコンソールと、名声が下がる処理
+        StartCoroutine(QuitConfirmCoroutine());
+    }
+    IEnumerator QuitConfirmCoroutine()
+    {
+        playerStatusSO.runtimeExp += expPool;
+        playerStatusSO.runtimeGold += goldPool;
+        playerStatusSO.runtimeFame += famePool-80;
+        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame)
+        {
+            playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
+        }
+
+        Destroy(player.gameObject);
+        Destroy(commandButtons);
+
+        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 100)
+        {
+            Debug.Log("逃げ出した……");
+            Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 80}の名声を得た");
+            (expPool, goldPool, famePool) = (0, 0, 0);
+
+            quitPanel.SetActive(true);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            sceneTransitionManager.LoadTo("Home");
+        }
+        else
+        {
+            //名声が地に堕ちてゲームオーバー処理
+            playerStatusSO.runtimePlayerName = default;
+            playerStatusSO.runtimeStr = default;
+            playerStatusSO.runtimeDex = default;
+            playerStatusSO.runtimeAgi = default;
+            playerStatusSO.runtimeVit = default;
+            playerStatusSO.runtimeMen = default;
+            playerStatusSO.runtimeHp = default;
+            playerStatusSO.runtimeMagicLevel = default;
+            playerStatusSO.runtimeWeapon = default;
+            playerStatusSO.runtimeSubWeapon1 = default;
+            playerStatusSO.runtimeSubWeapon2 = default;
+            playerStatusSO.runtimeShield = default;
+            playerStatusSO.runtimeArmor = default;
+            playerStatusSO.runtimeGold = default;
+            playerStatusSO.runtimeExp = default;
+            playerStatusSO.runtimeFame = default;
+            playerStatusSO.runtimeMaxFame = default;
+
+            Debug.Log("名声は地に落ちた……");
+            quit2Panel.SetActive(true);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            sceneTransitionManager.LoadTo("Home_FirstTime");
+        }
     }
     public void QuitCancel()
     {
         ClickedButtonReset();
     }
 
-    public GameObject gameover;
+    public GameObject gameoverPanel;
+    public GameObject gameover2Panel;
     IEnumerator GameOver()
     {
         playerStatusSO.runtimeExp += expPool;
@@ -482,15 +520,46 @@ public class BattleManager : MonoBehaviour
         {
             playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
         }
-        Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
-        (expPool, goldPool, famePool) = (0, 0, 0);
 
         Destroy(player.gameObject);
         Destroy(commandButtons);
         //ここで死亡判定、引退判定
-        gameover.SetActive(true);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        sceneTransitionManager.LoadTo("Home");
+        if (Random.Range(-100f, 100f) > player.vit)
+        {
+            Debug.Log("敗退した（死亡ではない）");
+            Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
+            (expPool, goldPool, famePool) = (0, 0, 0);
+
+            gameoverPanel.SetActive(true);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            sceneTransitionManager.LoadTo("Home");
+        }
+        else
+        {
+
+            playerStatusSO.runtimePlayerName = default;
+            playerStatusSO.runtimeStr = default;
+            playerStatusSO.runtimeDex = default;
+            playerStatusSO.runtimeAgi = default;
+            playerStatusSO.runtimeVit = default;
+            playerStatusSO.runtimeMen = default;
+            playerStatusSO.runtimeHp = default;
+            playerStatusSO.runtimeMagicLevel = default;
+            playerStatusSO.runtimeWeapon = default;
+            playerStatusSO.runtimeSubWeapon1 = default;
+            playerStatusSO.runtimeSubWeapon2 = default;
+            playerStatusSO.runtimeShield = default;
+            playerStatusSO.runtimeArmor = default;
+            playerStatusSO.runtimeGold = default;
+            playerStatusSO.runtimeExp = default;
+            playerStatusSO.runtimeFame = default;
+            playerStatusSO.runtimeMaxFame = default;
+
+            Debug.Log("死亡した（キャラクターロスト）");
+            gameover2Panel.SetActive(true);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            sceneTransitionManager.LoadTo("Home_FirstTime");
+        }
     }
 
     public void DebugStageClear()
@@ -505,7 +574,7 @@ public class BattleManager : MonoBehaviour
                 enemies[i].DebugRemoveEnemy();
             }
             stage++;
-            Setup();
+            Setup(rank);
         }
         else
         {
@@ -526,7 +595,7 @@ public class BattleManager : MonoBehaviour
                 enemies.Remove(enemies[i]);
             }
             stage++;
-            Setup();
+            Setup(rank);
         }
         else
         {
@@ -539,6 +608,25 @@ public class BattleManager : MonoBehaviour
     public GameObject rankClear;
     IEnumerator RankClear()
     {
+        switch (rank)
+        {
+            case 0:
+                goldPool = 500 ;
+                break;
+            case 1:
+                goldPool = 1000;
+                break;
+            case 2:
+                goldPool = 2000;
+                break;
+            case 3:
+                goldPool = 3000;
+                break;
+            case 4:
+                goldPool = 5000;
+                break;
+        }
+
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
         playerStatusSO.runtimeFame += famePool;
@@ -546,6 +634,7 @@ public class BattleManager : MonoBehaviour
         {
             playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
         }
+
         rankClear.SetActive(true);//あとで修正する。メッセージウインドウを出すなど。
         Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
         (expPool, goldPool, famePool) = (0, 0, 0);
@@ -556,6 +645,90 @@ public class BattleManager : MonoBehaviour
     void PoolDebug()
     {
         Debug.Log($"expPoolは{expPool}、goldPoolは{goldPool}、famePoolは{famePool}");
+    }
+
+
+
+
+    private void Update()//デバッグ用コマンド！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+    {
+        if (Input.GetKeyDown(KeyCode.R))//Reset
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Arena");
+        }
+        if (Input.GetKeyDown(KeyCode.N))//NextStage
+        {
+            DebugStageClear();
+        }
+        if (Input.GetKeyDown(KeyCode.M))//MapDebug
+        {
+            MapDebug();
+        }
+        if (Input.GetKeyDown(KeyCode.P))//PoolDebug
+        {
+            PoolDebug();
+        }
+        if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
+        {
+            Debug.Log($"{player.hp}/{MaxHP}={HPSlider.value}");
+            Debug.Log(player.mob);
+            Debug.Log(player.agi / 33 + Mathf.Log(player.agi * 1.5f) - player.weight * 10 / (player.str + 1));
+        }
+        if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
+        {
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                Debug.Log(enemies[i]);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D))// StatusLogDebug
+        {
+            Debug.Log("ステータスのデバッグ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Debug.Log("wt=" + player.wt);
+            Debug.Log("hp=" + player.hp);
+            Debug.Log("atk=" + player.atk);
+            Debug.Log("def=" + player.def);
+            Debug.Log("weight=" + player.weight);
+            Debug.Log("mob=" + player.mob);
+            Debug.Log("str=" + player.str);
+            Debug.Log("dex=" + player.dex);
+            Debug.Log("agi=" + player.agi);
+            Debug.Log("vit=" + player.vit);
+            Debug.Log("weapon=" + player.weapon);
+            Debug.Log("sub1=" + player.subWeapon1);
+            Debug.Log("sub2=" + player.subWeapon2);
+            Debug.Log("shield=" + player.shield);
+            Debug.Log("armor=" + player.armor);
+            Debug.Log("addWtPoint=" + addWtPoint);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            playerStatusSO.runtimeStr += 5;
+            playerStatusSO.runtimeDex += 5;
+            playerStatusSO.runtimeAgi += 5;
+            playerStatusSO.runtimeVit += 5;
+            playerStatusSO.runtimeMen += 5;
+            Debug.Log("ステータス＋５");
+        }
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            playerStatusSO.runtimeStr -= 5;
+            playerStatusSO.runtimeDex -= 5;
+            playerStatusSO.runtimeAgi -= 5;
+            playerStatusSO.runtimeVit -= 5;
+            playerStatusSO.runtimeMen -= 5;
+            Debug.Log("ステータス−５");
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))//デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
+        {
+            playerStatusSO.runtimeStr = 40;
+            playerStatusSO.runtimeDex = 40;
+            playerStatusSO.runtimeAgi = 40;
+            playerStatusSO.runtimeVit = 40;
+            playerStatusSO.runtimeMen = 40;
+            SceneManager.LoadScene("Arena");
+        }
     }
 
 }

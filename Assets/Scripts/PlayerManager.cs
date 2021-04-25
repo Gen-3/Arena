@@ -4,27 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : Battler
 {
     public new string name;
     [SerializeField] PlayerStatusSO PlayerStatusSO = default;
 
     public BattleManager battleManager;
 
-    //ユニット自身のパラメータ
-    public int str;
-    public int dex;
-    public int agi;
-    public int vit;
-    public int men;
-
-    //装備の影響等を計算して得られるパラメータ
-    public int wt;
-    public int hp;
-    public int atk;
-    public int def;
     public int weight;
-    public int mob;
 
     //装備
     public WeaponSO weapon;
@@ -43,6 +30,10 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject hitEffect;
 
+    List<MagicBaseSO> magicList = new List<MagicBaseSO>();
+
+    Battler target = default;
+
     private void Start()
     {
         LoadStatus();
@@ -50,6 +41,9 @@ public class PlayerManager : MonoBehaviour
 
     void LoadStatus()
     {
+        //魔法
+        magicList = PlayerStatusSO.magicList;
+
         weapon = PlayerStatusSO.runtimeWeapon;
         subWeapon1 = PlayerStatusSO.runtimeSubWeapon1;
         subWeapon2 = PlayerStatusSO.runtimeSubWeapon2;
@@ -102,6 +96,15 @@ public class PlayerManager : MonoBehaviour
         mob = (int)(agi/33+ Mathf.Log(agi*1.5f) - weight * 10 / (str + 1));//暫定的な式
         if (mob < 1) { mob = 1; }
     }
+
+
+    public void ExecuteMagic()
+    {
+        Debug.Log("PlayerManager.ExecuteMagic()");
+        magicList[1].Execute(this,target);
+    }
+
+
 
 
     public void MovePlayerPosition(Vector3 clickedPosition)//タイルマップから呼び出す

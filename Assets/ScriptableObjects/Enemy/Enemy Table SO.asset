@@ -77,23 +77,83 @@ MonoBehaviour:
     - enemyList:
       - enemy: {fileID: 11400000, guid: cccf7eafb23054d289d02f55e6fe3fc8, type: 2}
         position: {x: 9, y: 3, z: 0}
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
-  - enemyTable: []
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: c92ab7dcb83274bcd9ada492ffb0d670, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: c92ab7dcb83274bcd9ada492ffb0d670, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: c92ab7dcb83274bcd9ada492ffb0d670, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: c92ab7dcb83274bcd9ada492ffb0d670, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}
+  - enemyTable:
+    - enemyList:
+      - enemy: {fileID: 11400000, guid: 27a06d06fd61d40ddb2e161d3fe1a585, type: 2}
+        position: {x: 0, y: 0, z: 0}

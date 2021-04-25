@@ -27,8 +27,21 @@ MonoBehaviour:
   armor: {fileID: 0}
   gold: 0
   exp: 0
-  fame: 0
-  maxFame: 0
+  fame: 100
+  maxFame: 100
+  magicList:
+  - {fileID: 11400000, guid: 4e3798f9efa764353b69e7fd0a5e583b, type: 2}
+  - {fileID: 11400000, guid: 5af64758821b94516b204983f64c9786, type: 2}
+  - {fileID: 11400000, guid: 48f6d8b88f5f14bb1b29cd6f6c4d3633, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   runtimePlayerName: 
   runtimeStr: 0
   runtimeDex: 0
@@ -44,5 +57,5 @@ MonoBehaviour:
   runtimeArmor: {fileID: 0}
   runtimeGold: 0
   runtimeExp: 0
-  runtimeFame: 0
-  runtimeMaxFame: 0
+  runtimeFame: 100
+  runtimeMaxFame: 100

@@ -3,37 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : Battler
 {
     public Tilemap tilemap = default;
 
-    public new string name;
+    //public new string name;//これいらんっぽい？
     public PlayerManager player;
 
-    //ユニットのパラメータ
-    public int str;
-    public int dex;
-    public int agi;
-    public int vit;
-    public int men;
-    //enemyは以下の値も計算ではなく既定値を用いる
-    public int wt;
-    public int hp;
-    public int atk;
-    public int def;
-    public int mob;
-    //的に固有の変数
+    //敵に固有の変数
     public int exp;
     public int gold;
     public int fame;
     //行動済みフラグ
     public bool done = false;
 
+    Battler target = default;
+
 
     //初期化
     public void Init(EnemyData enemyData)//データベースから読み出す（これをenemy0などの変数に入れ込む）
     {
-        name = enemyData.name;
+        //name = enemyData.name;//これもいらんっぽい？
         str = enemyData.str;
         dex = enemyData.dex;
         agi = enemyData.agi;
@@ -54,7 +44,7 @@ public class EnemyManager : MonoBehaviour
     public void SetTarget(PlayerManager player)
     {
         this.player = player;
-        
+        target = player;
     }
 
     public void SetTileMap(Tilemap tilemap)
@@ -70,6 +60,8 @@ public class EnemyManager : MonoBehaviour
             //攻撃の処理
             if (Vector3.Distance(player.transform.position, transform.position) <= 1)
             {
+                
+
                 int hit = 70 + player.dex - agi;
                 float rundomNumber = Random.Range(0f, 100f);
                 //Debug.Log($"hit={hit}/rundomNumber={(int)rundomNumber}");
