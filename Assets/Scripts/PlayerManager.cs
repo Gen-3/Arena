@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 
 public class PlayerManager : Battler
 {
-    public new string name;
     [SerializeField] PlayerStatusSO PlayerStatusSO = default;
 
     public BattleManager battleManager;
@@ -32,7 +31,7 @@ public class PlayerManager : Battler
 
     List<MagicBaseSO> magicList = new List<MagicBaseSO>();
 
-    Battler target = default;
+    //Battler target = default;
 
     private void Start()
     {
@@ -41,6 +40,7 @@ public class PlayerManager : Battler
 
     void LoadStatus()
     {
+        unitName = PlayerStatusSO.runtimePlayerName;
         //魔法
         magicList = PlayerStatusSO.magicList;
 
@@ -97,20 +97,21 @@ public class PlayerManager : Battler
         if (mob < 1) { mob = 1; }
     }
 
-
+    /*4月29日メモ：直接magicList[id].Esecute(Battler,Battler)を呼べばいいから、ここは不要では？
     public void ExecuteMagic()
     {
-        Debug.Log("PlayerManager.ExecuteMagic()");
-        magicList[1].Execute(this,target);
+        magicList[battleManager.selectedMagicID].Execute(this, target);
+    }
+*/
+
+    public override void ExecuteDirectAttack(Battler attacker, Battler target)
+    {
+        base.ExecuteDirectAttack(attacker, target);
     }
 
-
-
-
-    public void MovePlayerPosition(Vector3 clickedPosition)//タイルマップから呼び出す
+    public void ClickOnTile(Vector3 clickedPosition)//タイルマップから呼び出す。元「MovePlayerPosition()」
     {
-    
-        if (battleManager.ClickedMoveButton)
+        if (battleManager.ClickedMoveButton)//移動
         {
             //if障害物があって移動できないマスをクリックした時は無視
             battleManager.ClickedMoveButton = false;
@@ -121,6 +122,51 @@ public class PlayerManager : Battler
             currentPosition = tilemap.WorldToCell(transform.position);//ユニットの現在位置ワールド座標
             StopAllCoroutines();//コルーチンを止めておかないと移動押すたびに重ねて移動しようとしてしまう
             StartCoroutine(Moving(destination));
+        }
+
+        if (battleManager.ClickedAttackButton)//直接攻撃
+        {
+            targetPosition = tilemap.WorldToCell(clickedPosition);
+
+            if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition) != null)
+            {
+                ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition));
+                battleManager.GetEnemyOnTheTileOf(targetPosition).CheckHP();
+                battleManager.playerDone = true;
+            }
+
+        }
+
+        if (battleManager.ClickedMagicButton)//魔法
+        {
+            if (battleManager.selectedMagicID == 2) //ファイアーストーム選択時、どのタイルであれ発動させる
+            {
+                targetPosition = tilemap.WorldToCell(clickedPosition);
+                magicList[battleManager.selectedMagicID].Execute(this, target);
+                battleManager.selectedMagicID = default;
+                battleManager.playerDone = true;
+            }
+            else if (battleManager.selectedMagicID == 3)//ライトニング選択時、どのタイルであれ発動させる///////////////////////////////////////////////////////////
+            {
+                for (int i = 0; i < battleManager.enemies.Count; i++)
+                {
+                    magicList[battleManager.selectedMagicID].Execute(this, battleManager.enemies[i]);
+                }
+
+                battleManager.selectedMagicID = default;
+                battleManager.playerDone = true;
+            }
+            else//その他の魔法を選択時、敵のいるタイルでのみ処理する
+            {
+                targetPosition = tilemap.WorldToCell(clickedPosition);
+
+                if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition) != null)
+                {
+                    magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition));
+                    battleManager.selectedMagicID = default;
+                    battleManager.playerDone = true;
+                }
+            }
         }
     }
 

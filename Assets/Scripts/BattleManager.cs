@@ -16,7 +16,7 @@ public class BattleManager : MonoBehaviour
     public Tilemap tilemap = default;
     public EnemyManager enemyPrefab = default;
 
-    List<EnemyManager> enemies = new List<EnemyManager>();//敵を一括管理
+    public List<EnemyManager> enemies = new List<EnemyManager>();//敵を一括管理
 
     public PlayerManager player;//プレイヤー
     public bool playerDone = false;//プレイヤーの行動終了判定
@@ -42,7 +42,6 @@ public class BattleManager : MonoBehaviour
     public bool ClickedChangeButton = false;//武器の交換
     public bool AttackButtonToggle;//近接攻撃ボタンを自動にするトグル
 
-    int loopCount = 0;//デバッグ時のループカウント用
     public SceneTransitionManager sceneTransitionManager;
 
     public int[,] map = new int[11, 7];
@@ -60,7 +59,7 @@ public class BattleManager : MonoBehaviour
     int famePool = 0;
 
     public Slider HPSlider;
-    private int MaxHP;
+    public int MaxHP;
 
     int addWtPoint = default;
 
@@ -83,11 +82,11 @@ public class BattleManager : MonoBehaviour
     {
         StopAllCoroutines();
         //プレイヤーの座標とHP、装備を戦闘開始状態に戻す
+        playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
         player.hp = playerStatusSO.runtimeHp;
         MaxHP = player.hp;
         HPSlider.value = (float)player.hp / (float)MaxHP;
         player.transform.position = tilemap.CellToWorld(new Vector3Int(0, 3, 0));
-
 
         //Tableから敵の組み合わせを選ぶ
         int stageCountMax = enemyTableSO.enemyTable[rank * 5 + stage].enemyTable.Count;
@@ -106,19 +105,6 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(Proceed());
     }
 
-    void MapDebug()
-    {
-        for (int i = 6; i >= 0; i--)//y軸方向に７マスなのでiが6,5,4,3,2,1,0の7回まわるようにしている
-        {
-            string line = "";
-            for (int j = 0; j < map.GetLength(0); j++)
-            {
-                line += map[j, i];
-            }
-            Debug.Log(line);
-        }
-    }
-
     void MapSetUp()
     {
         for (int i = 6; i >= 0; i--)//y軸方向に７マスなのでiが6,5,4,3,2,1,0の7回まわるようにしている
@@ -132,7 +118,6 @@ public class BattleManager : MonoBehaviour
         map[10, 3] = 9;
         map[10, 5] = 9;
 
-
         Vector3Int cellPos;
         foreach (EnemyManager enemy in enemies)
         {
@@ -142,7 +127,6 @@ public class BattleManager : MonoBehaviour
 
         cellPos = tilemap.WorldToCell(player.transform.position);
         map[cellPos.x, cellPos.y] = 1;
-
     }
 
     public void UpdateMap(Vector3Int from, Vector3Int to, int type)
@@ -168,17 +152,20 @@ public class BattleManager : MonoBehaviour
         return true;
     }
 
+    public EnemyManager GetEnemyOnTheTileOf(Vector3Int cellPosition)
+    {
+        return enemies.Find((EnemyManager obj) => obj.currentPosition == cellPosition);
+    }
+
     EnemyManager SpawnEnemy(EnemyManager enemyPrefab, Vector3Int position, EnemyData enemyData)
     {
-        //プレハブを用いない場合の敵の生成
-        //EnemyData enemyData = enemyDatabaseEntity.enemies[id];//入れるデータをデータベースから持ってくる
         EnemyManager enemy = Instantiate(enemyPrefab);
         enemy.Init(enemyData);//容れ物にデータを入れる処理
         enemy.transform.position = tilemap.CellToWorld(position);
-        //enemy.AddNewAction(OnClickEnemy);//クリック時に攻撃処理する関数を実体化したゲームオブジェクトのEnemyManagerから実行できるようにする
 
         enemy.SetTarget(player);
         enemy.SetTileMap(tilemap);
+        enemy.SetCurrentPosition();
 
         return enemy;
     }
@@ -188,15 +175,6 @@ public class BattleManager : MonoBehaviour
         //敵を全滅させてbattleEnd変数がtrueになるまでループ
         while (battleEnd == false)
         {
-            //デバッグ用ループ回数カウント
-            loopCount++;
-            //            Debug.Log("ループ" + loopCount + "回目");
-            //            MapDebug();//PlayerManagerから呼んだBattleManager.UpdateMapと時間差で動いてバグになるため、SetUp時に1回呼ぶだけに変更
-
-            //各ユニットのwt変数にagi変数を加える
-//            Debug.Log("addWT関係のバグ調査");
-//            Debug.Log("現在のplayer.agiは"+player.agi);
-//            Debug.Log("現在のplayer.weightは"+player.weight);
             addWtPoint = player.agi - player.weight;
             if (addWtPoint < 10)
             {
@@ -209,56 +187,22 @@ public class BattleManager : MonoBehaviour
                 if (enemies[i].hp > 0) { enemies[i].wt += enemies[i].agi; }
             }
 
-            //WTの降順でソートしてWT最速のenemies[0]とPlayerのWTを比較
+            //WTの降順でソートしてWT最速のenemies[0]とPlayerのWTを比較、enemies[0]の方が早いか等しければenemies[0]のターン処理を開始
             enemies.Sort((a, b) => b.wt - a.wt);
-            //Debug.Log(player.name + player.wt + "/" + enemies[0].name + enemies[0].wt + "/" + enemies[1].name + enemies[1].wt + "/" + enemies[2].name + enemies[2].wt + "/" + enemies[3].name + enemies[3].wt + "/" + enemies[4].name + enemies[4].wt + "/");
 
-            //enemy.wtが最も大きければenemyActionを呼ぶ
-            //将来的には、敵に行動パターンのint型変数をもたせて、その変数によっていくつかの行動パターンを持たせる
-            if (enemies[0].wt > player.wt)
+            if (enemies[0].wt > player.wt)//敵のターン////////////////////////////////////////////////////////////////////////////////////////////////////////
             {
-                //                Debug.Log(enemies[0] + "のターン");//敵のターン
-                yield return new WaitForSeconds(0.5f);
+                enemies[0].StartCoroutine(enemies[0].StartEnemyTurn());
+                yield return new WaitUntil　(() => enemies[0].done);
 
-
-                if (Vector3.Distance(player.transform.position, enemies[0].transform.position) <= 1)
+                //敵のターン終了時に、プレイヤーのHPバーを更新して戦闘不能判定
+                HPSlider.value = (float)BattleManager.instance.player.hp / (float)BattleManager.instance.MaxHP;
+                if (player.hp < 0)
                 {
-                    int hit = 70 + enemies[0].dex - player.agi;
-                    float rundomNumber = Random.Range(0f, 100f);
-                    //Debug.Log($"hit={hit}/rundomNumber={(int)rundomNumber}");
-                    if (rundomNumber < hit)
-                    {
-                        //Debug.Log("距離が１より小さいので直接攻撃する");
-                        float damage = (Random.Range((float)(enemies[0].atk * enemies[0].dex / 100), (float)(enemies[0].atk)) - player.def) / 5;
-                        if (damage <= 0) { damage = 0; };
-                        player.hp -= (int)damage;
-                        HPSlider.value = (float)player.hp / (float)MaxHP;
-                        Debug.Log(enemies[0].name + "の攻撃でPlayerは" + (int)damage + "のダメージ（残りHPは" + player.hp + "）");
-                        if (player.hp < 0)
-                        {
-                            player.hp = 0;
-                            StopAllCoroutines();
-                            StartCoroutine(GameOver());
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("回避！");
-                    }
+                    player.hp = 0;
+                    StopAllCoroutines();
+                    StartCoroutine(GameOver());
                 }
-                else
-                {
-                    //Debug.Log("距離が１より大きいので移動する");
-                    int moveCount = 1;
-                    while (moveCount <= enemies[0].mob && Vector3.Distance(player.transform.position, enemies[0].transform.position) > 1)
-                    {
-                        enemies[0].MoveTo(player.transform.position);
-                        moveCount++;
-                        yield return new WaitForSeconds(0.2f);
-                    }
-                }
-
-                enemies[0].done = true;
             }
 
             //player.wtが最も大きければStartPlayersTurnを呼ぶ////////////////////////////////////////////////////////////////////////////////////////////プレイヤーのターン
@@ -273,8 +217,6 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("プレイヤーを行動可能にします（ボタンを表示して押されるまで待機します");
-
                     if (EnemyContact())//敵接触時、近接攻撃ボタンをオン、魔法攻撃・ボウボタンをオフ
                     {
                         AttackButton.GetComponent<Button>().interactable = true;
@@ -305,11 +247,8 @@ public class BattleManager : MonoBehaviour
                     commandButtons.SetActive(true);
 
                     yield return new WaitUntil(() => playerDone);//プレイヤーがコマンドを入力するまで待機
-
-                    //ここからプレイヤーコマンド終了後の処理
-                    //                    AttackButton.GetComponent<Button>().interactable = false;
-                    QuitButton.GetComponent<Button>().interactable = false;
-
+                    Debug.Log("プレイヤーのターンが終了");
+                    ClickedButtonReset();
                     commandButtons.SetActive(false);
                     yield return new WaitForSeconds(1);
                 }
@@ -332,8 +271,9 @@ public class BattleManager : MonoBehaviour
             }
             if (playerDone == true) { player.wt = 0; playerDone = false; }
         }
+
+        //while (battleEnd == false)に対応
         yield return new WaitForSeconds(0.1f);
-        //        Debug.Log("ステージクリア");
         StageClear();
     }
 
@@ -358,17 +298,6 @@ public class BattleManager : MonoBehaviour
         return false;
     }
 
-    public void ExecutePlayerMagic()
-    {
-        player.ExecuteMagic();
-    }
-
-    
-
-
-
-
-
 
 
 
@@ -391,6 +320,7 @@ public class BattleManager : MonoBehaviour
         ClickedMagicButton = false;
         ClickedChangeButton = false;
         QuitConfirmButtons.SetActive(false);
+        selectMagicPanel.SetActive(false);
     }
     //待機に関する関数
     public void OnClickWaitButton()
@@ -414,16 +344,8 @@ public class BattleManager : MonoBehaviour
     {
         ClickedButtonReset();
         ClickedAttackButton = true;
-        /*        if (AttackButtonToggle)
-                {
-                    Debug.Log("近接攻撃の連続トグルがONになっています");
-                }
-                else
-                {
-                    Debug.Log("攻撃ボタンが押されました");
-                }
-        */
     }
+
     public void SwitchAttackButtonToggle()
     {
         ClickedButtonReset();
@@ -439,6 +361,33 @@ public class BattleManager : MonoBehaviour
             Debug.Log("連続攻撃トグルが外されました");
         }
     }
+
+    public GameObject selectMagicPanel;
+    //魔法に関する関数
+    public void OnClickMagicButton()
+    {
+        ClickedButtonReset();
+        ClickedMagicButton = true;
+
+        selectMagicPanel.SetActive(true);
+    }
+    public int selectedMagicID = default;
+    public void OnClickSelectMagicButton(int ID)
+    {
+        selectedMagicID = ID;
+        selectMagicPanel.SetActive(false);
+    }
+    public void CanselMagic()
+    {
+        selectMagicPanel.SetActive(false);
+        selectedMagicID = default;
+    }
+
+
+
+
+
+
 
     public void OnClickQuitButton()
     {
@@ -511,7 +460,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject gameoverPanel;
     public GameObject gameover2Panel;
-    IEnumerator GameOver()
+    public IEnumerator GameOver()
     {
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
@@ -562,34 +511,13 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void DebugStageClear()
-    {
-
-
-        if (stage % 5 != 4)
-        {
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {
-                Destroy(enemies[i].gameObject);
-                enemies[i].DebugRemoveEnemy();
-            }
-            stage++;
-            Setup(rank);
-        }
-        else
-        {
-            Destroy(commandButtons);
-            StartCoroutine(RankClear());
-        }
-
-    }
     public void StageClear()
     {
         battleEnd = false;
 
         if (stage % 5 != 4)
         {
-            for (int i = enemies.Count - 1; i >= 0; i--)
+            for (int i = enemies.Count - 1; i >= 0; i--)//念の為enemies[]の中身を消してる？
             {
                 Destroy(enemies[i].gameObject);
                 enemies.Remove(enemies[i]);
@@ -658,11 +586,33 @@ public class BattleManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.N))//NextStage
         {
-            DebugStageClear();
+            if (stage % 5 != 4)
+            {
+                for (int i = enemies.Count - 1; i >= 0; i--)
+                {
+                    Destroy(enemies[i].gameObject);
+                    enemies[i].DebugRemoveEnemy();
+                }
+                stage++;
+                Setup(rank);
+            }
+            else
+            {
+                Destroy(commandButtons);
+                StartCoroutine(RankClear());
+            }
         }
         if (Input.GetKeyDown(KeyCode.M))//MapDebug
         {
-            MapDebug();
+            for (int i = 6; i >= 0; i--)//y軸方向に７マスなのでiが6,5,4,3,2,1,0の7回まわるようにしている
+            {
+                string line = "";
+                for (int j = 0; j < map.GetLength(0); j++)
+                {
+                    line += map[j, i];
+                }
+                Debug.Log(line);
+            }
         }
         if (Input.GetKeyDown(KeyCode.P))//PoolDebug
         {
@@ -671,8 +621,6 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
         {
             Debug.Log($"{player.hp}/{MaxHP}={HPSlider.value}");
-            Debug.Log(player.mob);
-            Debug.Log(player.agi / 33 + Mathf.Log(player.agi * 1.5f) - player.weight * 10 / (player.str + 1));
         }
         if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
         {
@@ -708,6 +656,7 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeAgi += 5;
             playerStatusSO.runtimeVit += 5;
             playerStatusSO.runtimeMen += 5;
+            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
             Debug.Log("ステータス＋５");
         }
         if (Input.GetKeyDown(KeyCode.RightBracket))
@@ -717,16 +666,20 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeAgi -= 5;
             playerStatusSO.runtimeVit -= 5;
             playerStatusSO.runtimeMen -= 5;
+            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
             Debug.Log("ステータス−５");
         }
 
         if (Input.GetKeyDown(KeyCode.S))//デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
         {
+            playerStatusSO.runtimePlayerName = "テストプレイなう";
             playerStatusSO.runtimeStr = 40;
             playerStatusSO.runtimeDex = 40;
             playerStatusSO.runtimeAgi = 40;
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
+            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+
             SceneManager.LoadScene("Arena");
         }
     }

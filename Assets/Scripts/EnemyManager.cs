@@ -7,7 +7,6 @@ public class EnemyManager : Battler
 {
     public Tilemap tilemap = default;
 
-    //public new string name;//これいらんっぽい？
     public PlayerManager player;
 
     //敵に固有の変数
@@ -17,13 +16,13 @@ public class EnemyManager : Battler
     //行動済みフラグ
     public bool done = false;
 
-    Battler target = default;
+    public Vector3Int currentPosition = default;
 
 
     //初期化
     public void Init(EnemyData enemyData)//データベースから読み出す（これをenemy0などの変数に入れ込む）
     {
-        //name = enemyData.name;//これもいらんっぽい？
+        unitName = enemyData.name;//これもいらんっぽい？
         str = enemyData.str;
         dex = enemyData.dex;
         agi = enemyData.agi;
@@ -38,7 +37,6 @@ public class EnemyManager : Battler
         exp = enemyData.exp;
         gold = enemyData.gold;
         fame = enemyData.fame;
-        
     }
 
     public void SetTarget(PlayerManager player)
@@ -52,6 +50,43 @@ public class EnemyManager : Battler
         this.tilemap = tilemap;
     }
 
+    public void SetCurrentPosition()
+    {
+        currentPosition = tilemap.WorldToCell(transform.position);
+
+    }
+
+    public IEnumerator StartEnemyTurn()
+    {
+        if (Vector3.Distance(player.transform.position, this.transform.position) <= 1)
+        {
+            ExecuteDirectAttack(this, player);
+        }
+        else
+        {
+            int moveCount = 1;
+            while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 1)
+            {
+                MoveTo(player.transform.position);
+                moveCount++;
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+        yield return new WaitForSeconds(0.2f);
+        done = true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /*
     public void OnClickEnemy() //敵をクリックした際、フラグによってダメージの処理が異なる（近接攻撃、魔法、投擲、ボウ）
     {
         //近接攻撃
@@ -70,16 +105,9 @@ public class EnemyManager : Battler
                     float damage = ((float)Random.Range(player.atk * player.dex / 100,(float)player.atk) - this.def) / 5;
                     if (damage < 0) { damage = 0; }
                     this.hp -= (int)damage;
-                    if (hp <= 0)
-                    {
-                        hp = 0;
-                        Vector3Int lastPos = tilemap.WorldToCell(transform.position);
-                        BattleManager.instance.map[lastPos.x, lastPos.y] = 0;
-                        Destroy(this.gameObject);
-                        BattleManager.instance.RemoveEnemy(this, exp, gold, fame);
-                        wt = 0;
-                        //exp,gold,fame値のプール加算
-                    }
+
+                    CheckHP();
+
                     Debug.Log((int)damage + "ポイントのヒット！敵の残りHPは" + hp);
                 }
                 else
@@ -96,6 +124,22 @@ public class EnemyManager : Battler
         if (BattleManager.instance.ClickedMagicButton) { }
         if (BattleManager.instance.ClickedBowButton) { }
         if (BattleManager.instance.ClickedThrowButton) { }
+    }
+    */
+
+    public void CheckHP()
+    {
+        if (hp <= 0)
+        {
+            hp = 0;
+            Vector3Int lastPos = tilemap.WorldToCell(transform.position);
+            BattleManager.instance.map[lastPos.x, lastPos.y] = 0;
+            Destroy(this.gameObject);
+            BattleManager.instance.RemoveEnemy(this, exp, gold, fame);
+            wt = 0;
+            //exp,gold,fame値のプール加算
+        }
+
     }
 
     public void MoveTo(Vector3 targetPositionWorld)
@@ -137,7 +181,7 @@ public class EnemyManager : Battler
                 MoveOnTile(Direction.DownLeft);
             }
         }
-        Vector3Int currentPosition = tilemap.WorldToCell(transform.position);
+        currentPosition = tilemap.WorldToCell(transform.position);
         BattleManager.instance.UpdateMap(beforePosition, currentPosition, 2);
     }
 
@@ -217,7 +261,7 @@ public class EnemyManager : Battler
         }
     }
 
-    public void DebugRemoveEnemy()
+    public void DebugRemoveEnemy()//battleManagerのデバッグコマンドでfor文でenemies[]の中身を消していくためにこちらに記述が必要
     {
         BattleManager.instance.RemoveEnemy(this, exp, gold, fame);
     }

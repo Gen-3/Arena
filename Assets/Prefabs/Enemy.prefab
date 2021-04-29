@@ -91,7 +91,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215009710747519105}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -176,10 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d66ec6421783345bb9415aa1b2dd7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
-  name: 
-  battleManager: {fileID: 0}
-  player: {fileID: 0}
   str: 0
   dex: 0
   agi: 20
@@ -189,9 +185,13 @@ MonoBehaviour:
   hp: 80
   atk: 2
   def: 0
-  weight: 0
   mob: 0
-  Done: 0
+  tilemap: {fileID: 0}
+  player: {fileID: 0}
+  exp: 0
+  gold: 0
+  fame: 0
+  done: 0
 --- !u!114 &2499839991190598008
 MonoBehaviour:
   m_ObjectHideFlags: 0
