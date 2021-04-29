@@ -130,11 +130,13 @@ public class PlayerManager : Battler
 
             if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition) != null)
             {
-                ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition));
-                battleManager.GetEnemyOnTheTileOf(targetPosition).CheckHP();
-                battleManager.playerDone = true;
+                if (Vector3.Distance(transform.position, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).transform.position) <= 1)
+                {
+                    ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition));
+                    battleManager.GetEnemyOnTheTileOf(targetPosition).CheckHP();
+                    battleManager.playerDone = true;
+                }
             }
-
         }
 
         if (battleManager.ClickedMagicButton)//魔法

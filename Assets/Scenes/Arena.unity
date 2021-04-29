@@ -731,6 +731,7 @@ MonoBehaviour:
   tilemap: {fileID: 1230656393}
   enemyPrefab: {fileID: 215009710747519108, guid: 7523a3f0ee8edcc46bed5892b907a582,
     type: 3}
+  enemies: []
   player: {fileID: 2031294631}
   playerDone: 0
   MoveButton: {fileID: 129144424}

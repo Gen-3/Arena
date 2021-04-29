@@ -45,8 +45,5 @@ public class Battler : MonoBehaviour
         {
             Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
         }
-
     }
-
-
 }
