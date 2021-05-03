@@ -10,7 +10,7 @@ public class EnergyBoltSO: MagicBaseSO
         Debug.Log("エナジーボルト開始");
         int damage = (int)Random.Range((user.men - target.men) / 4, (user.men - target.men) / 3 + 10);
         if (damage < 0) { damage = 0; }
-        Debug.Log($"damageは{damage}で、最小値は{(user.men - target.men) / 4}、最大値は{(user.men - target.men) / 3 + 10}");
+        //Debug.Log($"damageは{damage}で、最小値は{(user.men - target.men) / 4}、最大値は{(user.men - target.men) / 3 + 10}");
         target.Damage(damage);
         Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ");
 

@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class TilemapManager : MonoBehaviour,IPointerClickHandler
 {
-    public static TilemapManager instance;//変数名はなんでもOK：どこからでもアクセルできる
+    public static TilemapManager instance;//変数名はなんでもOK：どこからでもアクセスできる
     private void Awake()
     {
         instance = this;//どこからでもアクセスできるものに自分を入れる

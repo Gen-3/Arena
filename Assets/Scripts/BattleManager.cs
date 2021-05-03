@@ -67,6 +67,15 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("デバッグ用コマンド　S：全ステータスを40にセットする");
+        Debug.Log("デバッグ用コマンド　[：全ステータスを＋５");
+        Debug.Log("デバッグ用コマンド　]：全ステータスをー５");
+        Debug.Log("デバッグ用コマンド　N：敵を全滅させてステージを進める");
+        Debug.Log("デバッグ用コマンド　R：Arenaシーンをリロード");
+        Debug.Log("デバッグ用コマンド　M：MAP情報を表示");
+        Debug.Log("デバッグ用コマンド　P：プレイヤーの情報を表示");
+        Debug.Log("デバッグ用コマンド　E：敵の情報を表示");
+
         selectRankPanel.SetActive(true);
     }
 
@@ -152,10 +161,48 @@ public class BattleManager : MonoBehaviour
         return true;
     }
 
-    public EnemyManager GetEnemyOnTheTileOf(Vector3Int cellPosition)
+    public List<EnemyManager> GetEnemyOnTheTileOf(Vector3Int cellPosition)
     {
-        return enemies.Find((EnemyManager obj) => obj.currentPosition == cellPosition);
+        switch (selectedMagicID)
+        {
+            default:
+                return enemies.FindAll((EnemyManager obj) => obj.currentPosition == cellPosition);
+            case 1://エナジーボルト
+                return enemies.FindAll((EnemyManager obj) => obj.currentPosition == cellPosition);
+            case 2://ファイアストーム
+                return enemies.FindAll((EnemyManager obj) => GetAroundCell(cellPosition).Contains(obj.currentPosition));
+            case 3://ライトニング
+                return enemies;
+            case 4 - 12:
+                return null;
+        }
     }
+    List<Vector3Int> GetAroundCell(Vector3Int centerPos)
+    {
+        List<Vector3Int> aroundCell = new List<Vector3Int>();
+
+        aroundCell.Add(centerPos);
+        if (centerPos.y % 2 == 0)
+        {
+            aroundCell.Add(centerPos + new Vector3Int(-1, 1, 0));
+            aroundCell.Add(centerPos + new Vector3Int(0, 1, 0));
+            aroundCell.Add(centerPos + new Vector3Int(-1, 0, 0));
+            aroundCell.Add(centerPos + new Vector3Int(1, 0, 0));
+            aroundCell.Add(centerPos + new Vector3Int(-1, -1, 0));
+            aroundCell.Add(centerPos + new Vector3Int(0, -1, 0));
+        }
+        else
+        {
+            aroundCell.Add(centerPos + new Vector3Int(0, 1, 0));
+            aroundCell.Add(centerPos + new Vector3Int(1, 1, 0));
+            aroundCell.Add(centerPos + new Vector3Int(-1, 0, 0));
+            aroundCell.Add(centerPos + new Vector3Int(1, 0, 0));
+            aroundCell.Add(centerPos + new Vector3Int(0, -1, 0));
+            aroundCell.Add(centerPos + new Vector3Int(1, -1, 0));
+        }
+        return aroundCell;
+    }
+
 
     EnemyManager SpawnEnemy(EnemyManager enemyPrefab, Vector3Int position, EnemyData enemyData)
     {
@@ -169,6 +216,12 @@ public class BattleManager : MonoBehaviour
 
         return enemy;
     }
+
+
+
+
+
+
 
     IEnumerator Proceed()
     {
@@ -247,7 +300,7 @@ public class BattleManager : MonoBehaviour
                     commandButtons.SetActive(true);
 
                     yield return new WaitUntil(() => playerDone);//プレイヤーがコマンドを入力するまで待機
-                    Debug.Log("プレイヤーのターンが終了");
+                    Debug.Log("　　　プレイヤーのターンが終了");
                     ClickedButtonReset();
                     commandButtons.SetActive(false);
                     yield return new WaitForSeconds(1);
@@ -570,10 +623,6 @@ public class BattleManager : MonoBehaviour
         sceneTransitionManager.LoadTo("Home");
     }
 
-    void PoolDebug()
-    {
-        Debug.Log($"expPoolは{expPool}、goldPoolは{goldPool}、famePoolは{famePool}");
-    }
 
 
 
@@ -583,6 +632,7 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))//Reset
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Arena");
+            Debug.Log("デバッグコマンド：Arenaシーンを再読み込みしました");
         }
         if (Input.GetKeyDown(KeyCode.N))//NextStage
         {
@@ -601,6 +651,7 @@ public class BattleManager : MonoBehaviour
                 Destroy(commandButtons);
                 StartCoroutine(RankClear());
             }
+            Debug.Log("デバッグコマンド：ステージを進めました");
         }
         if (Input.GetKeyDown(KeyCode.M))//MapDebug
         {
@@ -613,23 +664,22 @@ public class BattleManager : MonoBehaviour
                 }
                 Debug.Log(line);
             }
-        }
-        if (Input.GetKeyDown(KeyCode.P))//PoolDebug
-        {
-            PoolDebug();
+            Debug.Log("デバッグコマンド：マップ情報を表示しました");
         }
         if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
         {
             Debug.Log($"{player.hp}/{MaxHP}={HPSlider.value}");
+            Debug.Log("デバッグコマンド：HPSliderの情報を表示しました");
         }
         if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
         {
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                Debug.Log(enemies[i]);
+                Debug.Log($"{enemies[i]}(No.{i})の名前は{enemies[i].unitName}");
             }
+            Debug.Log("デバッグコマンド：敵のリストを表示しました");
         }
-        if (Input.GetKeyDown(KeyCode.D))// StatusLogDebug
+        if (Input.GetKeyDown(KeyCode.P))// PlayerStatusLogDebug
         {
             Debug.Log("ステータスのデバッグ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             Debug.Log("wt=" + player.wt);
@@ -648,6 +698,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log("shield=" + player.shield);
             Debug.Log("armor=" + player.armor);
             Debug.Log("addWtPoint=" + addWtPoint);
+            Debug.Log($"expPoolは{expPool}、goldPoolは{goldPool}、famePoolは{famePool}");
         }
         if (Input.GetKeyDown(KeyCode.LeftBracket))
         {
@@ -657,6 +708,7 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit += 5;
             playerStatusSO.runtimeMen += 5;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            player.LoadStatus();
             Debug.Log("ステータス＋５");
         }
         if (Input.GetKeyDown(KeyCode.RightBracket))
@@ -667,10 +719,11 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit -= 5;
             playerStatusSO.runtimeMen -= 5;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            player.LoadStatus();
             Debug.Log("ステータス−５");
         }
 
-        if (Input.GetKeyDown(KeyCode.S))//デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
+        if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
         {
             playerStatusSO.runtimePlayerName = "テストプレイなう";
             playerStatusSO.runtimeStr = 40;
@@ -679,8 +732,8 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-
-            SceneManager.LoadScene("Arena");
+            player.LoadStatus();
+            Debug.Log("デバッグ用ステータスをセットしました");
         }
     }
 

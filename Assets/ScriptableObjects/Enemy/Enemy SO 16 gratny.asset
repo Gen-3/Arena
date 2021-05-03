@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0528a6e08e27943a4bbe5ddb02f81c6e, type: 3}
+  m_Name: Enemy SO 16 gratny
+  m_EditorClassIdentifier: 
+  enemyData:
+    name: "\u30B0\u30E9\u30C8\u30CB\u30FC"
+    sprite: {fileID: 21300000, guid: ab28a1397e902044a86f29494b6deb01, type: 3}
+    str: 0
+    dex: 75
+    agi: 50
+    vit: 0
+    men: 75
+    wt: 0
+    hp: 80
+    atk: 500
+    def: 300
+    mob: 4
+    exp: 100
+    gold: 500
+    fame: 50

@@ -25,7 +25,7 @@ public class Battler : MonoBehaviour
     public virtual void Damage(int amount)
     {
         hp -= amount;
-        Debug.Log($"{this.name}に{amount}のダメージ（Battlerのダメージ関数）");
+        //Debug.Log($"{this.name}に{amount}のダメージ（Battlerのダメージ関数）");
         
     }
 
@@ -33,17 +33,30 @@ public class Battler : MonoBehaviour
     {
         int hit = 70 + attacker.dex - target.agi;
         float rundomNumber = Random.Range(0f, 100f);
+
+        int damageMin = (attacker.atk * attacker.dex / 100 - target.def) / 10;
+        int damageMax = (attacker.atk - target.def) / 10;
+        if (damageMin < 1) { damageMin = 1; }
+
         if (rundomNumber < hit)
         {
-            int damage = (int)((Random.Range((float)(attacker.atk * attacker.dex / 100) - target.def, (float)(attacker.atk)) - target.def) / 5);
+            int damage = Random.Range(damageMin, damageMax);
             if (damage <= 0) { damage = 0; };
             target.Damage(damage);
-            Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！残りHPは{target.hp}");
+            Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
 
         }
         else
         {
-            Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
+            Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)");
         }
     }
+
+    /*
+    public virtual void ExecuteMagic(Battler attacker, Battler target)
+    {
+
+    }
+    */
+    
 }
