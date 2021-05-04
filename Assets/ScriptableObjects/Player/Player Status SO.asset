@@ -32,31 +32,31 @@ MonoBehaviour:
   magicList:
   - {fileID: 0}
   - {fileID: 11400000, guid: 4e3798f9efa764353b69e7fd0a5e583b, type: 2}
+  - {fileID: 11400000, guid: 0ea0ed14a9c9b47cb958754ad9d468f5, type: 2}
+  - {fileID: 11400000, guid: 58c84c09af24e4984bd6160abb86cca0, type: 2}
+  - {fileID: 11400000, guid: 1c44fafc1839e4573b12de8065767364, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 5af64758821b94516b204983f64c9786, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 48f6d8b88f5f14bb1b29cd6f6c4d3633, type: 2}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  runtimePlayerName: 
-  runtimeStr: 0
-  runtimeDex: 0
-  runtimeAgi: 0
-  runtimeVit: 0
-  runtimeMen: 0
-  runtimeHp: 0
+  runtimePlayerName: "\u30C6\u30B9\u30C8\u30D7\u30EC\u30A4\u306A\u3046"
+  runtimeStr: 40
+  runtimeDex: 40
+  runtimeAgi: 40
+  runtimeVit: 40
+  runtimeMen: 40
+  runtimeHp: 40
   runtimeMagicLevel: 0
-  runtimeWeapon: {fileID: 0}
-  runtimeSubWeapon1: {fileID: 0}
+  runtimeWeapon: {fileID: 11400000, guid: fd70058e5d28c4d57adec244b5ac3846, type: 2}
+  runtimeSubWeapon1: {fileID: 11400000, guid: 5cd176b8fabf0475987eef2cce5a7f28, type: 2}
   runtimeSubWeapon2: {fileID: 0}
-  runtimeShield: {fileID: 0}
-  runtimeArmor: {fileID: 0}
+  runtimeShield: {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
+  runtimeArmor: {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
   runtimeGold: 0
   runtimeExp: 0
-  runtimeFame: 0
-  runtimeMaxFame: 0
+  runtimeFame: 20
+  runtimeMaxFame: 100

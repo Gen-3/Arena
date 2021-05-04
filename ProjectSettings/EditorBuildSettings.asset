@@ -21,9 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Shop_Weapon.unity
     guid: 4dedb5433d1c0454db3c9d6ca4968f6e
   - enabled: 1
-    path: Assets/Scenes/Shop_Armor.unity
-    guid: 25a578c5e71034cb1abe3917d663458c
-  - enabled: 1
     path: Assets/Scenes/Shop_Shield.unity
-    guid: dd799fd383ac64482bac203ac6e8f963
+    guid: aebe32415c1b344c9bf5a3cf57780a01
+  - enabled: 1
+    path: Assets/Scenes/Shop_Armor.unity
+    guid: 7e203770b62744aac82f1432dd89d558
   m_configObjects: {}

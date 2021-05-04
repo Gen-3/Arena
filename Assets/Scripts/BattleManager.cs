@@ -61,9 +61,19 @@ public class BattleManager : MonoBehaviour
     public Slider HPSlider;
     public int MaxHP;
 
-    int addWtPoint = default;
-
     [SerializeField] GameObject selectRankPanel = default;
+
+    [SerializeField] ShopItemDatabaseSO weaponShopItemDatabaseSO = default;
+    [SerializeField] ShopItemDatabaseSO shieldShopItemDatabaseSO = default;
+    [SerializeField] ShopItemDatabaseSO armorShopItemDatabaseSO = default;
+
+    [SerializeField] GameObject annauncePanel = default;
+    [SerializeField] Text roundNumber = default;
+    [SerializeField] Text playerName = default;
+    [SerializeField] Text enemyName = default;
+    [SerializeField] Image enemyImage = default;
+
+    
 
     private void Start()
     {
@@ -92,10 +102,11 @@ public class BattleManager : MonoBehaviour
         StopAllCoroutines();
         //プレイヤーの座標とHP、装備を戦闘開始状態に戻す
         playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-        player.hp = playerStatusSO.runtimeHp;
-        MaxHP = player.hp;
-        HPSlider.value = (float)player.hp / (float)MaxHP;
+        player.LoadStatus();
+        Pronpter.instance.ReloadEquipStatus();
+        HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
         player.transform.position = tilemap.CellToWorld(new Vector3Int(0, 3, 0));
+
 
         //Tableから敵の組み合わせを選ぶ
         int stageCountMax = enemyTableSO.enemyTable[rank * 5 + stage].enemyTable.Count;
@@ -163,20 +174,20 @@ public class BattleManager : MonoBehaviour
 
     public List<EnemyManager> GetEnemyOnTheTileOf(Vector3Int cellPosition)
     {
-        switch (selectedMagicID)
+        if (selectedMagicID == 7)//ファイアストーム
         {
-            default:
-                return enemies.FindAll((EnemyManager obj) => obj.currentPosition == cellPosition);
-            case 1://エナジーボルト
-                return enemies.FindAll((EnemyManager obj) => obj.currentPosition == cellPosition);
-            case 2://ファイアストーム
-                return enemies.FindAll((EnemyManager obj) => GetAroundCell(cellPosition).Contains(obj.currentPosition));
-            case 3://ライトニング
-                return enemies;
-            case 4 - 12:
-                return null;
+            return enemies.FindAll((EnemyManager obj) => GetAroundCell(cellPosition).Contains(obj.currentPosition));
+        }
+        else if (selectedMagicID == 11)//ライトニング
+        {
+            return enemies;
+        }
+        else//エナジーボルトなど敵１体を選択する魔法
+        {
+            return enemies.FindAll((EnemyManager obj) => obj.currentPosition == cellPosition);
         }
     }
+
     List<Vector3Int> GetAroundCell(Vector3Int centerPos)
     {
         List<Vector3Int> aroundCell = new List<Vector3Int>();
@@ -225,20 +236,48 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator Proceed()
     {
+        roundNumber.text = $"第{stage + 1}試合";
+        playerName.text = player.unitName;
+        enemyName.text = enemies[0].unitName;
+        enemyImage.sprite = enemies[0].GetComponent<SpriteRenderer>().sprite;
+
+        annauncePanel.SetActive(true);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        annauncePanel.SetActive(false);
+
         //敵を全滅させてbattleEnd変数がtrueになるまでループ
         while (battleEnd == false)
         {
-            addWtPoint = player.agi - player.weight;
-            if (addWtPoint < 10)
+            if (player.agi - player.weight >= 10)
             {
-                addWtPoint = 10;
+                if (!player.slow) { player.wt += player.agi - player.weight; }
+                else { player.wt += (player.agi - player.weight) / 2; }
+            }
+            else
+            {
+                if (!player.slow) { player.wt += 10; }
+                else { player.wt += 5; }
             }
 
-            player.wt += addWtPoint;
+            /*
             for (int i = 0; i < enemies.Count; i++)
             {
                 if (enemies[i].hp > 0) { enemies[i].wt += enemies[i].agi; }
+            }*/
+            foreach (EnemyManager enemy in enemies)
+            {
+                if (!enemy.slow)
+                {
+                    enemy.wt += enemy.agi;
+                }
+                else
+                {
+                    enemy.wt += enemy.agi / 2;
+                }
             }
+
+
+
 
             //WTの降順でソートしてWT最速のenemies[0]とPlayerのWTを比較、enemies[0]の方が早いか等しければenemies[0]のターン処理を開始
             enemies.Sort((a, b) => b.wt - a.wt);
@@ -246,10 +285,10 @@ public class BattleManager : MonoBehaviour
             if (enemies[0].wt > player.wt)//敵のターン////////////////////////////////////////////////////////////////////////////////////////////////////////
             {
                 enemies[0].StartCoroutine(enemies[0].StartEnemyTurn());
-                yield return new WaitUntil　(() => enemies[0].done);
+                yield return new WaitUntil(() => enemies[0].done);
 
                 //敵のターン終了時に、プレイヤーのHPバーを更新して戦闘不能判定
-                HPSlider.value = (float)BattleManager.instance.player.hp / (float)BattleManager.instance.MaxHP;
+                HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
                 if (player.hp < 0)
                 {
                     player.hp = 0;
@@ -460,7 +499,7 @@ public class BattleManager : MonoBehaviour
     {
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
-        playerStatusSO.runtimeFame += famePool-80;
+        playerStatusSO.runtimeFame += famePool - 80;
         if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame)
         {
             playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
@@ -592,7 +631,7 @@ public class BattleManager : MonoBehaviour
         switch (rank)
         {
             case 0:
-                goldPool = 500 ;
+                goldPool = 500;
                 break;
             case 1:
                 goldPool = 1000;
@@ -626,7 +665,7 @@ public class BattleManager : MonoBehaviour
 
 
 
-
+    [SerializeField] Pronpter pronpter;
     private void Update()//デバッグ用コマンド！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
     {
         if (Input.GetKeyDown(KeyCode.R))//Reset
@@ -668,7 +707,7 @@ public class BattleManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
         {
-            Debug.Log($"{player.hp}/{MaxHP}={HPSlider.value}");
+            Debug.Log($"{player.hp}/{playerStatusSO.runtimeHp}={HPSlider.value}");
             Debug.Log("デバッグコマンド：HPSliderの情報を表示しました");
         }
         if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
@@ -697,7 +736,6 @@ public class BattleManager : MonoBehaviour
             Debug.Log("sub2=" + player.subWeapon2);
             Debug.Log("shield=" + player.shield);
             Debug.Log("armor=" + player.armor);
-            Debug.Log("addWtPoint=" + addWtPoint);
             Debug.Log($"expPoolは{expPool}、goldPoolは{goldPool}、famePoolは{famePool}");
         }
         if (Input.GetKeyDown(KeyCode.LeftBracket))
@@ -732,9 +770,18 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//ショートソード
+            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//ボウ
+            //playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[4] as WeaponSO;//なし
+            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
+            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
             player.LoadStatus();
             Debug.Log("デバッグ用ステータスをセットしました");
         }
-    }
+        if (Input.GetKeyDown(KeyCode.C))//ConsoleTest:コンソールの表示送りテスト
+        {
+            pronpter.UpdateConsole(((int)Random.Range(0,101)).ToString());
+        }
 
+    }
 }

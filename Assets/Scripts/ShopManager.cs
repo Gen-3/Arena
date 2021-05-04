@@ -23,8 +23,9 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] PlayerStatusSO playerStatusSO = default;
 
+    [SerializeField] Text goldAmount = default;
+ 
     public static ShopManager instance;
-
     private void Awake()
     {
         if (instance == null)
@@ -35,6 +36,7 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
+        goldAmount.text = playerStatusSO.runtimeGold.ToString();
         ShowItemList();
     }
 
@@ -107,6 +109,7 @@ public class ShopManager : MonoBehaviour
                 exchangePanel.SetActive(true);
             }
         }
+        goldAmount.text = playerStatusSO.runtimeGold.ToString();
         confirmPanel.SetActive(false);
     }
 
@@ -148,6 +151,7 @@ public class ShopManager : MonoBehaviour
             playerStatusSO.runtimeArmor = selectedEquipSO as ArmorSO;
         }
         playerStatusSO.runtimeGold -= selectedEquipSO.price;
+        goldAmount.text = playerStatusSO.runtimeGold.ToString();
         selectedEquipSO = default;
         exchangePanel.SetActive(false);
     }
@@ -157,7 +161,7 @@ public class ShopManager : MonoBehaviour
     }
 
 
-    public string slot = default;
+    private string slot = default;
     //武器の入れ替え
     public void SelectSlotOfExchangeWeapon(string selectedSlot)//"main"/"sub1"/"sub2"//交換する部位をクリックしたとき
     {
@@ -195,6 +199,7 @@ public class ShopManager : MonoBehaviour
             exchangeWeaponPanel.SetActive(false);
         }
         slot = default;
+        goldAmount.text = playerStatusSO.runtimeGold.ToString();
     }
     public void OnNoExchangeWeapon()
     {

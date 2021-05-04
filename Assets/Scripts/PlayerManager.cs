@@ -144,7 +144,7 @@ public class PlayerManager : Battler
         {
             targetPosition = tilemap.WorldToCell(clickedPosition);
 
-            if (battleManager.selectedMagicID == 2) //ファイアーストーム選択時、どのタイルであれ発動させる
+            if (battleManager.selectedMagicID == 7) //ファイアーストーム選択時、どのタイルであれ発動させる
             {
                 if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
                 {
@@ -156,7 +156,7 @@ public class PlayerManager : Battler
                     battleManager.playerDone = true;
                 }
             }
-            else if (battleManager.selectedMagicID == 3)//ライトニング選択時、どのタイルであれ発動させる///////////////////////////////////////////////////////////
+            else if (battleManager.selectedMagicID == 11)//ライトニング選択時、どのタイルであれ発動させる
             {
                 for (int i = battleManager.enemies.Count; i > 0; i--)
                 {
@@ -165,11 +165,36 @@ public class PlayerManager : Battler
                 battleManager.selectedMagicID = default;
                 battleManager.playerDone = true;
             }
-            else//その他の魔法を選択時、敵のいるタイルでのみ処理する
+            else if(battleManager.selectedMagicID ==1 || battleManager.selectedMagicID == 2 || battleManager.selectedMagicID == 4 || battleManager.selectedMagicID == 5
+                || battleManager.selectedMagicID == 9 || battleManager.selectedMagicID == 12)//その他敵単体への魔法を選択時、敵のいるタイルでのみ処理する
             {
                 if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
                 {
                     magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0]);
+                    battleManager.selectedMagicID = default;
+                    battleManager.playerDone = true;
+                }
+            }
+            else if (battleManager.selectedMagicID == 3 || battleManager.selectedMagicID == 6 || battleManager.selectedMagicID == 8)//プロテクト・パワー・クイックは自分のタイルのときのみ
+            {
+                if(tilemap.WorldToCell(clickedPosition) == tilemap.WorldToCell(transform.position))
+                {
+                    magicList[battleManager.selectedMagicID].Execute(this, this);
+                    battleManager.selectedMagicID = default;
+                    battleManager.playerDone = true;
+                }
+            }
+            else if (battleManager.selectedMagicID == 10)//ディスペルは敵味方問わず発動
+            {
+                if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
+                {
+                    magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0]);
+                    battleManager.selectedMagicID = default;
+                    battleManager.playerDone = true;
+                }
+                else if (tilemap.WorldToCell(clickedPosition) == tilemap.WorldToCell(transform.position))
+                {
+                    magicList[battleManager.selectedMagicID].Execute(this, this);
                     battleManager.selectedMagicID = default;
                     battleManager.playerDone = true;
                 }

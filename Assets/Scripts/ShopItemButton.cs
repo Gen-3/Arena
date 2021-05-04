@@ -47,8 +47,4 @@ public class ShopItemButton : MonoBehaviour
         ShopManager.instance.SelectItem(equipDataSO);
     }
 
-    public void SendID()
-    {
-
-    }
 }
