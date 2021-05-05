@@ -22,6 +22,8 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     [SerializeField] int exp = default;
     [SerializeField] int fame = default;
     [SerializeField] int maxFame = default;
+    [SerializeField] int matchAmount = default;
+    [SerializeField] int winAmount = default;
 
     // 覚えている魔法:魔法レベルに応じて覚えている魔法が変わる？
     public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
@@ -44,7 +46,8 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     public int runtimeExp = default;
     public int runtimeFame = default;
     public int runtimeMaxFame = default;
-
+    public int runtimeMatchAmount = default;
+    public int runtimeWinAmount = default;
 
     public enum Status
     {
@@ -154,6 +157,8 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         runtimeExp = exp;
         runtimeFame = fame;
         runtimeMaxFame = maxFame;
+        runtimeMatchAmount = matchAmount;
+        runtimeWinAmount = winAmount;
     }
 
     public void OnBeforeSerialize()

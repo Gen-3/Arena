@@ -67,6 +67,7 @@ public class EnemyManager : Battler
             int moveCount = 1;
             while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 1)
             {
+                if (player == null) { break; }
                 MoveTo(player.transform.position);
                 moveCount++;
                 yield return new WaitForSeconds(0.2f);

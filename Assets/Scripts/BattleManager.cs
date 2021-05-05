@@ -51,12 +51,12 @@ public class BattleManager : MonoBehaviour
     [SerializeField] EnemyTableSO enemyTableSO = default;
 
     int rank = 0;
-    int stage = 0;
+    public int stage = 0;
 
     public PlayerStatusSO playerStatusSO;
-    int expPool = 0;
-    int goldPool = 0;
-    int famePool = 0;
+    public int expPool = 0;
+    public int goldPool = 0;
+    public int famePool = 0;
 
     public Slider HPSlider;
     public int MaxHP;
@@ -73,7 +73,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Text enemyName = default;
     [SerializeField] Image enemyImage = default;
 
-    
+    public int FameAtEntry=default;
 
     private void Start()
     {
@@ -91,6 +91,7 @@ public class BattleManager : MonoBehaviour
 
     public void SelectRank(int selectedRank)
     {
+        FameAtEntry = playerStatusSO.runtimeFame;
         rank = selectedRank;
         Setup(rank);
         selectRankPanel.SetActive(false);
@@ -99,6 +100,7 @@ public class BattleManager : MonoBehaviour
 
     private void Setup(int rank)//将来的には、敵のセットリストを引数に渡して敵をセットする感じ？
     {
+        playerStatusSO.runtimeMatchAmount += 1;
         StopAllCoroutines();
         //プレイヤーの座標とHP、装備を戦闘開始状態に戻す
         playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
@@ -293,7 +295,7 @@ public class BattleManager : MonoBehaviour
                 {
                     player.hp = 0;
                     StopAllCoroutines();
-                    StartCoroutine(GameOver());
+                    GameOver();
                 }
             }
 
@@ -492,11 +494,6 @@ public class BattleManager : MonoBehaviour
     public GameObject quit2Panel;
     public void QuitConfirm()
     {
-        //「丸々は逃げ出した」的なコンソールと、名声が下がる処理
-        StartCoroutine(QuitConfirmCoroutine());
-    }
-    IEnumerator QuitConfirmCoroutine()
-    {
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
         playerStatusSO.runtimeFame += famePool - 80;
@@ -510,16 +507,19 @@ public class BattleManager : MonoBehaviour
 
         if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 100)
         {
+            pronpter.Quit();
+
             Debug.Log("逃げ出した……");
             Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 80}の名声を得た");
             (expPool, goldPool, famePool) = (0, 0, 0);
 
+            QuitConfirmButtons.SetActive(false);
             quitPanel.SetActive(true);
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-            sceneTransitionManager.LoadTo("Home");
         }
         else
         {
+            pronpter.Quit2();
+
             //名声が地に堕ちてゲームオーバー処理
             playerStatusSO.runtimePlayerName = default;
             playerStatusSO.runtimeStr = default;
@@ -538,11 +538,12 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeExp = default;
             playerStatusSO.runtimeFame = default;
             playerStatusSO.runtimeMaxFame = default;
+            playerStatusSO.runtimeMatchAmount = default;
+            playerStatusSO.runtimeWinAmount = default;
 
             Debug.Log("名声は地に落ちた……");
+            QuitConfirmButtons.SetActive(false);
             quit2Panel.SetActive(true);
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-            sceneTransitionManager.LoadTo("Home_FirstTime");
         }
     }
     public void QuitCancel()
@@ -552,7 +553,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject gameoverPanel;
     public GameObject gameover2Panel;
-    public IEnumerator GameOver()
+    public void GameOver()
     {
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
@@ -565,18 +566,19 @@ public class BattleManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(commandButtons);
         //ここで死亡判定、引退判定
-        if (Random.Range(-100f, 100f) > player.vit)
+        if (Random.Range(-100f, 100f) < player.vit)
         {
+            pronpter.GameOver();
+
             Debug.Log("敗退した（死亡ではない）");
             Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
             (expPool, goldPool, famePool) = (0, 0, 0);
 
             gameoverPanel.SetActive(true);
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-            sceneTransitionManager.LoadTo("Home");
         }
         else
         {
+            pronpter.GameOver2();
 
             playerStatusSO.runtimePlayerName = default;
             playerStatusSO.runtimeStr = default;
@@ -595,17 +597,19 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeExp = default;
             playerStatusSO.runtimeFame = default;
             playerStatusSO.runtimeMaxFame = default;
+            playerStatusSO.runtimeMatchAmount = default;
+            playerStatusSO.runtimeWinAmount = default;
 
             Debug.Log("死亡した（キャラクターロスト）");
             gameover2Panel.SetActive(true);
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-            sceneTransitionManager.LoadTo("Home_FirstTime");
         }
     }
 
     public void StageClear()
     {
         battleEnd = false;
+
+        playerStatusSO.runtimeWinAmount += 1;
 
         if (stage % 5 != 4)
         {
@@ -655,6 +659,8 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
         }
 
+        pronpter.RankClear();
+
         rankClear.SetActive(true);//あとで修正する。メッセージウインドウを出すなど。
         Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
         (expPool, goldPool, famePool) = (0, 0, 0);
@@ -675,6 +681,7 @@ public class BattleManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.N))//NextStage
         {
+            playerStatusSO.runtimeWinAmount += 1;
             if (stage % 5 != 4)
             {
                 for (int i = enemies.Count - 1; i >= 0; i--)
@@ -771,10 +778,10 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
             playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//ショートソード
-            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//ボウ
+//            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//ボウ
             //playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[4] as WeaponSO;//なし
-            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
-            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
+//            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
+//            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
             player.LoadStatus();
             Debug.Log("デバッグ用ステータスをセットしました");
         }

@@ -93,7 +93,7 @@ public class PlayerManager : Battler
         if (shield != null) { weight += shield.weight; }
         if (armor != null) { weight += armor.weight; }
 
-        mob = (int)((int)(agi/33)+ (int)(Mathf.Log(agi*1.5f)) - weight * 10 / (str + 1));//暫定的な式
+        mob = (int)(1 + agi / 15 - weight * 3 / (str + 1));//暫定的な式
         if (mob < 1) { mob = 1; }
     }
 

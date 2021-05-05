@@ -15,7 +15,7 @@ MonoBehaviour:
   equipName: "\u30CF\u30F3\u30C9\u30A2\u30C3\u30AF\u30B9"
   weight: 5
   price: 100
-  atk: 500
+  atk: 50
   twoHand: 0
   through: 1
   bow: 0
