@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class FlashSO : MagicBaseSO
+public class SleepSO : MagicBaseSO
 {
     public override void Execute(Battler user, Battler target)
     {
@@ -14,12 +14,12 @@ public class FlashSO : MagicBaseSO
 
         if( rundomNumber <= successRate)
         {
-            target.flash = true;
-            Debug.Log($"{target}のフラッシュが成功({successRate}%/R={rundomNumber})");
+            target.sleep = true;
+            Debug.Log($"{target}のスリープが成功({successRate}%/R={rundomNumber})");
         }
         else
         {
-            Debug.Log($"{target}のフラッシュが失敗({successRate}%/R={rundomNumber})");
+            Debug.Log($"{target}のスリープが失敗({successRate}%/R={rundomNumber})");
         }
     }
 }

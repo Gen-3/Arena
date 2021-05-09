@@ -200,6 +200,43 @@ public class PlayerManager : Battler
                 }
             }
         }
+        if (battleManager.ClickedThrowButton)//投擲
+        {
+            targetPosition = tilemap.WorldToCell(clickedPosition);
+
+            if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
+            {
+                ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
+                battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
+
+                weapon = null;//投げた装備を外す
+
+                battleManager.playerDone = true;
+            }
+        }
+        if(battleManager.ClickedBowButton)//ボウ
+        {
+            targetPosition = tilemap.WorldToCell(clickedPosition);
+
+            if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
+            {
+                if (Vector3.Distance(transform.position, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0].transform.position) > 1)
+                {
+
+                    ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
+                    battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
+
+                    //ここで装備品を外す処理
+
+
+
+
+
+                    battleManager.playerDone = true;
+                }
+            }
+        }
+
     }
 
     public IEnumerator Moving(Vector3 destination)

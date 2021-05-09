@@ -7,6 +7,7 @@ public class LightningSO : MagicBaseSO
 {
     public override void Execute(Battler user, Battler target)
     {
+        base.Execute(user, target);
         int damage = (int)Random.Range((user.men - target.men) / 4, (user.men - target.men) / 3 + 10);
         if (damage < 0) { damage = 0; }
         target.Damage(damage);

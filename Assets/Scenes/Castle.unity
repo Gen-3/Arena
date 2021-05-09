@@ -1009,7 +1009,7 @@ GameObject:
   - component: {fileID: 557640995}
   - component: {fileID: 557640996}
   m_Layer: 5
-  m_Name: Slider (2)
+  m_Name: agiSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1074,7 +1074,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 636882085}
   m_HandleRect: {fileID: 0}
@@ -1227,7 +1227,7 @@ GameObject:
   - component: {fileID: 613255867}
   - component: {fileID: 613255868}
   m_Layer: 5
-  m_Name: Slider (3)
+  m_Name: vitSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1292,7 +1292,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 631274077}
   m_HandleRect: {fileID: 0}
@@ -1947,7 +1947,7 @@ GameObject:
   - component: {fileID: 815659838}
   - component: {fileID: 815659839}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: strSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2012,7 +2012,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1598254581}
   m_HandleRect: {fileID: 0}
@@ -2023,7 +2023,18 @@ MonoBehaviour:
   m_Value: 0.267
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &861777405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,7 +2265,7 @@ GameObject:
   - component: {fileID: 957246536}
   - component: {fileID: 957246537}
   m_Layer: 5
-  m_Name: Slider (1)
+  m_Name: dexSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2319,7 +2330,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 27146140}
   m_HandleRect: {fileID: 0}
@@ -2343,7 +2354,7 @@ GameObject:
   - component: {fileID: 1059450749}
   - component: {fileID: 1059450748}
   m_Layer: 5
-  m_Name: ResulPanel
+  m_Name: ResultPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2576,7 +2587,7 @@ GameObject:
   - component: {fileID: 1184805586}
   - component: {fileID: 1184805587}
   m_Layer: 5
-  m_Name: Slider (4)
+  m_Name: menSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2641,7 +2652,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1939384985}
   m_HandleRect: {fileID: 0}
@@ -4029,11 +4040,6 @@ MonoBehaviour:
   agiText: {fileID: 861777407}
   vitText: {fileID: 2099910835}
   menText: {fileID: 375241081}
-  strSlider: {fileID: 815659839}
-  dexSlider: {fileID: 957246537}
-  agiSlider: {fileID: 557640996}
-  vitSlider: {fileID: 613255868}
-  menSlider: {fileID: 1184805587}
   resultPanel: {fileID: 1059450746}
   resultText: {fileID: 1537720191}
 --- !u!1 &2099910833

@@ -250,31 +250,51 @@ public class BattleManager : MonoBehaviour
         //敵を全滅させてbattleEnd変数がtrueになるまでループ
         while (battleEnd == false)
         {
-            if (player.agi - player.weight >= 10)
+            if (!player.sleep)
             {
-                if (!player.slow) { player.wt += player.agi - player.weight; }
-                else { player.wt += (player.agi - player.weight) / 2; }
-            }
-            else
-            {
-                if (!player.slow) { player.wt += 10; }
-                else { player.wt += 5; }
-            }
-
-            /*
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if (enemies[i].hp > 0) { enemies[i].wt += enemies[i].agi; }
-            }*/
-            foreach (EnemyManager enemy in enemies)
-            {
-                if (!enemy.slow)
+                int quickCoefficient;
+                if (player.quick)
                 {
-                    enemy.wt += enemy.agi;
+                    quickCoefficient = 1;
                 }
                 else
                 {
-                    enemy.wt += enemy.agi / 2;
+                    quickCoefficient = 0;
+                }
+                if (player.agi - player.weight >= 10)
+                {
+                    if (!player.slow) { player.wt += (int)(player.agi - player.weight + quickCoefficient * player.agi /2) ; }
+                    else { player.wt += (player.agi - player.weight) / 2; }
+                }
+                else
+                {
+                    if (!player.slow) { player.wt += 10+5*quickCoefficient/2; }
+                    else { player.wt += 5+2*quickCoefficient/2; }
+                }
+            }
+
+            foreach (EnemyManager enemy in enemies)
+            {
+                int quickCoefficient;
+                if (enemy.quick)
+                {
+                    quickCoefficient = 1;
+                }
+                else
+                {
+                    quickCoefficient = 0;
+                }
+                if (!enemy.sleep)
+                {
+
+                    if (!enemy.slow)
+                    {
+                        enemy.wt += enemy.agi+quickCoefficient*enemy.agi/2;
+                    }
+                    else
+                    {
+                        enemy.wt += enemy.agi / 2+quickCoefficient*enemy.agi/2;
+                    }
                 }
             }
 
@@ -302,46 +322,94 @@ public class BattleManager : MonoBehaviour
             //player.wtが最も大きければStartPlayersTurnを呼ぶ////////////////////////////////////////////////////////////////////////////////////////////プレイヤーのターン
             if (player.wt >= enemies[0].wt)
             {
-                if (player.continueMoving)
+                if (player.continueMoving)//前のターンの移動を継続中の場合
                 {
                     player.StartCoroutine(player.Moving(player.destination));
                     yield return new WaitUntil(() => playerDone);
                     commandButtons.SetActive(false);
                     yield return new WaitForSeconds(0.2f);
                 }
-                else
+                else//移動継続中でない場合
                 {
-                    if (EnemyContact())//敵接触時、近接攻撃ボタンをオン、魔法攻撃・ボウボタンをオフ
+                    if (player.weapon != null)
                     {
-                        AttackButton.GetComponent<Button>().interactable = true;
-                        MagicButton.GetComponent<Button>().interactable = false;
-                        BowButton.GetComponent<Button>().interactable = false;
-                        ThrowButton.GetComponent<Button>().interactable = false;
+                        if (EnemyContact())//敵接触時、近接攻撃ボタンをオン、魔法攻撃・ボウボタンをオフ
+                        {
+                            AttackButton.GetComponent<Button>().interactable = true;
+                            MagicButton.GetComponent<Button>().interactable = false;
+                            BowButton.GetComponent<Button>().interactable = false;
+                            if (AttackButtonToggle == true)
+                            {
+                                OnClickAttackButton();
+                            }
+                        }
+                        else
+                        {
+                            AttackButton.GetComponent<Button>().interactable = false;
+
+                            if (player.weapon.bow)//メインWがボウのときはボウコマンドボタンを表示
+                            {
+                                BowButton.GetComponent<Button>().interactable = true;
+                            }
+                            else
+                            {
+                                BowButton.GetComponent<Button>().interactable = false;
+                            }
+
+                            if (player.hp > 2)
+                            {
+                                MagicButton.GetComponent<Button>().interactable = true;
+                            }
+                            else
+                            {
+                                MagicButton.GetComponent<Button>().interactable = false;
+                            }
+                        }
+
+                        if (player.weapon.through)//メインWが投擲武器のときは投擲コマンドボタンを表示
+                        {
+                            ThrowButton.GetComponent<Button>().interactable = true;
+                        }
+                        else
+                        {
+                            ThrowButton.GetComponent<Button>().interactable = false;
+                        }
                     }
                     else
                     {
-                        MagicButton.GetComponent<Button>().interactable = true;
-                        BowButton.GetComponent<Button>().interactable = true;
-                        ThrowButton.GetComponent<Button>().interactable = true;
+                        if (EnemyContact())//敵接触時、近接攻撃ボタンをオン、魔法攻撃・ボウボタンをオフ
+                        {
+                            AttackButton.GetComponent<Button>().interactable = true;
+                            MagicButton.GetComponent<Button>().interactable = false;
+                            BowButton.GetComponent<Button>().interactable = false;
+                            ThrowButton.GetComponent<Button>().interactable = false;
+
+                            if (AttackButtonToggle == true)
+                            {
+                                OnClickAttackButton();
+                            }
+                        }
+                        else
+                        {
+                            AttackButton.GetComponent<Button>().interactable = false;
+                            MagicButton.GetComponent<Button>().interactable = true;
+                            BowButton.GetComponent<Button>().interactable = false;
+                            ThrowButton.GetComponent<Button>().interactable = false;
+                        }
                     }
 
                     if (tilemap.WorldToCell(player.transform.position) == new Vector3Int(0, 0, 0) ||//マップ四隅にいたら脱出ボタンを選択可能に
-                        tilemap.WorldToCell(player.transform.position) == new Vector3Int(0, 6, 0) ||
-                        tilemap.WorldToCell(player.transform.position) == new Vector3Int(10, 0, 0) ||
-                        tilemap.WorldToCell(player.transform.position) == new Vector3Int(10, 6, 0))
+                            tilemap.WorldToCell(player.transform.position) == new Vector3Int(0, 6, 0) ||
+                            tilemap.WorldToCell(player.transform.position) == new Vector3Int(10, 0, 0) ||
+                            tilemap.WorldToCell(player.transform.position) == new Vector3Int(10, 6, 0))
                     {
                         QuitButton.GetComponent<Button>().interactable = true;
-                    }
-
-                    if (AttackButtonToggle == true)
-                    {
-                        OnClickAttackButton();
                     }
 
                     commandButtons.SetActive(true);
 
                     yield return new WaitUntil(() => playerDone);//プレイヤーがコマンドを入力するまで待機
-                    Debug.Log("　　　プレイヤーのターンが終了");
+                    HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
                     ClickedButtonReset();
                     commandButtons.SetActive(false);
                     yield return new WaitForSeconds(1);
@@ -477,6 +545,17 @@ public class BattleManager : MonoBehaviour
         selectedMagicID = default;
     }
 
+    public void OnClickThrowButton()
+    {
+        ClickedButtonReset();
+        ClickedThrowButton = true;
+    }
+
+    public void OnClickBowButton()
+    {
+        ClickedButtonReset();
+        ClickedBowButton = true;
+    }
 
 
 
@@ -777,9 +856,9 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//ショートソード
-//            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//ボウ
-            //playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[4] as WeaponSO;//なし
+            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[2] as WeaponSO;//2ハンドアックス 3ショートソード 9ボウ
+            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//9ボウ
+            playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//
 //            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
 //            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
             player.LoadStatus();

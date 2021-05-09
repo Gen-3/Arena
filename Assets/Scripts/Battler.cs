@@ -35,33 +35,47 @@ public class Battler : MonoBehaviour
     public virtual void Damage(int amount)
     {
         hp -= amount;
-        //Debug.Log($"{this.name}に{amount}のダメージ（Battlerのダメージ関数）");
-        
+        if (sleep)
+        {
+            sleep = false;
+            Debug.Log($"{unitName}のSleep状態が解除");
+        }
     }
 
     public virtual void ExecuteDirectAttack(Battler attacker, Battler target)
     {
-        Debug.Log(flash);
         int hit = 70 + attacker.dex - target.agi;
-        Debug.Log(hit);
-        if (flash) { hit /= 2; }
-        Debug.Log(hit+"(flash判定後)");
+        if (flash)
+        {
+            hit /= 2;
+        }
 
-        float rundomNumber = Random.Range(0f, 100f);
-        int protect;
+        int protectCoefficient;
         if (target.protect)
         {
-            protect = 1;
+            protectCoefficient = 1;
             Debug.Log($"{target}はプロテクトなう");
         }
         else
         {
-            protect = 0;
+            protectCoefficient = 0;
         }
-        int damageMin = (attacker.atk * attacker.dex / 100 - target.def-protect*target.def) / 10;
-        int damageMax = (attacker.atk - target.def - protect * target.def) / 10;
-        if (damageMin < 1) { damageMin = 1; }
 
+        int powerCoefficient;
+        if (attacker.power)
+        {
+            powerCoefficient = 1;
+        }
+        else
+        {
+            powerCoefficient = 0;
+        }
+
+        int damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
+        int damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
+        if (damageMax < 1) { damageMax = 1; }
+
+        float rundomNumber = Random.Range(0f, 100f);
         if (rundomNumber < hit)
         {
             int damage = Random.Range(damageMin, damageMax);

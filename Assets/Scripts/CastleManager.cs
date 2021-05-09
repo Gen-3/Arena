@@ -13,11 +13,18 @@ public class CastleManager : MonoBehaviour
     [SerializeField] Text vitText;
     [SerializeField] Text menText;
 
+    /*
     [SerializeField] Slider strSlider;
     [SerializeField] Slider dexSlider;
     [SerializeField] Slider agiSlider;
     [SerializeField] Slider vitSlider;
     [SerializeField] Slider menSlider;
+    */
+    private Slider strSlider;
+    private Slider dexSlider;
+    private Slider agiSlider;
+    private Slider vitSlider;
+    private Slider menSlider;
 
     private int randomNumberMemo;
     [SerializeField] GameObject resultPanel;
@@ -30,6 +37,16 @@ public class CastleManager : MonoBehaviour
         agiText.text = $"敏捷性：{ playerStatusSO.runtimeAgi.ToString()}";
         vitText.text = $"耐久力：{ playerStatusSO.runtimeVit.ToString()}";
         menText.text = $"精神力：{ playerStatusSO.runtimeMen.ToString()}";
+        strSlider = GameObject.Find("strSlider").GetComponent<Slider>();
+        dexSlider = GameObject.Find("dexSlider").GetComponent<Slider>(); ;
+        agiSlider = GameObject.Find("agiSlider").GetComponent<Slider>(); ;
+        vitSlider = GameObject.Find("vitSlider").GetComponent<Slider>(); ;
+        menSlider = GameObject.Find("menSlider").GetComponent<Slider>(); ;
+        strSlider.value = (float)playerStatusSO.runtimeStr / 100;
+        dexSlider.value = (float)playerStatusSO.runtimeDex / 100;
+        agiSlider.value = (float)playerStatusSO.runtimeAgi / 100;
+        vitSlider.value = (float)playerStatusSO.runtimeVit / 100;
+        menSlider.value = (float)playerStatusSO.runtimeMen / 100;
     }
 
     public void OnClickButton(string type)
@@ -179,15 +196,44 @@ public class CastleManager : MonoBehaviour
                     playerStatusSO.runtimeMen += randomNumberMemo;
                     resultText.text = $"精神力が{randomNumberMemo}上がった";
                     break;
-            }
-            Start();
-            resultPanel.SetActive(true);
+            }            
         }
+        Reload();
+        resultPanel.SetActive(true);
+    }
+
+    private void Reload()
+    {
+        strText.text = $"筋力：{ playerStatusSO.runtimeStr.ToString()}";
+        dexText.text = $"器用さ：{ playerStatusSO.runtimeDex.ToString()}";
+        agiText.text = $"敏捷性：{ playerStatusSO.runtimeAgi.ToString()}";
+        vitText.text = $"耐久力：{ playerStatusSO.runtimeVit.ToString()}";
+        menText.text = $"精神力：{ playerStatusSO.runtimeMen.ToString()}";
+        strSlider.value = (float)playerStatusSO.runtimeStr / 100;
+        dexSlider.value = (float)playerStatusSO.runtimeDex / 100;
+        agiSlider.value = (float)playerStatusSO.runtimeAgi / 100;
+        vitSlider.value = (float)playerStatusSO.runtimeVit / 100;
+        menSlider.value = (float)playerStatusSO.runtimeMen / 100;
     }
 
     public void CloseResultPanel()
     {
         resultPanel.SetActive(false);
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
+        {
+            playerStatusSO.runtimePlayerName = "テストプレイなう";
+            playerStatusSO.runtimeStr = Random.Range(0,101);
+            playerStatusSO.runtimeDex = Random.Range(0, 101);
+            playerStatusSO.runtimeAgi = Random.Range(0, 101);
+            playerStatusSO.runtimeVit = Random.Range(0, 101);
+            playerStatusSO.runtimeMen = Random.Range(0, 101);
+            Debug.Log("デバッグ用ステータスをセットしました");
+            Reload();
+        }
     }
 }

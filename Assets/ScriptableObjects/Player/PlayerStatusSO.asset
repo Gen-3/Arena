@@ -29,34 +29,38 @@ MonoBehaviour:
   exp: 0
   fame: 100
   maxFame: 100
+  matchAmount: 0
+  winAmount: 0
   magicList:
   - {fileID: 0}
   - {fileID: 11400000, guid: 4e3798f9efa764353b69e7fd0a5e583b, type: 2}
   - {fileID: 11400000, guid: 0ea0ed14a9c9b47cb958754ad9d468f5, type: 2}
   - {fileID: 11400000, guid: 58c84c09af24e4984bd6160abb86cca0, type: 2}
   - {fileID: 11400000, guid: 1c44fafc1839e4573b12de8065767364, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 017919083412d4d788bc411eeb721672, type: 2}
+  - {fileID: 11400000, guid: ed34d570c68924c7597e27428a81d081, type: 2}
   - {fileID: 11400000, guid: 5af64758821b94516b204983f64c9786, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: df6c78a017a454678ac0339cf6d750db, type: 2}
+  - {fileID: 11400000, guid: 955408b0ade1f45c89e2628c1e9ec404, type: 2}
+  - {fileID: 11400000, guid: 1c3b8b6baf94446188e56b46d95e33c6, type: 2}
   - {fileID: 11400000, guid: 48f6d8b88f5f14bb1b29cd6f6c4d3633, type: 2}
-  - {fileID: 0}
-  runtimePlayerName: "\u30C6\u30B9\u30C8\u30D7\u30EC\u30A4\u306A\u3046"
-  runtimeStr: 40
-  runtimeDex: 40
-  runtimeAgi: 40
-  runtimeVit: 40
-  runtimeMen: 40
-  runtimeHp: 40
+  - {fileID: 11400000, guid: 64cca868031a64cb2b2561ca03a9174b, type: 2}
+  runtimePlayerName: 
+  runtimeStr: 0
+  runtimeDex: 0
+  runtimeAgi: 0
+  runtimeVit: 0
+  runtimeMen: 0
+  runtimeHp: 0
   runtimeMagicLevel: 0
-  runtimeWeapon: {fileID: 11400000, guid: fd70058e5d28c4d57adec244b5ac3846, type: 2}
-  runtimeSubWeapon1: {fileID: 11400000, guid: 5cd176b8fabf0475987eef2cce5a7f28, type: 2}
+  runtimeWeapon: {fileID: 0}
+  runtimeSubWeapon1: {fileID: 0}
   runtimeSubWeapon2: {fileID: 0}
-  runtimeShield: {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
-  runtimeArmor: {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
-  runtimeGold: 500
-  runtimeExp: 170
-  runtimeFame: 270
-  runtimeMaxFame: 270
+  runtimeShield: {fileID: 0}
+  runtimeArmor: {fileID: 0}
+  runtimeGold: 0
+  runtimeExp: 0
+  runtimeFame: 100
+  runtimeMaxFame: 100
+  runtimeMatchAmount: 0
+  runtimeWinAmount: 0
