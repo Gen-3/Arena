@@ -16,7 +16,7 @@ public class EnemyManager : Battler
     //行動済みフラグ
     public bool done = false;
 
-    public Vector3Int currentPosition = default;
+    public Vector3Int currentCell = default;
 
 
     //初期化
@@ -52,11 +52,11 @@ public class EnemyManager : Battler
 
     public void SetCurrentPosition()
     {
-        currentPosition = tilemap.WorldToCell(transform.position);
+        currentCell = tilemap.WorldToCell(transform.position);
 
     }
 
-    public IEnumerator StartEnemyTurn()
+    public IEnumerator StartEnemyTurn()//敵のタイプによってこの内容は異なる。
     {
         if (Vector3.Distance(player.transform.position, this.transform.position) <= 1)
         {
@@ -68,65 +68,14 @@ public class EnemyManager : Battler
             while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 1)
             {
                 if (player == null) { break; }
-                MoveTo(player.transform.position);
+                MoveTo(tilemap.WorldToCell(player.transform.position));
                 moveCount++;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
             }
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         done = true;
     }
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    public void OnClickEnemy() //敵をクリックした際、フラグによってダメージの処理が異なる（近接攻撃、魔法、投擲、ボウ）
-    {
-        //近接攻撃
-        if (BattleManager.instance.ClickedAttackButton == true)
-        {
-            //攻撃の処理
-            if (Vector3.Distance(player.transform.position, transform.position) <= 1)
-            {
-                
-
-                int hit = 70 + player.dex - agi;
-                float rundomNumber = Random.Range(0f, 100f);
-                //Debug.Log($"hit={hit}/rundomNumber={(int)rundomNumber}");
-                if (rundomNumber < hit)
-                {
-                    float damage = ((float)Random.Range(player.atk * player.dex / 100,(float)player.atk) - this.def) / 5;
-                    if (damage < 0) { damage = 0; }
-                    this.hp -= (int)damage;
-
-                    CheckHP();
-
-                    Debug.Log((int)damage + "ポイントのヒット！敵の残りHPは" + hp);
-                }
-                else
-                {
-                    Debug.Log($"ミス！");
-                }
-
-                //Playerを行動済みの状態にする
-                BattleManager.instance.ClickedAttackButton = false;
-                BattleManager.instance.commandButtons.SetActive(false);
-                BattleManager.instance.playerDone = true;
-            }
-        }
-        if (BattleManager.instance.ClickedMagicButton) { }
-        if (BattleManager.instance.ClickedBowButton) { }
-        if (BattleManager.instance.ClickedThrowButton) { }
-    }
-    */
 
     public void CheckHP()
     {
@@ -142,50 +91,96 @@ public class EnemyManager : Battler
         }
 
     }
-
-    public void MoveTo(Vector3 targetPositionWorld)
+    
+    public void MoveTo(Vector3Int targetCell)//この引数は近接タイプの敵は常に「player.transform.position」になる
     {
-        Vector3Int beforePosition = tilemap.WorldToCell(transform.position);
+        Vector3Int beforeCell = tilemap.WorldToCell(transform.position);
 
-        Vector2 diff = targetPositionWorld - transform.position;//差分はワールド座標を用いる。普通はtargetPosition=player.transform.positionだが、将来的に逃げるAIも用意するのでtargetPositionを用意しています
-                                                           //        Debug.Log("diffは"+diff);
-        if (diff.y == 0)//y座標の差が０の時、水平方向に移動
-        {
-            if (diff.x > 0)
-            {
-                MoveOnTile(Direction.Right);
-            }
-            else
-            {
-                MoveOnTile(Direction.Left);
-            }
-        }
-        else if (diff.y > 0)
-        {
-            if (diff.x > 0)
-            {
-                MoveOnTile(Direction.UpRight);
-            }
-            else
-            {
-                MoveOnTile(Direction.UpLeft);
-            }
-        }
-        else if (diff.y < 0)
-        {
-            if (diff.x > 0)
-            {
-                MoveOnTile(Direction.DownRight);
-            }
-            else
-            {
-                MoveOnTile(Direction.DownLeft);
-            }
-        }
-        currentPosition = tilemap.WorldToCell(transform.position);
-        BattleManager.instance.UpdateMap(beforePosition, currentPosition, 2);
+        //移動可能なマスを取得
+        List<Vector3Int> AccessibleCells = GetAccessibleCells();
+        //取得したマスの中で最も目的地との距離が小さいマスを求める
+        Vector3Int destination = GetDestination(AccessibleCells, targetCell);
+        //自分の座標に代入
+        transform.position = tilemap.CellToWorld(destination);
+
+        currentCell = tilemap.WorldToCell(transform.position);
+        BattleManager.instance.UpdateMap(beforeCell, currentCell, 2);
     }
 
+    List<Vector3Int> GetAccessibleCells()
+    {
+        List<Vector3Int> accessibleCells = new List<Vector3Int>();
+
+        foreach(Vector3Int checkCell in BattleManager.instance.GetAroundCell(currentCell))
+        {
+            if (BattleManager.instance.IsWallorObj(checkCell))
+            {
+                continue;
+            }
+            else
+            {
+                accessibleCells.Add(checkCell);
+            }
+            accessibleCells.Add(currentCell);
+        }
+        return accessibleCells;
+    }
+
+    Vector3Int GetDestination(List<Vector3Int> accesibleCells,Vector3Int targetCell)
+    {
+        float minDistance = 999999999999;
+        Vector3Int destination = new Vector3Int();
+        foreach(Vector3Int searchCell in accesibleCells)
+        {
+            float distance = Vector3.Distance(tilemap.CellToWorld(searchCell), player.transform.position);
+            if (minDistance > distance)
+            {
+                minDistance = distance;
+                destination = searchCell;
+            }
+        }
+        return destination;
+    }
+    
+
+    /*
+            Vector2 diff = targetPositionWorld - transform.position;//差分はワールド座標を用いる。普通はtargetPosition=player.transform.positionだが、将来的に逃げるAIも用意するのでtargetPositionを用意しています
+                                                               //        Debug.Log("diffは"+diff);
+            if (diff.y == 0)//y座標の差が０の時、水平方向に移動
+            {
+                if (diff.x > 0)
+                {
+                    MoveOnTile(Direction.Right);
+                }
+                else
+                {
+                    MoveOnTile(Direction.Left);
+                }
+            }
+            else if (diff.y > 0)
+            {
+                if (diff.x > 0)
+                {
+                    MoveOnTile(Direction.UpRight);
+                }
+                else
+                {
+                    MoveOnTile(Direction.UpLeft);
+                }
+            }
+            else if (diff.y < 0)
+            {
+                if (diff.x > 0)
+                {
+                    MoveOnTile(Direction.DownRight);
+                }
+                else
+                {
+                    MoveOnTile(Direction.DownLeft);
+                }
+            }
+        }
+    */
     enum Direction
     {
         UpRight,
@@ -201,7 +196,7 @@ public class EnemyManager : Battler
         Vector3Int tablePos = tilemap.WorldToCell(transform.position);
         switch (direction)
         {
-            case Direction.UpRight://右上に移動
+            case Direction.UpRight:
                 if (tablePos.y % 2 == 0)//移動前のy座標が偶数の時はy++、奇数の時はx++y++  
                 {
                     tablePos.y++;

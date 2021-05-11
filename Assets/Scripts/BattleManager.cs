@@ -178,7 +178,7 @@ public class BattleManager : MonoBehaviour
     {
         if (selectedMagicID == 7)//ファイアストーム
         {
-            return enemies.FindAll((EnemyManager obj) => GetAroundCell(cellPosition).Contains(obj.currentPosition));
+            return enemies.FindAll((EnemyManager obj) => GetAroundCell(cellPosition).Contains(obj.currentCell));
         }
         else if (selectedMagicID == 11)//ライトニング
         {
@@ -186,11 +186,11 @@ public class BattleManager : MonoBehaviour
         }
         else//エナジーボルトなど敵１体を選択する魔法
         {
-            return enemies.FindAll((EnemyManager obj) => obj.currentPosition == cellPosition);
+            return enemies.FindAll((EnemyManager obj) => obj.currentCell == cellPosition);
         }
     }
 
-    List<Vector3Int> GetAroundCell(Vector3Int centerPos)
+    public List<Vector3Int> GetAroundCell(Vector3Int centerPos)
     {
         List<Vector3Int> aroundCell = new List<Vector3Int>();
 
@@ -324,7 +324,7 @@ public class BattleManager : MonoBehaviour
             {
                 if (player.continueMoving)//前のターンの移動を継続中の場合
                 {
-                    player.StartCoroutine(player.Moving(player.destination));
+                    player.StartCoroutine(player.Moving(player.destinationAtContinueMoving));
                     yield return new WaitUntil(() => playerDone);
                     commandButtons.SetActive(false);
                     yield return new WaitForSeconds(0.2f);

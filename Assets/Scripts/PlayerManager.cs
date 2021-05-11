@@ -21,11 +21,11 @@ public class PlayerManager : Battler
 
 
     public Tilemap tilemap;
-    private Vector3Int currentPosition;
-    public Vector3 destination;//ワールド座標
-    public Vector3Int destinationC;//セル座標
+    private Vector3Int currentCell;
     public bool reachDestination = true;
+    public bool stacked = false;
     public bool continueMoving = false;
+    public Vector3Int destinationAtContinueMoving;
 
     public GameObject hitEffect;
 
@@ -97,6 +97,26 @@ public class PlayerManager : Battler
         if (mob < 1) { mob = 1; }
     }
 
+    public void ReloadStatus()
+    {
+        if (weapon != null)
+        {
+            atk = (int)(str + weapon.atk * (1 + dex / 100));
+        }
+        else
+        {
+            atk = str;
+        }
+        weight = 0;
+        if (weapon != null) { weight += weapon.weight; }
+        if (subWeapon1 != null) { weight += subWeapon1.weight; }
+        if (subWeapon2 != null) { weight += subWeapon2.weight; }
+        if (shield != null) { weight += shield.weight; }
+        if (armor != null) { weight += armor.weight; }
+        mob = (int)(1 + agi / 15 - weight * 3 / (str + 1));//暫定的な式
+        if (mob < 1) { mob = 1; }
+    }
+
     /*//4月29日メモ：直接magicList[id].Esecute(Battler,List<Battler>)を呼べばいいから、ここは不要では？
     public void ExecutePlayerMagic(List<EnemyManager> targets)
     {
@@ -118,11 +138,9 @@ public class PlayerManager : Battler
             battleManager.ClickedMoveButton = false;
             battleManager.commandButtons.SetActive(false);
             reachDestination = false;//これがtrueになったら移動終了
-            destinationC = tilemap.WorldToCell(clickedPosition);//目的地のセル座標
-            destination = tilemap.CellToWorld(destinationC);//目的地のワールド座標
-            currentPosition = tilemap.WorldToCell(transform.position);//ユニットの現在位置ワールド座標
+            currentCell = tilemap.WorldToCell(transform.position);//ユニットの現在位置ワールド座標
             StopAllCoroutines();//コルーチンを止めておかないと移動押すたびに重ねて移動しようとしてしまう
-            StartCoroutine(Moving(destination));
+            StartCoroutine(Moving(tilemap.WorldToCell(clickedPosition)));
         }
 
         if (battleManager.ClickedAttackButton)//直接攻撃
@@ -209,7 +227,8 @@ public class PlayerManager : Battler
                 ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                 battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
 
-                weapon = null;//投げた装備を外す
+                weapon = null;//投げた装備を外してステータスを更新（ステータスを更新する関数があった方がいいかも……）///////////////////////////////////////////////////////////////////////////////////////////
+                ReloadStatus();
 
                 battleManager.playerDone = true;
             }
@@ -226,9 +245,6 @@ public class PlayerManager : Battler
                     ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
 
-                    //ここで装備品を外す処理
-
-
 
 
 
@@ -239,7 +255,7 @@ public class PlayerManager : Battler
 
     }
 
-    public IEnumerator Moving(Vector3 destination)
+    public IEnumerator Moving(Vector3Int destinationCell)
      {
         int moveCount = 0;
         while (reachDestination == false&&moveCount<mob)//目的地に着くか、移動力mobの回数動くかするまで繰り返す
@@ -248,20 +264,38 @@ public class PlayerManager : Battler
             yield return new WaitForSeconds(0.1f);
 
             Vector3Int beforePosition = tilemap.WorldToCell(transform.position);//移動前のセル座標をメモ
-            MovePlayer();
-            currentPosition = tilemap.WorldToCell(transform.position);//移動後のセル座標をメモ
-            battleManager.UpdateMap(beforePosition,currentPosition , 1);//移動前後のマスのmap状態を更新
+                                                                                //            MovePlayer();
 
 
-            if (Vector3.Distance(destination, transform.position) < Mathf.Epsilon)
+
+            MoveTo(destinationCell);
+
+
+
+
+
+            currentCell = tilemap.WorldToCell(transform.position);//移動後のセル座標をメモ
+            battleManager.UpdateMap(beforePosition,currentCell , 1);//移動前後のマスのmap状態を更新
+
+
+            if (Vector3.Distance(tilemap.CellToWorld(destinationCell), transform.position) < Mathf.Epsilon)//目的地に到着したか確認
             {
                 reachDestination = true;
             }
+            if(beforePosition==currentCell)//移動できなかったか確認
+            {
+                stacked = true; 
+            }
+            else
+            {
+                stacked = false;
+            }
         }
         battleManager.playerDone = true;
-        if (reachDestination == false)//目的地に着いていれば移動継続は無し、着いていなければ移動継続あり
+        if (!reachDestination&&!stacked)//目的地に着いている、または移動していない場合は移動継続は無し、移動したのに目的地についていれば移動継続あり
         {
             continueMoving = true;
+            destinationAtContinueMoving = destinationCell;
         }
         else
         {
@@ -269,6 +303,57 @@ public class PlayerManager : Battler
         }
     }
 
+    public void MoveTo(Vector3Int targetCell)//この引数は近接タイプの敵は常に「player.transform.position」になる
+    {
+        Vector3Int beforeCell = tilemap.WorldToCell(transform.position);
+
+        //移動可能なマスを取得
+        List<Vector3Int> AccessibleCells = GetAccessibleCells();
+        //取得したマスの中で最も目的地との距離が小さいマスを求める
+        Vector3Int destination = GetDestination(AccessibleCells, targetCell);
+        //自分の座標に代入
+        transform.position = tilemap.CellToWorld(destination);
+
+        currentCell = tilemap.WorldToCell(transform.position);
+        BattleManager.instance.UpdateMap(beforeCell, currentCell, 2);
+    }
+
+    List<Vector3Int> GetAccessibleCells()
+    {
+        List<Vector3Int> accessibleCells = new List<Vector3Int>();
+
+        foreach (Vector3Int checkCell in BattleManager.instance.GetAroundCell(currentCell))
+        {
+            if (BattleManager.instance.IsWallorObj(checkCell))
+            {
+                continue;
+            }
+            else
+            {
+                accessibleCells.Add(checkCell);
+            }
+            accessibleCells.Add(currentCell);
+        }
+        return accessibleCells;
+    }
+
+    Vector3Int GetDestination(List<Vector3Int> accesibleCells, Vector3Int targetCell)
+    {
+        float minDistance = 999999999999;
+        Vector3Int destination = new Vector3Int();
+        foreach (Vector3Int searchCell in accesibleCells)
+        {
+            float distance = Vector3.Distance(tilemap.CellToWorld(searchCell), tilemap.CellToWorld(targetCell));
+            if (minDistance > distance)
+            {
+                minDistance = distance;
+                destination = searchCell;
+            }
+        }
+        return destination;
+    }
+
+    /*
     //目的地が6方向のいずれかを判断する
     void MovePlayer()
     {
@@ -287,22 +372,22 @@ public class PlayerManager : Battler
         }
         else if (diff.y > 0)
         {
-            if (diff.x > 0 || diff.x == 0 && currentPosition.x <= 4)
+            if (diff.x > 0 || diff.x == 0 && currentCell.x <= 4)
             {
                 MoveOnTile(Direction.UpRight);
             }
-            else if (diff.x < 0 || diff.x == 0 && currentPosition.x > 4)
+            else if (diff.x < 0 || diff.x == 0 && currentCell.x > 4)
             {
                 MoveOnTile(Direction.UpLeft);
             }            
         }
         else if (diff.y < 0)
         {
-            if (diff.x > 0 || diff.x == 0 && currentPosition.x <= 4)
+            if (diff.x > 0 || diff.x == 0 && currentCell.x <= 4)
             {
                 MoveOnTile(Direction.DownRight);
             }
-            else if (diff.x < 0 || diff.x == 0 && currentPosition.x > 4)
+            else if (diff.x < 0 || diff.x == 0 && currentCell.x > 4)
             {
                 MoveOnTile(Direction.DownLeft);
             }
@@ -310,7 +395,7 @@ public class PlayerManager : Battler
 //            Debug.Log("目的地" + destination + "に未着。現在地は" + currentPosition);//ここがなぜか0.0.0
 //            Debug.Log("目的地まで" + Vector3.Distance(destination, transform.position));
             return;
-    }
+    }*/
 
     enum Direction
     {
