@@ -25,9 +25,8 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     [SerializeField] int matchAmount = default;
     [SerializeField] int winAmount = default;
 
-    // 覚えている魔法:魔法レベルに応じて覚えている魔法が変わる？
+    //存在する魔法のリスト
     public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
-
 
     public string runtimePlayerName;
     public int runtimeStr;
@@ -159,6 +158,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         runtimeMaxFame = maxFame;
         runtimeMatchAmount = matchAmount;
         runtimeWinAmount = winAmount;
+        runtimeMagicLevel = magicLevel;
     }
 
     public void OnBeforeSerialize()

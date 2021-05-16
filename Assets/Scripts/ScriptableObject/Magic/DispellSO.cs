@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class DispelSO : MagicBaseSO
+public class DispellSO : MagicBaseSO
 {
     public override void Execute(Battler user, Battler target)
     {

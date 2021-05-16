@@ -32,6 +32,20 @@ public class BattleManager : MonoBehaviour
     public GameObject QuitConfirmButtons;//脱出コマンドの確認ボタン
     public bool battleEnd = false;//敵殲滅時のクリア判定
 
+    //魔法個別ボタン
+    [SerializeField] GameObject magic01;
+    [SerializeField] GameObject magic02;
+    [SerializeField] GameObject magic03;
+    [SerializeField] GameObject magic04;
+    [SerializeField] GameObject magic05;
+    [SerializeField] GameObject magic06;
+    [SerializeField] GameObject magic07;
+    [SerializeField] GameObject magic08;
+    [SerializeField] GameObject magic09;
+    [SerializeField] GameObject magic10;
+    [SerializeField] GameObject magic11;
+    [SerializeField] GameObject magic12;
+
     //ボタン押下判定に使う
     public bool ClickedWaitButton = false;//待機
     public bool ClickedMoveButton = false;//移動
@@ -102,12 +116,77 @@ public class BattleManager : MonoBehaviour
     {
         playerStatusSO.runtimeMatchAmount += 1;
         StopAllCoroutines();
+
         //プレイヤーの座標とHP、装備を戦闘開始状態に戻す
         playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
         player.LoadStatus();
+        player.transform.position = tilemap.CellToWorld(new Vector3Int(0, 3, 0));
+
+        //画面表示をリセットする
         Pronpter.instance.ReloadEquipStatus();
         HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
-        player.transform.position = tilemap.CellToWorld(new Vector3Int(0, 3, 0));
+
+        //魔法レベルに応じて魔法ボタンの表示を消す
+        magic01.SetActive(false);
+        magic02.SetActive(false);
+        magic03.SetActive(false);
+        magic04.SetActive(false);
+        magic05.SetActive(false);
+        magic06.SetActive(false);
+        magic07.SetActive(false);
+        magic08.SetActive(false);
+        magic09.SetActive(false);
+        magic10.SetActive(false);
+        magic11.SetActive(false);
+        magic12.SetActive(false);
+        if (playerStatusSO.runtimeMagicLevel >= 1)
+        {
+            magic01.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 5)
+        {
+            magic02.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 10)
+        {
+            magic03.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 15)
+        {
+            magic04.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 20)
+        {
+            magic05.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 25)
+        {
+            magic06.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 30)
+        {
+            magic07.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 40)
+        {
+            magic08.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 50)
+        {
+            magic09.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 60)
+        {
+            magic10.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 80)
+        {
+            magic11.SetActive(true);
+        }
+        if (playerStatusSO.runtimeMagicLevel >= 99)
+        {
+            magic12.SetActive(true);
+        }
 
 
         //Tableから敵の組み合わせを選ぶ
@@ -861,6 +940,7 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//
 //            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
 //            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
+            playerStatusSO.runtimeMagicLevel = 99;
             player.LoadStatus();
             Debug.Log("デバッグ用ステータスをセットしました");
         }

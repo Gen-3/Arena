@@ -69,20 +69,20 @@ public class Pronpter : MonoBehaviour
 
     public void GameOver()
     {
-        gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage}回戦で敗退しました";
+        gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage+1}回戦で敗退しました";
         gameOvertext2.text = $"経験点：＋{BattleManager.instance.expPool}";
         gameOvertext3.text = $"金貨：＋{BattleManager.instance.goldPool}";
         gameOvertext4.text = $"名声点：{BattleManager.instance.FameAtEntry}→{playerStatusSO.runtimeFame}";
     }
     public void GameOver2()
     {
-        gameOver2text1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage}回戦で死亡しました...";
+        gameOver2text1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で死亡しました...";
         gameOver2text2.text = $"最終成績：{playerStatusSO.runtimeMatchAmount}戦{playerStatusSO.runtimeWinAmount}勝";
         gameOver2text3.text = $"最終名声点：{playerStatusSO.runtimeFame}";
     }
     public void Quit()
     {
-        gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage}回戦で敗退しました";
+        gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で敗退しました";
         gameOvertext2.text = $"経験点：＋{BattleManager.instance.expPool}";
         gameOvertext3.text = $"金貨：＋{BattleManager.instance.goldPool}";
         gameOvertext4.text = $"名声点：{BattleManager.instance.FameAtEntry}→{playerStatusSO.runtimeFame}";

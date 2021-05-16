@@ -22,7 +22,7 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] SceneTransitionManager sceneTransitionManager = default;
     int usablePoint = 200;
     [SerializeField] Text usablePointText = default;
-
+    [SerializeField] Text magicLevelTextFirstTime = default;
     [SerializeField] PlayerStatusSO playerStatusSO = default;
 
     //UI関連
@@ -112,6 +112,38 @@ public class PlayerStatusManager : MonoBehaviour
             return;
         }
 
+        if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
+        {
+            playerStatusSO.runtimePlayerName = "テストプレイなう";
+            playerStatusSO.runtimeStr = 40;
+            playerStatusSO.runtimeDex = 40;
+            playerStatusSO.runtimeAgi = 40;
+            playerStatusSO.runtimeVit = 40;
+            playerStatusSO.runtimeMen = 40;
+            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            playerStatusSO.runtimeMagicLevel = 10;
+            usablePoint = 0;
+
+            playerNameText.text = playerStatusSO.runtimePlayerName;
+            strText.text = playerStatusSO.runtimeStr.ToString();
+            dexText.text = playerStatusSO.runtimeDex.ToString();
+            agiText.text = playerStatusSO.runtimeAgi.ToString();
+            vitText.text = playerStatusSO.runtimeVit.ToString();
+            menText.text = playerStatusSO.runtimeMen.ToString();
+            if (SceneManager.GetActiveScene().name == "Home")
+            {
+                hpText.text = playerStatusSO.runtimeHp.ToString();
+                MagicLevelText.text = playerStatusSO.runtimeMagicLevel.ToString();
+            }
+            else
+            {
+                magicLevelTextFirstTime.text = playerStatusSO.runtimeMagicLevel.ToString();
+                usablePointText.text = "0(デバッグ)";
+            }
+
+            Debug.Log("デバッグ用ステータスをセットしました");
+        }
+
         KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().ToArray();
 
         if (Input.anyKeyDown) //※KeyDown のみ
@@ -147,6 +179,7 @@ public class PlayerStatusManager : MonoBehaviour
         usablePoint -= 5;
         usablePointText.text = $"残りポイント:{usablePoint}";
         playerStatusSO.SetStatus(type, 5);
+        SetMagicLevel();
     }
     public void DownStatus(PlayerStatusSO.Status type)
     {
@@ -159,6 +192,7 @@ public class PlayerStatusManager : MonoBehaviour
         usablePoint += 5 ;
         usablePointText.text = $"残りポイント:{usablePoint}";
         playerStatusSO.SetStatus(type, -5);
+        SetMagicLevel();
     }
 
     public int GetStatus(PlayerStatusSO.Status type)
@@ -166,5 +200,25 @@ public class PlayerStatusManager : MonoBehaviour
         return playerStatusSO.GetStatus(type);
     }
 
+    public void SetMagicLevel()
+    {
+        if (playerStatusSO.runtimeMen < 20)
+        {
+            playerStatusSO.runtimeMagicLevel = 0;
+        }
+        else if (playerStatusSO.runtimeMen < 30)
+            playerStatusSO.runtimeMagicLevel = 1;
+        else if (playerStatusSO.runtimeMen < 40)
+            playerStatusSO.runtimeMagicLevel = 5;
+        else if (playerStatusSO.runtimeMen < 50)
+            playerStatusSO.runtimeMagicLevel = 10;
+        else if (playerStatusSO.runtimeMen < 65)
+            playerStatusSO.runtimeMagicLevel = 15;
+        else if (playerStatusSO.runtimeMen < 80)
+            playerStatusSO.runtimeMagicLevel = 20;
+        else if (playerStatusSO.runtimeMen < 100)
+            playerStatusSO.runtimeMagicLevel = 25;
+        magicLevelTextFirstTime.text = playerStatusSO.runtimeMagicLevel.ToString();
+    }
 
 }

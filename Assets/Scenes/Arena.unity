@@ -981,6 +981,18 @@ MonoBehaviour:
   commandButtons: {fileID: 965262298}
   QuitConfirmButtons: {fileID: 575749713}
   battleEnd: 0
+  magic01: {fileID: 1995033023}
+  magic02: {fileID: 1227329437}
+  magic03: {fileID: 1868106661}
+  magic04: {fileID: 768055311}
+  magic05: {fileID: 1725143345}
+  magic06: {fileID: 625271349}
+  magic07: {fileID: 1888746533}
+  magic08: {fileID: 1885796797}
+  magic09: {fileID: 2042776076}
+  magic10: {fileID: 243829405}
+  magic11: {fileID: 1047762810}
+  magic12: {fileID: 1366781323}
   ClickedWaitButton: 0
   ClickedMoveButton: 0
   ClickedAttackButton: 0
@@ -1361,7 +1373,7 @@ GameObject:
   - component: {fileID: 243829408}
   - component: {fileID: 243829407}
   m_Layer: 5
-  m_Name: Button (9)
+  m_Name: Magic10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3667,7 +3679,7 @@ GameObject:
   - component: {fileID: 625271352}
   - component: {fileID: 625271351}
   m_Layer: 5
-  m_Name: Button (5)
+  m_Name: Magic06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4369,7 +4381,7 @@ GameObject:
   - component: {fileID: 768055314}
   - component: {fileID: 768055313}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: Magic04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5587,7 +5599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &965262299
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5876,7 +5888,7 @@ GameObject:
   - component: {fileID: 1047762813}
   - component: {fileID: 1047762812}
   m_Layer: 5
-  m_Name: Button (10)
+  m_Name: Magic11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6948,7 +6960,7 @@ GameObject:
   - component: {fileID: 1227329440}
   - component: {fileID: 1227329439}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Magic02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8721,7 +8733,7 @@ GameObject:
   - component: {fileID: 1366781326}
   - component: {fileID: 1366781325}
   m_Layer: 5
-  m_Name: Button (11)
+  m_Name: Magic12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10438,7 +10450,7 @@ GameObject:
   - component: {fileID: 1725143348}
   - component: {fileID: 1725143347}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: Magic05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10946,7 +10958,7 @@ GameObject:
   - component: {fileID: 1868106664}
   - component: {fileID: 1868106663}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Magic03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11154,7 +11166,7 @@ GameObject:
   - component: {fileID: 1885796800}
   - component: {fileID: 1885796799}
   m_Layer: 5
-  m_Name: Button (7)
+  m_Name: Magic08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11284,7 +11296,7 @@ GameObject:
   - component: {fileID: 1888746536}
   - component: {fileID: 1888746535}
   m_Layer: 5
-  m_Name: Button (6)
+  m_Name: Magic07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12416,7 +12428,7 @@ GameObject:
   - component: {fileID: 1995033026}
   - component: {fileID: 1995033025}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Magic01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12805,10 +12817,10 @@ MonoBehaviour:
   shield: {fileID: 0}
   armor: {fileID: 0}
   tilemap: {fileID: 1230656393}
-  destination: {x: 0, y: 0, z: 0}
-  destinationC: {x: 0, y: 0, z: 0}
   reachDestination: 1
+  stacked: 0
   continueMoving: 0
+  destinationAtContinueMoving: {x: 0, y: 0, z: 0}
   hitEffect: {fileID: 0}
 --- !u!1 &2042776076
 GameObject:
@@ -12823,7 +12835,7 @@ GameObject:
   - component: {fileID: 2042776079}
   - component: {fileID: 2042776078}
   m_Layer: 5
-  m_Name: Button (8)
+  m_Name: Magic09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

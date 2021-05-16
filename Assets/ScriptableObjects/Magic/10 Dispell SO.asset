@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 10 Dispel SO
-  m_EditorClassIdentifier: Assembly-CSharp::DispelSO
+  m_Script: {fileID: 11500000, guid: eba0a87ddcf0e412c974435980177d77, type: 3}
+  m_Name: 10 Dispell SO
+  m_EditorClassIdentifier: 
