@@ -17,16 +17,16 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8b0aca14d47fad444a60155ef68d898d, type: 3}
     str: 0
     dex: 30
-    agi: 100
+    agi: 50
     vit: 0
     men: 30
     resistanceFire: 100
     resistanceMagic: 100
     wt: 0
     hp: 2
-    atk: 350
+    atk: 200
     def: 0
-    mob: 6
+    mob: 4
     exp: 20
     gold: 20
     fame: 20

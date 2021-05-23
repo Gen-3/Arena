@@ -24,7 +24,7 @@ MonoBehaviour:
     resistanceMagic: 0
     wt: 0
     hp: 24
-    atk: 150
+    atk: 200
     def: 0
     mob: 3
     exp: 50

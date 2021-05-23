@@ -29,7 +29,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     // ドラッグ開始時に実行される
     public void OnBeginDrag(PointerEventData data)
     {
-        Debug.Log("OnBeginDrag()");
+        parentTransform = transform.parent;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         transform.SetParent(transform.parent.parent);
         //transform.SetParent(transform.parent);
@@ -38,17 +38,15 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     // ドラッグ中に実行される
     public void OnDrag(PointerEventData data)
     {
-        //Debug.Log("OnDrag()");
         transform.position = data.position;
     }
 
     // ドラッグ終了時に実行される
     public void OnEndDrag(PointerEventData data)
     {
-        Debug.Log("OnEndDrag()");
         transform.SetParent(parentTransform);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-        weaponChangePanel.ShowWeaponList();
+        weaponChangePanel.SetPlayerWeapon();
     }
 }
 // OnBeginDrag:親を変更

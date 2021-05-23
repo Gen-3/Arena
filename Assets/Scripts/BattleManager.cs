@@ -103,6 +103,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("デバッグ用コマンド　M：MAP情報を表示");
         Debug.Log("デバッグ用コマンド　P：プレイヤーの情報を表示");
         Debug.Log("デバッグ用コマンド　E：敵の情報を表示");
+        Debug.Log("デバッグ用コマンド　D：デバッグモード　ゲームオーバーにならない");
 
         selectRankPanel.SetActive(true);
     }
@@ -127,7 +128,7 @@ public class BattleManager : MonoBehaviour
         player.transform.position = tilemap.CellToWorld(new Vector3Int(0, 3, 0));
 
         //画面表示をリセットする
-        Pronpter.instance.ReloadEquipStatus();
+        TextManager.instance.ReloadEquipStatus();
         HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
 
         //魔法レベルに応じて魔法ボタンの表示を消す
@@ -643,7 +644,7 @@ public class BattleManager : MonoBehaviour
     public void OnClickChangeButton()
     {
         ClickedButtonReset();
-        weaponChangePanel.ShowWeaponList();
+        weaponChangePanel.DisplayPlayersWeapon();
         changePanel.SetActive(true);
         beforeWeapon = player.weapon;
         beforeSub1 = player.subWeapon1;
@@ -651,6 +652,12 @@ public class BattleManager : MonoBehaviour
     }
     public void OnClickDecideChange()
     {
+        if (player.weapon.twoHand)
+        {
+            player.shield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;
+        }
+        textManager.ReloadEquipStatus();
+        player.ReloadStatus();
         playerDone = true;
     }
     public void OnClickCanselChange()
@@ -680,10 +687,6 @@ public class BattleManager : MonoBehaviour
     }
 
 
-
-
-
-
     public void OnClickQuitButton()
     {
         ClickedButtonReset();
@@ -708,7 +711,7 @@ public class BattleManager : MonoBehaviour
 
         if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 100)
         {
-            pronpter.Quit();
+            textManager.Quit();
 
             Debug.Log("逃げ出した……");
             Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 80}の名声を得た");
@@ -719,32 +722,47 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            pronpter.Quit2();
+            if(debugMode)
+            {
+                Debug.Log("名声低下によるゲームオーバー処理を飛ばしました（本来ゲームオーバー）");
+                textManager.Quit();
 
-            //名声が地に堕ちてゲームオーバー処理
-            playerStatusSO.runtimePlayerName = default;
-            playerStatusSO.runtimeStr = default;
-            playerStatusSO.runtimeDex = default;
-            playerStatusSO.runtimeAgi = default;
-            playerStatusSO.runtimeVit = default;
-            playerStatusSO.runtimeMen = default;
-            playerStatusSO.runtimeHp = default;
-            playerStatusSO.runtimeMagicLevel = default;
-            playerStatusSO.runtimeWeapon = default;
-            playerStatusSO.runtimeSubWeapon1 = default;
-            playerStatusSO.runtimeSubWeapon2 = default;
-            playerStatusSO.runtimeShield = default;
-            playerStatusSO.runtimeArmor = default;
-            playerStatusSO.runtimeGold = default;
-            playerStatusSO.runtimeExp = default;
-            playerStatusSO.runtimeFame = default;
-            playerStatusSO.runtimeMaxFame = default;
-            playerStatusSO.runtimeMatchAmount = default;
-            playerStatusSO.runtimeWinAmount = default;
+                Debug.Log("逃げ出した……");
+                Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 80}の名声を得た");
+                (expPool, goldPool, famePool) = (0, 0, 0);
 
-            Debug.Log("名声は地に落ちた……");
-            QuitConfirmButtons.SetActive(false);
-            quit2Panel.SetActive(true);
+                QuitConfirmButtons.SetActive(false);
+                quitPanel.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("?????????????????????????");
+                textManager.Quit2();
+                //名声が地に堕ちてゲームオーバー処理
+                playerStatusSO.runtimePlayerName = default;
+                playerStatusSO.runtimeStr = default;
+                playerStatusSO.runtimeDex = default;
+                playerStatusSO.runtimeAgi = default;
+                playerStatusSO.runtimeVit = default;
+                playerStatusSO.runtimeMen = default;
+                playerStatusSO.runtimeHp = default;
+                playerStatusSO.runtimeMagicLevel = default;
+                playerStatusSO.runtimeWeapon = default;
+                playerStatusSO.runtimeSubWeapon1 = default;
+                playerStatusSO.runtimeSubWeapon2 = default;
+                playerStatusSO.runtimeShield = default;
+                playerStatusSO.runtimeArmor = default;
+                playerStatusSO.runtimeGold = default;
+                playerStatusSO.runtimeExp = default;
+                playerStatusSO.runtimeFame = default;
+                playerStatusSO.runtimeMaxFame = default;
+                playerStatusSO.runtimeMatchAmount = default;
+                playerStatusSO.runtimeWinAmount = default;
+
+                Debug.Log("名声は地に落ちた……");
+                QuitConfirmButtons.SetActive(false);
+                quit2Panel.SetActive(true);
+            }
         }
     }
     public void QuitCancel()
@@ -754,6 +772,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject gameoverPanel;
     public GameObject gameover2Panel;
+    bool debugMode=false;
     public void GameOver()
     {
         playerStatusSO.runtimeExp += expPool;
@@ -769,7 +788,7 @@ public class BattleManager : MonoBehaviour
         //ここで死亡判定、引退判定
         if (Random.Range(-100f, 100f) < player.vit)
         {
-            pronpter.GameOver();
+            textManager.GameOver();
 
             Debug.Log("敗退した（死亡ではない）");
             Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
@@ -779,30 +798,42 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            pronpter.GameOver2();
+            if (debugMode)
+            {
+                textManager.GameOver();
 
-            playerStatusSO.runtimePlayerName = default;
-            playerStatusSO.runtimeStr = default;
-            playerStatusSO.runtimeDex = default;
-            playerStatusSO.runtimeAgi = default;
-            playerStatusSO.runtimeVit = default;
-            playerStatusSO.runtimeMen = default;
-            playerStatusSO.runtimeHp = default;
-            playerStatusSO.runtimeMagicLevel = default;
-            playerStatusSO.runtimeWeapon = default;
-            playerStatusSO.runtimeSubWeapon1 = default;
-            playerStatusSO.runtimeSubWeapon2 = default;
-            playerStatusSO.runtimeShield = default;
-            playerStatusSO.runtimeArmor = default;
-            playerStatusSO.runtimeGold = default;
-            playerStatusSO.runtimeExp = default;
-            playerStatusSO.runtimeFame = default;
-            playerStatusSO.runtimeMaxFame = default;
-            playerStatusSO.runtimeMatchAmount = default;
-            playerStatusSO.runtimeWinAmount = default;
+                Debug.Log($"死亡判定によるゲームオーバー処理を飛ばしました（本来ゲームオーバー）");
+                (expPool, goldPool, famePool) = (0, 0, 0);
 
-            Debug.Log("死亡した（キャラクターロスト）");
-            gameover2Panel.SetActive(true);
+                gameoverPanel.SetActive(true);
+            }
+            else
+            {
+                textManager.GameOver2();
+
+                playerStatusSO.runtimePlayerName = default;
+                playerStatusSO.runtimeStr = default;
+                playerStatusSO.runtimeDex = default;
+                playerStatusSO.runtimeAgi = default;
+                playerStatusSO.runtimeVit = default;
+                playerStatusSO.runtimeMen = default;
+                playerStatusSO.runtimeHp = default;
+                playerStatusSO.runtimeMagicLevel = default;
+                playerStatusSO.runtimeWeapon = default;
+                playerStatusSO.runtimeSubWeapon1 = default;
+                playerStatusSO.runtimeSubWeapon2 = default;
+                playerStatusSO.runtimeShield = default;
+                playerStatusSO.runtimeArmor = default;
+                playerStatusSO.runtimeGold = default;
+                playerStatusSO.runtimeExp = default;
+                playerStatusSO.runtimeFame = default;
+                playerStatusSO.runtimeMaxFame = default;
+                playerStatusSO.runtimeMatchAmount = default;
+                playerStatusSO.runtimeWinAmount = default;
+
+                Debug.Log("死亡した（キャラクターロスト）");
+                gameover2Panel.SetActive(true);
+            }
         }
     }
 
@@ -860,7 +891,7 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
         }
 
-        pronpter.RankClear();
+        textManager.RankClear();
 
         rankClear.SetActive(true);//あとで修正する。メッセージウインドウを出すなど。
         Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
@@ -872,7 +903,7 @@ public class BattleManager : MonoBehaviour
 
 
 
-    [SerializeField] Pronpter pronpter;
+    [SerializeField] TextManager textManager;
     private void Update()//デバッグ用コマンド！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
     {
         if (Input.GetKeyDown(KeyCode.R))//Reset
@@ -955,7 +986,7 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeMen += 5;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
             player.LoadStatus();
-            Debug.Log("ステータス＋５");
+            Debug.Log($"ステータス＋５({playerStatusSO.runtimeStr})");
         }
         if (Input.GetKeyDown(KeyCode.RightBracket))
         {
@@ -966,7 +997,7 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeMen -= 5;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
             player.LoadStatus();
-            Debug.Log("ステータス−５");
+            Debug.Log($"ステータス−５({playerStatusSO.runtimeStr})");
         }
 
         if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
@@ -978,24 +1009,33 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//3ハンドアックス 4ショートソード 10ボウ
-            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[10] as WeaponSO;
+            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[6] as WeaponSO;//3ハンドアックス 4ショートソード 6ウォーハンマー 8ロングソード 10ボウ 11クロスボウ
+            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
-//            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
-//            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
+            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[4] as ShieldSO;//1バックラー 2ラウンドシールド 3カイトシールド　4ラージシールド　5タワシ
+            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[3] as ArmorSO;//1レザーアーマー 2リングメイル 3チェインメイル 4フルプレート　
             playerStatusSO.runtimeMagicLevel = 99;
             player.LoadStatus();
+            debugMode = true;
             Debug.Log("デバッグ用ステータスをセットしました");
         }
         if (Input.GetKeyDown(KeyCode.C))//ConsoleTest:コンソールの表示送りテスト
         {
-            pronpter.UpdateConsole(((int)Random.Range(0,101)).ToString());
+            textManager.UpdateConsole(((int)Random.Range(0,101)).ToString());
         }
 
-        if (Input.GetKeyDown(KeyCode.D))//DistanceCheck:enemies[0]とプレイヤーとのローカル座標距離を表示する
+        if (Input.GetKeyDown(KeyCode.D))//DebugModeオン
         {
-            Debug.Log($"{Vector3.Distance(player.transform.position,enemies[0].transform.position)}");
-            Debug.Log("デバッグコマンド：enemies[0]とプレイヤーとのローカル座標距離を表示しました");
+            if (debugMode)
+            {
+                debugMode = false;
+                Debug.Log("デバッグモード：オフ　ゲームオーバー処理は飛ばされません");
+            }
+            else
+            {
+                debugMode = true;
+                Debug.Log("デバッグモード：オン　ゲームオーバー処理を飛ばします");
+            }
         }
     }
 }

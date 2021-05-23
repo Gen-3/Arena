@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcffbbfa899c48f6b4f46bfde2a7499, type: 3}
   m_Name: S00_None
   m_EditorClassIdentifier: 
-  equipName: "\uFF08\u88C5\u5099\u89E3\u9664\uFF09"
+  equipName: "\uFF08\u306A\u3057\uFF09"
   weight: 0
   price: 0
   def: 0
+  resistanceFire: 0

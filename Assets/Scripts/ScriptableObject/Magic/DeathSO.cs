@@ -17,7 +17,7 @@ public class DeathSO: MagicBaseSO
         {
             int damage = target.hp;
             target.Damage(damage);
-            Pronpter.instance.UpdateConsole($"{user.unitName}のデスで{target.unitName}に{damage}のダメージ");
+            TextManager.instance.UpdateConsole($"{user.unitName}のデスで{target.unitName}に{damage}のダメージ");
             Debug.Log($"デス成功(成功率{successRate}%)");
         }
         else

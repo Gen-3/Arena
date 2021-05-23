@@ -15,7 +15,7 @@ MonoBehaviour:
   equipName: "\u30DC\u30A6"
   weight: 5
   price: 500
-  atk: 50
+  atk: 0
   twoHand: 1
   through: 0
   bow: 1

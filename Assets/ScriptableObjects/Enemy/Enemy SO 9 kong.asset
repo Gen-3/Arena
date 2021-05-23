@@ -19,10 +19,12 @@ MonoBehaviour:
     dex: 50
     agi: 30
     vit: 0
-    men: 40
+    men: 30
+    resistanceFire: 0
+    resistanceMagic: 0
     wt: 0
     hp: 40
-    atk: 180
+    atk: 280
     def: 0
     mob: 1
     exp: 20

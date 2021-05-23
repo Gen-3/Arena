@@ -11,8 +11,6 @@ public class DropArea : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData data)
     {
-        Debug.Log("OnDrop()発動");
-
         DragObj dragObj = data.pointerDrag.GetComponent<DragObj>();
 
         if (dragObj != null)
@@ -23,7 +21,7 @@ public class DropArea : MonoBehaviour, IDropHandler
             if (child)
             {
                 Debug.Log("チャイルドありました");
-                child.parentTransform = dragObj.parentTransform;
+                child.parentTransform = dragObj.parentTransform;//もともとのチャイルドを、ドラッグしてきたオブジェクトのピアレント（ドロップフィールド）のもとへ移動
                 child.OnEndDrag(null);
             }
             else
@@ -31,8 +29,7 @@ public class DropArea : MonoBehaviour, IDropHandler
                 Debug.Log("チャイルドありませんでした");
             }
 
-            // dragObjを自分の子にする
-            dragObj.parentTransform = this.transform;
+            dragObj.parentTransform = this.transform;            // dragObjを自分の子にする
         }
         else
         {

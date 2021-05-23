@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Pronpter : MonoBehaviour
+public class TextManager : MonoBehaviour
 {
     [SerializeField] Text consoleText5;
     [SerializeField] Text consoleText4;
@@ -21,7 +21,7 @@ public class Pronpter : MonoBehaviour
 
 
 
-    public static Pronpter instance;
+    public static TextManager instance;
     private void Awake()
     {
         instance = this;

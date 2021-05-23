@@ -75,23 +75,23 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        int damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
-        int damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
-        if (damageMax < 1) { damageMax = 1; }
+        float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
+        float damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
+        if (damageMax < 2) { damageMax = 2; }
 
         float rundomNumber = Random.Range(0f, 100f);
         if (rundomNumber < hit)
         {
-            int damage = Random.Range(damageMin, damageMax);
+            int damage = (int)Random.Range(damageMin, damageMax);
             if (damage <= 0) { damage = 0; };
             target.Damage(damage);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
-            Pronpter.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ");
         }
         else
         {
             Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)");
-            Pronpter.instance.UpdateConsole($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
         }
     }
 
@@ -104,15 +104,15 @@ public class Battler : MonoBehaviour
 
     public virtual void ExecuteFireAttack(Battler attacker, Battler target)
     {
-        int damageMin = (attacker.atk - target.def) / 10 * (1 - target.resistanceFire / 100);
-        int damageMax = (attacker.atk - target.vit) / 10 * (1 - target.resistanceFire / 100);
-        if (damageMax < 1) { damageMax = 1; }
+        float damageMin = (float)(attacker.atk - target.def) / 10 * (1 - (float)target.resistanceFire / 100);
+        float damageMax = (float)(attacker.atk - target.vit) / 10 * (1 - (float)target.resistanceFire / 100);
+        if (damageMax < 2) { damageMax = 2; }
 
-        int damage = Random.Range(damageMin, damageMax);
+        int damage = (int)Random.Range(damageMin, damageMax);
         if (damage <= 0) { damage = 0; };
         target.Damage(damage);
         Debug.Log($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax})(残りHPは{target.hp})");
-        Pronpter.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ");
+        TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ");
     }
 
     public virtual void ExecuteBowAttack(Battler attacker, Battler target)
@@ -144,23 +144,23 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        int damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
-        int damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
-        if (damageMax < 1) { damageMax = 1; }
+        float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
+        float damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
+        if (damageMax < 2) { damageMax = 2; }
 
         float rundomNumber = Random.Range(0f, 100f);
         if (rundomNumber < hit)
         {
-            int damage = Random.Range(damageMin, damageMax);
+            int damage = (int)Random.Range(damageMin, damageMax);
             if (damage <= 0) { damage = 0; };
             target.Damage(damage);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
-            Pronpter.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ");
         }
         else
         {
             Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)");
-            Pronpter.instance.UpdateConsole($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
         }
 
     }

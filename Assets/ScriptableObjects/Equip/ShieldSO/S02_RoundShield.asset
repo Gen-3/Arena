@@ -16,3 +16,4 @@ MonoBehaviour:
   weight: 5
   price: 100
   def: 50
+  resistanceFire: 10

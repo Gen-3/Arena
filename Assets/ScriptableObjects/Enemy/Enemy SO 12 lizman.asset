@@ -16,15 +16,15 @@ MonoBehaviour:
     name: "\u30EA\u30BA\u30DE\u30F3"
     sprite: {fileID: 21300000, guid: 4589782d39947234ba07d6afc958b794, type: 3}
     str: 0
-    dex: 30
-    agi: 30
+    dex: 45
+    agi: 45
     vit: 0
     men: 30
     resistanceFire: 30
     resistanceMagic: 0
     wt: 0
-    hp: 0
-    atk: 200
+    hp: 45
+    atk: 270
     def: 20
     mob: 2
     exp: 20

@@ -102,7 +102,7 @@ public class EnemyManager : Battler
 
             case "レッサーデーモン":
             case "アークデーモン"://PlayerよりMenが高ければ魔法連射、そうでないなら接近されるまで魔法を撃って接近されたら直接攻撃
-                if (Vector3.Distance(player.transform.position, this.transform.position) <= 1.5)
+                if (Vector3.Distance(player.transform.position, this.transform.position) < 1.5)
                 {
                     if (men > player.men)
                     {
@@ -117,6 +117,7 @@ public class EnemyManager : Battler
                 {
                     player.magicList[1].Execute(this, player);
                 }
+                yield return new WaitForSeconds(0.1f);
                 done = true;
                 break;
 
@@ -149,14 +150,14 @@ public class EnemyManager : Battler
                 break;
 
             default: //その他近接系の敵全般のルーチン。優先順位は　①距離１なら直接攻撃　②距離２以上なら接近
-                if (Vector3.Distance(player.transform.position, this.transform.position) <= 1.5)
+                if (Vector3.Distance(player.transform.position, this.transform.position) < 1.5)
                 {
                     ExecuteDirectAttack(this, player);
                 }
                 else
                 {
                     int moveCount = 1;
-                    while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 1.5)
+                    while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) >= 1.5)
                     {
                         if (player == null) { break; }
                         MoveTo(tilemap.WorldToCell(player.transform.position));

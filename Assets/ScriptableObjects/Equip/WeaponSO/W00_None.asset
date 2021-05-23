@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bb4f4e908d8412cadbd8630ba7ae41, type: 3}
   m_Name: W00_None
   m_EditorClassIdentifier: 
-  equipName: "\uFF08\u88C5\u5099\u89E3\u9664\uFF09"
+  equipName: "\uFF08\u306A\u3057\uFF09"
   weight: 0
   price: 0
   atk: 0

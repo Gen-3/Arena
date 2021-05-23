@@ -30,6 +30,9 @@ public class PlayerManager : Battler
     public GameObject hitEffect;
 
     public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
+    [SerializeField] ShopItemDatabaseSO weaponShopItemDatabaseSO;
+    [SerializeField] ShopItemDatabaseSO shieldShopItemDatabaseSO;
+    [SerializeField] TextManager textManager;
 
     //Battler target = default;
 
@@ -40,6 +43,7 @@ public class PlayerManager : Battler
 
     public void LoadStatus()
     {
+        wt = 0;
         unitName = PlayerStatusSO.runtimePlayerName;
         //魔法
         magicList = PlayerStatusSO.magicList;
@@ -67,6 +71,11 @@ public class PlayerManager : Battler
 
         hp = PlayerStatusSO.runtimeHp;
         if (hp < 10) { hp = 10; }
+
+        if (weapon.twoHand)
+        {
+            shield = shieldShopItemDatabaseSO.EquipList[0]as ShieldSO;
+        }
 
         if (weapon != null)
         {
@@ -121,6 +130,12 @@ public class PlayerManager : Battler
         {
             atk = str;
         }
+
+        if (weapon.twoHand)
+        {
+            shield = shieldShopItemDatabaseSO.EquipList[0]as ShieldSO;
+        }
+
         weight = 0;
         if (weapon != null) { weight += weapon.weight; }
         if (subWeapon1 != null) { weight += subWeapon1.weight; }
@@ -245,7 +260,8 @@ public class PlayerManager : Battler
                 ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                 battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
 
-                weapon = null;//投げた装備を外してステータスを更新
+                weapon = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;//投げた装備を外してステータスを更新
+                textManager.ReloadEquipStatus();
                 ReloadStatus();
 
                 battleManager.playerDone = true;

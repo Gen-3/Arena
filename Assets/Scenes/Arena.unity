@@ -1297,7 +1297,7 @@ MonoBehaviour:
   gameoverPanel: {fileID: 795801766}
   gameover2Panel: {fileID: 1931574535}
   rankClear: {fileID: 155918428}
-  pronpter: {fileID: 929845327}
+  textManager: {fileID: 929845327}
 --- !u!4 &148473277
 Transform:
   m_ObjectHideFlags: 0
@@ -6495,7 +6495,7 @@ GameObject:
   - component: {fileID: 929845326}
   - component: {fileID: 929845327}
   m_Layer: 0
-  m_Name: Pronpter
+  m_Name: TextManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14506,6 +14506,8 @@ MonoBehaviour:
   atk: 0
   def: 0
   mob: 0
+  resistanceFire: 0
+  resistanceMagic: 0
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   flash: 0
@@ -14529,6 +14531,12 @@ MonoBehaviour:
   continueMoving: 0
   destinationAtContinueMoving: {x: 0, y: 0, z: 0}
   hitEffect: {fileID: 0}
+  magicList: []
+  weaponShopItemDatabaseSO: {fileID: 11400000, guid: 25bd2a78c93d94803a3f2cff16fc52e0,
+    type: 2}
+  shieldShopItemDatabaseSO: {fileID: 11400000, guid: 24719afd9c2fa4a30a893ebc5948b8a4,
+    type: 2}
+  textManager: {fileID: 929845327}
 --- !u!1 &2042776076
 GameObject:
   m_ObjectHideFlags: 0
