@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bcffbbfa899c48f6b4f46bfde2a7499, type: 3}
-  m_Name: S05_TowerShield
+  m_Script: {fileID: 11500000, guid: 5935478d9ac694ad0963ece75a2dffd0, type: 3}
+  m_Name: A00_None
   m_EditorClassIdentifier: 
-  equipName: "\u30BF\u30EF\u30FC\u30B7\u30FC\u30EB\u30C9"
-  weight: 20
-  price: 5000
-  def: 200
-  resistanceFire: 100
+  equipName: "\uFF08\u88C5\u5099\u89E3\u9664\uFF09"
+  weight: 0
+  price: 0
+  def: 0

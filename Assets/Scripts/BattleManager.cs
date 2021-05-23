@@ -89,6 +89,10 @@ public class BattleManager : MonoBehaviour
 
     public int FameAtEntry=default;
 
+    public int selectedMagicID = default;
+
+    [SerializeField] GameObject changePanel = default;
+
     private void Start()
     {
         Debug.Log("デバッグ用コマンド　S：全ステータスを40にセットする");
@@ -412,6 +416,8 @@ public class BattleManager : MonoBehaviour
                 {
                     if (player.weapon != null)
                     {
+                        ChangeButton.GetComponent<Button>().interactable = true;
+
                         if (EnemyContact())//敵接触時、近接攻撃ボタンをオン、魔法攻撃・ボウボタンをオフ
                         {
                             AttackButton.GetComponent<Button>().interactable = true;
@@ -562,6 +568,7 @@ public class BattleManager : MonoBehaviour
         ClickedChangeButton = false;
         QuitConfirmButtons.SetActive(false);
         selectMagicPanel.SetActive(false);
+        changePanel.SetActive(false);
     }
     //待機に関する関数
     public void OnClickWaitButton()
@@ -612,7 +619,6 @@ public class BattleManager : MonoBehaviour
 
         selectMagicPanel.SetActive(true);
     }
-    public int selectedMagicID = default;
     public void OnClickSelectMagicButton(int ID)
     {
         selectedMagicID = ID;
@@ -622,6 +628,37 @@ public class BattleManager : MonoBehaviour
     {
         selectMagicPanel.SetActive(false);
         selectedMagicID = default;
+    }
+
+    public WeaponSO beforeWeapon;
+    public WeaponSO beforeSub1;
+    public WeaponSO beforeSub2;
+    public WeaponChangePanel weaponChangePanel;
+    public void OnClickChangeButton()
+    {
+        ClickedButtonReset();
+        weaponChangePanel.ShowWeaponList();
+        changePanel.SetActive(true);
+        beforeWeapon = player.weapon;
+        beforeSub1 = player.subWeapon1;
+        beforeSub2 = player.subWeapon2;
+    }
+    public void OnClickDecideChange()
+    {
+        playerDone = true;
+    }
+    public void OnClickCanselChange()
+    {
+        //変更前の状態を記憶しておいて戻す
+        player.weapon = beforeWeapon;
+        player.subWeapon1 = beforeSub1;
+        player.subWeapon2 = beforeSub2;
+//        weaponChangePanel.dropAreas[0].GetComponesntInChildren<DragObj> = beforeWeapon;
+  //      weaponChangePanel.dropAreas[1].GetComponentInChildren<DragObj> = beforeSub1;
+    //    weaponChangePanel.dropAreas[2].GetComponentInChildren<DragObj> = beforeSub2;
+
+        ClickedButtonReset();
+        changePanel.SetActive(false);
     }
 
     public void OnClickThrowButton()
@@ -935,9 +972,9 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[2] as WeaponSO;//2ハンドアックス 3ショートソード 9ボウ
-            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//9ボウ
-            playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[9] as WeaponSO;//
+            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//3ハンドアックス 4ショートソード 10ボウ
+            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[10] as WeaponSO;
+            playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
 //            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//バックラー
 //            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//レザーアーマー
             playerStatusSO.runtimeMagicLevel = 99;
@@ -949,5 +986,10 @@ public class BattleManager : MonoBehaviour
             pronpter.UpdateConsole(((int)Random.Range(0,101)).ToString());
         }
 
+        if (Input.GetKeyDown(KeyCode.D))//DistanceCheck:enemies[0]とプレイヤーとのローカル座標距離を表示する
+        {
+            Debug.Log($"{Vector3.Distance(player.transform.position,enemies[0].transform.position)}");
+            Debug.Log("デバッグコマンド：enemies[0]とプレイヤーとのローカル座標距離を表示しました");
+        }
     }
 }

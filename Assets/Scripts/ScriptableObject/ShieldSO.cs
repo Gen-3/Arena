@@ -6,5 +6,6 @@ using UnityEngine;
 public class ShieldSO : EquipDataSO
 {
     public int def;
+    public int resistanceFire;
 
 }

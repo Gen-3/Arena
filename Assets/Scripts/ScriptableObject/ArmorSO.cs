@@ -6,5 +6,5 @@ using UnityEngine;
 public class ArmorSO : EquipDataSO
 {
     public int def;
-
+    public int resistanceFire;
 }

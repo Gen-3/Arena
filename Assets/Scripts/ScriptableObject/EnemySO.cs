@@ -28,6 +28,9 @@ public class EnemyData
     public int agi;
     public int vit;
     public int men;
+    public int resistanceFire;
+    public int resistanceMagic;
+
     //enemyは以下の値も計算ではなく既定値を用いる
     public int wt;
     public int hp;
@@ -50,6 +53,8 @@ public class EnemyData
         agi = enemyData.agi;
         vit = enemyData.vit;
         men = enemyData.men;
+        resistanceFire = enemyData.resistanceFire;
+        resistanceMagic = enemyData.resistanceMagic;
 
         wt = enemyData.wt;
         hp = enemyData.hp;

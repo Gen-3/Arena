@@ -20,11 +20,13 @@ MonoBehaviour:
     agi: 15
     vit: 0
     men: 10
+    resistanceFire: 0
+    resistanceMagic: 0
     wt: 0
     hp: 9
     atk: 150
     def: 0
-    mob: 5
+    mob: 1
     exp: 10
     gold: 10
     fame: 10

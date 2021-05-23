@@ -18,6 +18,11 @@ public class DeathSO: MagicBaseSO
             int damage = target.hp;
             target.Damage(damage);
             Pronpter.instance.UpdateConsole($"{user.unitName}のデスで{target.unitName}に{damage}のダメージ");
+            Debug.Log($"デス成功(成功率{successRate}%)");
+        }
+        else
+        {
+            Debug.Log($"デス失敗(成功率{successRate}%)");
         }
         //ダメージ後の処理（BattleManager内でforEachを使って撃破処理をしようとしたが仕様でできないらしく、こちらに記述）
         if (target is EnemyManager)

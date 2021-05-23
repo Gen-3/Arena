@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Armor Shop Item Database SO
   m_EditorClassIdentifier: 
   EquipList:
+  - {fileID: 11400000, guid: 32348d0006d2b4eaa8d02aadc7ea460d, type: 2}
   - {fileID: 11400000, guid: cc3c920889bf54146a0e7fc47e65cac0, type: 2}
   - {fileID: 11400000, guid: f14a8655481a24dfdbb3361f4e469f88, type: 2}
   - {fileID: 11400000, guid: 0784de4223e014a30990f2463755b8c4, type: 2}

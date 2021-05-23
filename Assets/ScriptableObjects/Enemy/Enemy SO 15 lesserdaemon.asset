@@ -20,11 +20,13 @@ MonoBehaviour:
     agi: 60
     vit: 0
     men: 60
+    resistanceFire: 50
+    resistanceMagic: 40
     wt: 0
     hp: 65
     atk: 440
     def: 200
-    mob: 4
+    mob: 3
     exp: 100
     gold: 500
     fame: 50

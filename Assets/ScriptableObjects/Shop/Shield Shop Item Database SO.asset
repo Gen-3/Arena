@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shield Shop Item Database SO
   m_EditorClassIdentifier: 
   EquipList:
+  - {fileID: 11400000, guid: 2d05df5dbfe074155a177239a9bc84ef, type: 2}
   - {fileID: 11400000, guid: 9f3ff9c18efcb4153b6bcf0cd5430d71, type: 2}
   - {fileID: 11400000, guid: 70827efb5ceee43fbaaa1fefa708247b, type: 2}
   - {fileID: 11400000, guid: 8e3e2d55712724ee4aa9f321bec0ec40, type: 2}

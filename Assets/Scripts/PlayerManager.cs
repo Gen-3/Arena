@@ -29,7 +29,7 @@ public class PlayerManager : Battler
 
     public GameObject hitEffect;
 
-    List<MagicBaseSO> magicList = new List<MagicBaseSO>();
+    public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
 
     //Battler target = default;
 
@@ -57,6 +57,14 @@ public class PlayerManager : Battler
         vit = PlayerStatusSO.runtimeVit;
         men = PlayerStatusSO.runtimeMen;
 
+        flash = false;
+        protect = false;
+        slow = false;
+        sleep = false;
+        power = false;
+        quick = false;
+        silence = false;
+
         hp = PlayerStatusSO.runtimeHp;
         if (hp < 10) { hp = 10; }
 
@@ -72,18 +80,22 @@ public class PlayerManager : Battler
         if (shield != null && armor != null)
         {
             def = vit + shield.def + armor.def;
+            resistanceFire = shield.resistanceFire + armor.resistanceFire;
         }
         else if (shield == null && armor == null)
         {
             def = vit;
+            resistanceFire = 0;
         }
         else if (shield == null)
         {
             def = vit + armor.def;
+            resistanceFire = armor.resistanceFire;
         }
         else if (armor == null)
         {
             def = vit + shield.def;
+            resistanceFire = shield.resistanceFire;
         }
 
         weight = 0;
@@ -95,6 +107,8 @@ public class PlayerManager : Battler
 
         mob = (int)(1 + agi / 15 - weight * 3 / (str + 1));//暫定的な式
         if (mob < 1) { mob = 1; }
+
+        resistanceMagic = 0;
     }
 
     public void ReloadStatus()
@@ -227,7 +241,7 @@ public class PlayerManager : Battler
                 ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                 battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
 
-                weapon = null;//投げた装備を外してステータスを更新（ステータスを更新する関数があった方がいいかも……）///////////////////////////////////////////////////////////////////////////////////////////
+                weapon = null;//投げた装備を外してステータスを更新
                 ReloadStatus();
 
                 battleManager.playerDone = true;
@@ -242,7 +256,7 @@ public class PlayerManager : Battler
                 if (Vector3.Distance(transform.position, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0].transform.position) > 1)
                 {
 
-                    ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
+                    ExecuteBowAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
 
 

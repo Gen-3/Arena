@@ -18,7 +18,6 @@ public class EnemyManager : Battler
 
     public Vector3Int currentCell = default;
 
-
     //初期化
     public void Init(EnemyData enemyData)//データベースから読み出す（これをenemy0などの変数に入れ込む）
     {
@@ -37,6 +36,8 @@ public class EnemyManager : Battler
         exp = enemyData.exp;
         gold = enemyData.gold;
         fame = enemyData.fame;
+        resistanceFire = enemyData.resistanceFire;
+        resistanceMagic = enemyData.resistanceMagic;
     }
 
     public void SetTarget(PlayerManager player)
@@ -58,23 +59,116 @@ public class EnemyManager : Battler
 
     public IEnumerator StartEnemyTurn()//敵のタイプによってこの内容は異なる。
     {
-        if (Vector3.Distance(player.transform.position, this.transform.position) <= 1)
+        switch (unitName)
         {
-            ExecuteDirectAttack(this, player);
-        }
-        else
-        {
-            int moveCount = 1;
-            while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 1)
-            {
-                if (player == null) { break; }
-                MoveTo(tilemap.WorldToCell(player.transform.position));
-                moveCount++;
+            case "グレムリン":
+            case "バグ"://優先順位は　①距離1.5〜3なら炎を吐く　②距離3以上なら距離3まで接近　③距離1.5未満（接触状態）なら逃げようとして無理なら直接攻撃　　　
+                if (1.5 <= Vector3.Distance(player.transform.position, this.transform.position) && Vector3.Distance(player.transform.position, this.transform.position) <= 4)//①
+                {
+                    ExecuteFireAttack(this, player);
+                }
+                else if(4 < Vector3.Distance(player.transform.position, this.transform.position))//②
+                {
+                    int moveCount = 1;
+                    while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 4)
+                    {
+                        if (player == null) { break; }
+                        MoveTo(tilemap.WorldToCell(player.transform.position));
+                        moveCount++;
+                        yield return new WaitForSeconds(0.1f);
+                    }                    
+                }
+                else//③
+                {
+                    int moveCount = 1;
+                    Vector3 beforeposition = transform.position;
+                    while (moveCount <= mob)
+                    {
+                        if (player == null) { break; }
+                        MoveAwayFrom(tilemap.WorldToCell(player.transform.position));//移動しようとして無理やったら直接攻撃するようにする
+                        moveCount++;
+                        yield return new WaitForSeconds(0.1f);
+                    }
+
+                    Vector3 currentPosition = transform.position;
+                    if (beforeposition == currentPosition)
+                    {
+                        ExecuteDirectAttack(this,player);
+                    }
+                }
                 yield return new WaitForSeconds(0.1f);
-            }
+                done = true;
+                break;
+
+            case "レッサーデーモン":
+            case "アークデーモン"://PlayerよりMenが高ければ魔法連射、そうでないなら接近されるまで魔法を撃って接近されたら直接攻撃
+                if (Vector3.Distance(player.transform.position, this.transform.position) <= 1.5)
+                {
+                    if (men > player.men)
+                    {
+                        player.magicList[1].Execute(this, player);
+                    }
+                    else
+                    {
+                        ExecuteDirectAttack(this, player);
+                    }
+                }
+                else
+                {
+                    player.magicList[1].Execute(this, player);
+                }
+                done = true;
+                break;
+
+            case "ウィル":
+            case "リッチ": //優先順位は　①距離1.5未満（接触状態）なら逃げようとして無理なら魔法攻撃　②距離1.5以上なら魔法攻撃　　　
+                if (Vector3.Distance(player.transform.position, this.transform.position) <= 1.5)//①
+                {
+                    int moveCount = 1;
+                    Vector3 beforeposition = transform.position;
+                    while (moveCount <= mob)
+                    {
+                        if (player == null) { break; }
+                        MoveAwayFrom(tilemap.WorldToCell(player.transform.position));//移動しようとして無理やったらエナジーボルトを撃つようにする
+                        moveCount++;
+                        yield return new WaitForSeconds(0.1f);
+                    }
+
+                    Vector3 currentPosition = transform.position;
+                    if (beforeposition == currentPosition)
+                    {
+                        player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
+                    }
+                }
+                else//②
+                {
+                    player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
+                }
+                yield return new WaitForSeconds(0.1f);
+                done = true;
+                break;
+
+            default: //その他近接系の敵全般のルーチン。優先順位は　①距離１なら直接攻撃　②距離２以上なら接近
+                if (Vector3.Distance(player.transform.position, this.transform.position) <= 1.5)
+                {
+                    ExecuteDirectAttack(this, player);
+                }
+                else
+                {
+                    int moveCount = 1;
+                    while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) > 1.5)
+                    {
+                        if (player == null) { break; }
+                        MoveTo(tilemap.WorldToCell(player.transform.position));
+                        moveCount++;
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                }
+                yield return new WaitForSeconds(0.1f);
+                done = true;
+                break;
         }
-        yield return new WaitForSeconds(0.1f);
-        done = true;
+
     }
 
     public void CheckHP()
@@ -97,9 +191,26 @@ public class EnemyManager : Battler
         Vector3Int beforeCell = tilemap.WorldToCell(transform.position);
 
         //移動可能なマスを取得
-        List<Vector3Int> AccessibleCells = GetAccessibleCells();
+        List<Vector3Int> accessibleCells = GetAccessibleCells();
+
         //取得したマスの中で最も目的地との距離が小さいマスを求める
-        Vector3Int destination = GetDestination(AccessibleCells, targetCell);
+        Vector3Int destination = GetCellMinimumDistance(accessibleCells, targetCell);
+        //自分の座標に代入
+        transform.position = tilemap.CellToWorld(destination);
+
+        currentCell = tilemap.WorldToCell(transform.position);
+        BattleManager.instance.UpdateMap(beforeCell, currentCell, 2);
+    }
+
+    public void MoveAwayFrom(Vector3Int targetCell)//MoveTo()と反対に目的地から遠ざかる動き。
+    {
+        Vector3Int beforeCell = tilemap.WorldToCell(transform.position);
+
+        //移動可能なマスを取得
+        List<Vector3Int> accessibleCells = GetAccessibleCells();
+
+        //取得したマスの中で最も目的地との距離が大きいマスを求める
+        Vector3Int destination = GetCellMaximumDistance(accessibleCells, targetCell);
         //自分の座標に代入
         transform.position = tilemap.CellToWorld(destination);
 
@@ -126,7 +237,7 @@ public class EnemyManager : Battler
         return accessibleCells;
     }
 
-    Vector3Int GetDestination(List<Vector3Int> accesibleCells,Vector3Int targetCell)
+    Vector3Int GetCellMinimumDistance(List<Vector3Int> accesibleCells,Vector3Int targetCell)
     {
         float minDistance = 999999999999;
         Vector3Int destination = new Vector3Int();
@@ -141,7 +252,22 @@ public class EnemyManager : Battler
         }
         return destination;
     }
-    
+
+    Vector3Int GetCellMaximumDistance(List<Vector3Int> accesibleCells, Vector3Int targetCell)
+    {
+        float maxDistance = 0;
+        Vector3Int destination = new Vector3Int();
+        foreach (Vector3Int searchCell in accesibleCells)
+        {
+            float distance = Vector3.Distance(tilemap.CellToWorld(searchCell), player.transform.position);
+            if (maxDistance < distance)
+            {
+                maxDistance = distance;
+                destination = searchCell;
+            }
+        }
+        return destination;
+    }
 
     /*
             Vector2 diff = targetPositionWorld - transform.position;//差分はワールド座標を用いる。普通はtargetPosition=player.transform.positionだが、将来的に逃げるAIも用意するのでtargetPositionを用意しています
