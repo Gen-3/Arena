@@ -491,6 +491,12 @@ public class BattleManager : MonoBehaviour
                         QuitButton.GetComponent<Button>().interactable = true;
                     }
 
+                    //hpが2以下のとき魔法ボタンを表示しない
+                    if (player.hp <= 2)
+                    {
+                        MagicButton.GetComponent<Button>().interactable = false;
+                    }
+
                     commandButtons.SetActive(true);
 
                     yield return new WaitUntil(() => playerDone);//プレイヤーがコマンドを入力するまで待機

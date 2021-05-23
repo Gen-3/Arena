@@ -231,6 +231,10 @@ public class PlayerManager : Battler
                     battleManager.playerDone = true;
                 }
             }
+            if (battleManager.playerDone)
+            {
+                hp -= 2;
+            }
         }
         if (battleManager.ClickedThrowButton)//投擲
         {
