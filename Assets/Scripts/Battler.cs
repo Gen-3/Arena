@@ -6,22 +6,23 @@ public class Battler : MonoBehaviour
 {
     public string unitName;
     //ユニット自身のパラメータ
-    public int str;
-    public int dex;
-    public int agi;
-    public int vit;
-    public int men;
+    public float str;
+    public float dex;
+    public float agi;
+    public float vit;
+    public float men;
 
     //装備の影響等を計算して得られるパラメータ
-    public int wt;
-    public int hp;
-    public int atk;
-    public int def;
-    public int mob;
+    public float wt;
+    public float hp;
+    public float atk;
+    public float def;
+    public float mob;
 
     //敵は既定値、自身は装備依存のパラメータ
-    public int resistanceFire;//減衰割合を0-100で表す
-    public int resistanceMagic;
+    public float resistanceFire;//減衰割合を0-100で表す
+    public float resistanceMagic;
+    public float weight;
 
     public Battler target = default;
     public Vector3Int targetPosition = default;
@@ -36,7 +37,7 @@ public class Battler : MonoBehaviour
     public bool silence;
 
 
-    public virtual void Damage(int amount)
+    public virtual void Damage(float amount)
     {
         hp -= amount;
         if (sleep)
@@ -48,10 +49,14 @@ public class Battler : MonoBehaviour
 
     public virtual void ExecuteDirectAttack(Battler attacker, Battler target)
     {
-        int hit = 70 + attacker.dex - target.agi;
+        float hit = 70 + attacker.dex - target.agi;
         if (flash)
         {
             hit /= 2;
+        }
+        if (hit < 5)
+        {
+            hit = 5;
         }
 
         int protectCoefficient;
@@ -75,18 +80,20 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
+        //float damageAverage = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
+        float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * (attacker.dex / 100) - target.def - protectCoefficient * target.def) / 10;
+        if (damageMin < -9) { damageMin = -9; }
         float damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
-        if (damageMax < 2) { damageMax = 2; }
+        if (damageMax < 1) { damageMax = 1; }
 
         float rundomNumber = Random.Range(0f, 100f);
         if (rundomNumber < hit)
         {
-            int damage = (int)Random.Range(damageMin, damageMax);
-            if (damage <= 0) { damage = 0; };
+            float damage = Random.Range(damageMin, damageMax);
+            if (damage < 0) { damage = 0; };
             target.Damage(damage);
-            Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
-            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ");
+            Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}~{damageMax}/{hit}%)(残りHPは{target.hp})");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{(int)damage}のダメージ");
         }
         else
         {
@@ -95,32 +102,41 @@ public class Battler : MonoBehaviour
         }
     }
 
-    /*
-    public virtual void ExecuteMagic(Battler attacker, Battler target)
-    {
-
-    }
-    */
-
     public virtual void ExecuteFireAttack(Battler attacker, Battler target)
     {
-        float damageMin = (float)(attacker.atk - target.def) / 10 * (1 - (float)target.resistanceFire / 100);
-        float damageMax = (float)(attacker.atk - target.vit) / 10 * (1 - (float)target.resistanceFire / 100);
-        if (damageMax < 2) { damageMax = 2; }
+        float damageMin;
+        float damageMax;
+        if (attacker.atk > target.def)
+        {
+            damageMin = (attacker.atk - target.def) / 10 * (1 - target.resistanceFire / 100);
+            damageMax = (attacker.atk - target.vit) / 10 * (1 - target.resistanceFire / 100);
+            if (damageMax < 1) { damageMax = 1; }
+        }
+        else
+        {
+            damageMin = (attacker.atk - target.def) / 10;
+            if (damageMin < -9) { damageMin = -9; }
+            damageMax = (attacker.atk - target.vit) / 10;
+            if (damageMax < 1) { damageMax = 1; }
+        }
 
-        int damage = (int)Random.Range(damageMin, damageMax);
-        if (damage <= 0) { damage = 0; };
+        float damage = Random.Range(damageMin, damageMax);
+        if (damage < 0) { damage = 0; };
         target.Damage(damage);
         Debug.Log($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax})(残りHPは{target.hp})");
-        TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ");
+        TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{(int)damage}のダメージ");
     }
 
     public virtual void ExecuteBowAttack(Battler attacker, Battler target)
     {
-        int hit = 70 + attacker.dex - target.agi;
+        float hit = 70 + attacker.dex - target.agi;
         if (flash)
         {
             hit /= 2;
+        }
+        if (hit < 5)
+        {
+            hit = 5;
         }
 
         int protectCoefficient;
@@ -145,8 +161,9 @@ public class Battler : MonoBehaviour
         }
 
         float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
+        if (damageMin < -9) { damageMin = -9; }
         float damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
-        if (damageMax < 2) { damageMax = 2; }
+        if (damageMax < 1) { damageMax = 1; }
 
         float rundomNumber = Random.Range(0f, 100f);
         if (rundomNumber < hit)
@@ -155,12 +172,12 @@ public class Battler : MonoBehaviour
             if (damage <= 0) { damage = 0; };
             target.Damage(damage);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
-            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の矢で{target.unitName}に{(int)damage}のダメージ");
         }
         else
         {
-            Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)");
-            TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
+            Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
+            TextManager.instance.UpdateConsole($"{attacker.unitName}の矢を{target.unitName}が回避した");
         }
 
     }

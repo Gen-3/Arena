@@ -10,8 +10,6 @@ public class PlayerManager : Battler
 
     public BattleManager battleManager;
 
-    public int weight;
-
     //装備
     public WeaponSO weapon;
     public WeaponSO subWeapon1;
@@ -79,7 +77,7 @@ public class PlayerManager : Battler
 
         if (weapon != null)
         {
-            atk = (int)(str + weapon.atk * (1 + dex / 100));
+            atk = str + weapon.atk * (1 + dex / 100);
         }
         else
         {
@@ -114,7 +112,7 @@ public class PlayerManager : Battler
         if (shield != null) { weight += shield.weight; }
         if (armor != null) { weight += armor.weight; }
 
-        mob = (int)(1 + agi / 15 - weight * 3 / (str + 1));//暫定的な式
+        mob = 2 + agi / 15 - weight * 3 / (str + 1);//暫定的な式
         if (mob < 1) { mob = 1; }
 
         resistanceMagic = 0;

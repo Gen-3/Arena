@@ -9,13 +9,13 @@ public class DeathSO: MagicBaseSO
     {
         base.Execute(user, target);
 
-        int successRate = user.men - target.men;
+        float successRate = user.men - target.men;
         if (successRate < 5) { successRate = 5; }
-        int rundomNumber = Random.Range(0, 101);
+        float rundomNumber = Random.Range(0, 100);
 
         if (rundomNumber <= successRate)
         {
-            int damage = target.hp;
+            float damage = target.hp;
             target.Damage(damage);
             TextManager.instance.UpdateConsole($"{user.unitName}のデスで{target.unitName}に{damage}のダメージ");
             Debug.Log($"デス成功(成功率{successRate}%)");

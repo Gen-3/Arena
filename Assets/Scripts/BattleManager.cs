@@ -336,49 +336,57 @@ public class BattleManager : MonoBehaviour
         {
             if (!player.sleep)
             {
-                int quickCoefficient;
+                float quickCoefficient;
                 if (player.quick)
+                {
+                    quickCoefficient = 1.5f;
+                }
+                else
                 {
                     quickCoefficient = 1;
                 }
+                float slowCoefficient;
+                if (player.slow)
+                {
+                    slowCoefficient = 0.5f;
+                }
                 else
                 {
-                    quickCoefficient = 0;
+                    slowCoefficient = 1;
                 }
                 if (player.agi - player.weight >= 10)
                 {
-                    if (!player.slow) { player.wt += (int)(player.agi - player.weight + quickCoefficient * player.agi /2) ; }
-                    else { player.wt += (player.agi - player.weight) / 2; }
+                    player.wt += (player.agi - player.weight) * quickCoefficient * slowCoefficient;
                 }
                 else
                 {
-                    if (!player.slow) { player.wt += 10+5*quickCoefficient/2; }
-                    else { player.wt += 5+2*quickCoefficient/2; }
+                    player.wt += 10 * quickCoefficient * slowCoefficient;
                 }
             }
 
             foreach (EnemyManager enemy in enemies)
             {
-                int quickCoefficient;
-                if (enemy.quick)
-                {
-                    quickCoefficient = 1;
-                }
-                else
-                {
-                    quickCoefficient = 0;
-                }
                 if (!enemy.sleep)
                 {
-
-                    if (!enemy.slow)
+                    float quickCoefficient;
+                    if (enemy.quick)
                     {
-                        enemy.wt += enemy.agi+quickCoefficient*enemy.agi/2;
+                        quickCoefficient = 1.5f;
                     }
                     else
                     {
-                        enemy.wt += enemy.agi / 2+quickCoefficient*enemy.agi/2;
+                        quickCoefficient = 1;
                     }
+                    float slowCoefficient;
+                    if (enemy.slow)
+                    {
+                        slowCoefficient = 0.5f;
+                    }
+                    else
+                    {
+                        slowCoefficient = 1;
+                    }
+                    enemy.wt += (enemy.agi - enemy.weight) * quickCoefficient * slowCoefficient;
                 }
             }
 
@@ -386,7 +394,7 @@ public class BattleManager : MonoBehaviour
 
 
             //WTの降順でソートしてWT最速のenemies[0]とPlayerのWTを比較、enemies[0]の方が早いか等しければenemies[0]のターン処理を開始
-            enemies.Sort((a, b) => b.wt - a.wt);
+            enemies.Sort((a, b) => (int)b.wt - (int)a.wt);
 
             if (enemies[0].wt > player.wt)//敵のターン////////////////////////////////////////////////////////////////////////////////////////////////////////
             {

@@ -8,20 +8,28 @@ public class EnergyBoltSO: MagicBaseSO
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
-        int damage = (int)Random.Range((user.men - target.men) / 4 * (1 - target.resistanceMagic / 100), ((user.men - target.men) / 3 + 10) * (1 - target.resistanceMagic / 100));
+
+        float damageMin = (user.men - target.men) / 10 * (1 - target.resistanceMagic / 100);
+        if (damageMin < -9)
+        {
+            damageMin = -9;
+        }
+        float damageMax = ((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100);
+        if (damageMax < 0)
+        {
+            damageMax = 0;
+        }
+        float damage = Random.Range(damageMin, damageMax);
         if (damage < 0) { damage = 0; }
         target.Damage(damage);
-        Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ(最小値は{(user.men - target.men) / 4 * (1 - target.resistanceMagic / 100)}、最大値は{((user.men - target.men) / 3 + 10) * (1 - target.resistanceMagic / 100)})");
-        TextManager.instance.UpdateConsole($"{user.unitName}のエナジーボルトで{target.unitName}に{damage}のダメージ");
 
-        //ダメージ後の処理（BattleManager内でforEachを使って撃破処理をしようとしたが仕様でできないらしく、こちらに記述）
+        Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceMagic / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100)})(残りHPは{target.hp})");
+        TextManager.instance.UpdateConsole($"{user.unitName}のエナジーボルトで{target.unitName}に{(int)damage}のダメージ");
+
         if (target is EnemyManager)
         {
             ((EnemyManager)target).CheckHP();
         }
         //敵の攻撃の場合のプレイヤーノックアウト判定やゲーオーバー処理はBattleManagerに記述
-
     }
-
-
 }

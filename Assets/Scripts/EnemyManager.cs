@@ -38,6 +38,7 @@ public class EnemyManager : Battler
         fame = enemyData.fame;
         resistanceFire = enemyData.resistanceFire;
         resistanceMagic = enemyData.resistanceMagic;
+        
     }
 
     public void SetTarget(PlayerManager player)

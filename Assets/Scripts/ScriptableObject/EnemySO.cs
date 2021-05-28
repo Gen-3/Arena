@@ -37,6 +37,7 @@ public class EnemyData
     public int atk;
     public int def;
     public int mob;
+    public int weight;
     //的に固有の変数
     public int exp;
     public int gold;
@@ -65,5 +66,6 @@ public class EnemyData
         exp = enemyData.exp;
         gold = enemyData.gold;
         fame = enemyData.fame;
+        weight = enemyData.weight;
     }
 }
