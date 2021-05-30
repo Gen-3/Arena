@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A03_ChainMail
   m_EditorClassIdentifier: 
   equipName: "\u30C1\u30A7\u30FC\u30F3\u30E1\u30FC\u30EB"
-  weight: 20
+  weight: 40
   price: 2000
-  def: 200
-  resistanceFire: 40
+  def: 40
+  resistanceFire: 10

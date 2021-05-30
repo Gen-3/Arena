@@ -36,10 +36,14 @@ public class Battler : MonoBehaviour
     public bool quick;
     public bool silence;
 
+    //[SerializeField] DamageUI damageUI;
 
-    public virtual void Damage(float amount)
+    public virtual void Damage(float amount, Battler attacker, Battler target)
     {
         hp -= amount;
+
+        //damageUI.ShowDamage(amount,attacker,target);
+
         if (sleep)
         {
             sleep = false;
@@ -81,9 +85,9 @@ public class Battler : MonoBehaviour
         }
 
         //float damageAverage = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
-        float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * (attacker.dex / 100) - target.def - protectCoefficient * target.def) / 10;
+        float damageMin = ((attacker.atk + powerCoefficient * attacker.str) * (attacker.dex / 100) - target.def - protectCoefficient * target.vit) / 5;
         if (damageMin < -9) { damageMin = -9; }
-        float damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
+        float damageMax = (attacker.atk + powerCoefficient * attacker.str - target.def - protectCoefficient * target.vit) / 5;
         if (damageMax < 1) { damageMax = 1; }
 
         float rundomNumber = Random.Range(0f, 100f);
@@ -91,7 +95,7 @@ public class Battler : MonoBehaviour
         {
             float damage = Random.Range(damageMin, damageMax);
             if (damage < 0) { damage = 0; };
-            target.Damage(damage);
+            target.Damage(damage,attacker,target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}~{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{(int)damage}のダメージ");
         }
@@ -108,21 +112,21 @@ public class Battler : MonoBehaviour
         float damageMax;
         if (attacker.atk > target.def)
         {
-            damageMin = (attacker.atk - target.def) / 10 * (1 - target.resistanceFire / 100);
-            damageMax = (attacker.atk - target.vit) / 10 * (1 - target.resistanceFire / 100);
+            damageMin = (attacker.atk - target.def) / 5 * (1 - target.resistanceFire / 100);
+            damageMax = (attacker.atk - target.vit) / 5 * (1 - target.resistanceFire / 100);
             if (damageMax < 1) { damageMax = 1; }
         }
         else
         {
-            damageMin = (attacker.atk - target.def) / 10;
+            damageMin = (attacker.atk - target.def) / 5;
             if (damageMin < -9) { damageMin = -9; }
-            damageMax = (attacker.atk - target.vit) / 10;
+            damageMax = (attacker.atk - target.vit) / 5;
             if (damageMax < 1) { damageMax = 1; }
         }
 
         float damage = Random.Range(damageMin, damageMax);
         if (damage < 0) { damage = 0; };
-        target.Damage(damage);
+        target.Damage(damage,attacker,target);
         Debug.Log($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{(int)damage}のダメージ");
     }
@@ -160,9 +164,9 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        float damageMin = ((attacker.atk + powerCoefficient * attacker.atk) * attacker.dex / 100 - target.def - protectCoefficient * target.def) / 10;
+        float damageMin = ((attacker.atk + powerCoefficient * attacker.str) * attacker.dex / 100 - target.def - protectCoefficient * target.vit) / 5;
         if (damageMin < -9) { damageMin = -9; }
-        float damageMax = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
+        float damageMax = (attacker.atk + powerCoefficient * attacker.str - target.def - protectCoefficient * target.vit) / 5;
         if (damageMax < 1) { damageMax = 1; }
 
         float rundomNumber = Random.Range(0f, 100f);
@@ -170,7 +174,7 @@ public class Battler : MonoBehaviour
         {
             int damage = (int)Random.Range(damageMin, damageMax);
             if (damage <= 0) { damage = 0; };
-            target.Damage(damage);
+            target.Damage(damage,attacker,target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の矢で{target.unitName}に{(int)damage}のダメージ");
         }

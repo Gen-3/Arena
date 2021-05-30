@@ -391,7 +391,7 @@ public class BattleManager : MonoBehaviour
             }
 
 
-
+            
 
             //WTの降順でソートしてWT最速のenemies[0]とPlayerのWTを比較、enemies[0]の方が早いか等しければenemies[0]のターン処理を開始
             enemies.Sort((a, b) => (int)b.wt - (int)a.wt);
@@ -1017,11 +1017,11 @@ public class BattleManager : MonoBehaviour
             playerStatusSO.runtimeVit = 40;
             playerStatusSO.runtimeMen = 40;
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[6] as WeaponSO;//3ハンドアックス 4ショートソード 6ウォーハンマー 8ロングソード 10ボウ 11クロスボウ
+            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//3ハンドアックス 4ショートソード 6ウォーハンマー 8ロングソード 10ボウ 11クロスボウ
             playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
-            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[4] as ShieldSO;//1バックラー 2ラウンドシールド 3カイトシールド　4ラージシールド　5タワシ
-            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[3] as ArmorSO;//1レザーアーマー 2リングメイル 3チェインメイル 4フルプレート　
+            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//1バックラー 2ラウンドシールド 3カイトシールド　4ラージシールド　5タワシ
+            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//1レザーアーマー 2リングメイル 3チェインメイル 4フルプレート　
             playerStatusSO.runtimeMagicLevel = 99;
             player.LoadStatus();
             debugMode = true;

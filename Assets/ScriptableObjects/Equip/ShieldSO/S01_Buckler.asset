@@ -15,5 +15,5 @@ MonoBehaviour:
   equipName: "\u30D0\u30C3\u30AF\u30E9\u30FC"
   weight: 2
   price: 50
-  def: 20
+  def: 10
   resistanceFire: 5

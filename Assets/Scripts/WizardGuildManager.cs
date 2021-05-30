@@ -49,11 +49,27 @@ public class WizardGuildManager : MonoBehaviour
         }
         else
         {
-            randomNumberMemo = Random.Range(1, 10);
-            playerStatusSO.runtimeGold -= 100;
-            playerStatusSO.runtimeExp -= 100;
-            playerStatusSO.runtimeMagicLevel += randomNumberMemo;
-            resultText.text = $"魔法レベルが{randomNumberMemo}上がった";
+            if (playerStatusSO.runtimeMagicLevel < 90)
+            {
+                randomNumberMemo = Random.Range(1, 10);
+                playerStatusSO.runtimeGold -= 100;
+                playerStatusSO.runtimeExp -= 100;
+                playerStatusSO.runtimeMagicLevel += randomNumberMemo;
+                resultText.text = $"魔法レベルが{randomNumberMemo}上がった";
+            }
+            else if(playerStatusSO.runtimeMagicLevel < 99)
+            {
+                int max = 100 - playerStatusSO.runtimeMagicLevel;
+                randomNumberMemo = Random.Range(1, max);
+                playerStatusSO.runtimeGold -= 100;
+                playerStatusSO.runtimeExp -= 100;
+                playerStatusSO.runtimeMagicLevel += randomNumberMemo;
+                resultText.text = $"魔法レベルが{randomNumberMemo}上がった";
+            }
+            else
+            {
+                resultText.text = $"これ以上は上がらない";
+            }
         }
         Reload();
         resultPanel.SetActive(true);

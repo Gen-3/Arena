@@ -24,9 +24,10 @@ MonoBehaviour:
     resistanceMagic: 0
     wt: 0
     hp: 40
-    atk: 240
-    def: 0
+    atk: 130
+    def: 60
     mob: 2
+    weight: 0
     exp: 30
     gold: 30
     fame: 30

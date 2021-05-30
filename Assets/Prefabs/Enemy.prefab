@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d66ec6421783345bb9415aa1b2dd7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: 
   str: 0
   dex: 0
   agi: 20
@@ -186,12 +187,26 @@ MonoBehaviour:
   atk: 2
   def: 0
   mob: 0
+  resistanceFire: 0
+  resistanceMagic: 0
+  weight: 0
+  target: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  flash: 0
+  protect: 0
+  slow: 0
+  sleep: 0
+  power: 0
+  quick: 0
+  silence: 0
+  damageUI: {fileID: 0}
   tilemap: {fileID: 0}
   player: {fileID: 0}
   exp: 0
   gold: 0
   fame: 0
   done: 0
+  currentCell: {x: 0, y: 0, z: 0}
 --- !u!114 &2499839991190598008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,15 +223,4 @@ MonoBehaviour:
   - eventID: 4
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 215009710747519108}
-          m_MethodName: OnClickEnemy
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []

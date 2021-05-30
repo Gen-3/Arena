@@ -1306,7 +1306,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148473275}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.1154146, y: 0.8016282, z: -3.9681866}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4334,7 +4334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -373.6}
+  m_AnchoredPosition: {x: 0, y: -373.5996}
   m_SizeDelta: {x: 614, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &613070051
@@ -6509,7 +6509,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929845325}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 114.618774, y: 108.24356, z: -3.96875}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7070,7 +7070,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030569219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80, y: 15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -14508,6 +14508,7 @@ MonoBehaviour:
   mob: 0
   resistanceFire: 0
   resistanceMagic: 0
+  weight: 0
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   flash: 0
@@ -14519,7 +14520,6 @@ MonoBehaviour:
   silence: 0
   PlayerStatusSO: {fileID: 11400000, guid: f86ec52a916d94e828a7eb780a293f98, type: 2}
   battleManager: {fileID: 148473276}
-  weight: 0
   weapon: {fileID: 0}
   subWeapon1: {fileID: 0}
   subWeapon2: {fileID: 0}
@@ -14537,6 +14537,9 @@ MonoBehaviour:
   shieldShopItemDatabaseSO: {fileID: 11400000, guid: 24719afd9c2fa4a30a893ebc5948b8a4,
     type: 2}
   textManager: {fileID: 929845327}
+  attackEffect: {fileID: 0}
+  boltEffect: {fileID: 0}
+  FireEffect: {fileID: 0}
 --- !u!1 &2042776076
 GameObject:
   m_ObjectHideFlags: 0

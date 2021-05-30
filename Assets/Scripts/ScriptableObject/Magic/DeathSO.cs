@@ -16,7 +16,7 @@ public class DeathSO: MagicBaseSO
         if (rundomNumber <= successRate)
         {
             float damage = target.hp;
-            target.Damage(damage);
+            target.Damage(damage,user,target);
             TextManager.instance.UpdateConsole($"{user.unitName}のデスで{target.unitName}に{damage}のダメージ");
             Debug.Log($"デス成功(成功率{successRate}%)");
         }

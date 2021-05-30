@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A04_FullPlate
   m_EditorClassIdentifier: 
   equipName: "\u30D5\u30EB\u30D7\u30EC\u30FC\u30C8"
-  weight: 30
+  weight: 100
   price: 5000
-  def: 300
+  def: 50
   resistanceFire: 50

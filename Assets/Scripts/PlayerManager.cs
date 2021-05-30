@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using DG.Tweening;
 
 public class PlayerManager : Battler
 {
@@ -32,7 +33,11 @@ public class PlayerManager : Battler
     [SerializeField] ShopItemDatabaseSO shieldShopItemDatabaseSO;
     [SerializeField] TextManager textManager;
 
-    //Battler target = default;
+    [SerializeField] GameObject attackEffect;
+    [SerializeField] GameObject boltEffect;
+    [SerializeField] GameObject FireEffect;
+
+
 
     private void Start()
     {

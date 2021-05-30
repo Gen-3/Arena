@@ -16,7 +16,7 @@ MonoBehaviour:
     name: "\u30DE\u30C3\u30B7\u30E5"
     sprite: {fileID: 21300000, guid: 2c23a1d086e6db94d9cff820e8ced1eb, type: 3}
     str: 0
-    dex: 10
+    dex: 20
     agi: 20
     vit: 0
     men: 0
@@ -24,9 +24,10 @@ MonoBehaviour:
     resistanceMagic: 0
     wt: 0
     hp: 15
-    atk: 130
-    def: 0
+    atk: 90
+    def: 30
     mob: 2
+    weight: 0
     exp: 5
     gold: 5
     fame: 5

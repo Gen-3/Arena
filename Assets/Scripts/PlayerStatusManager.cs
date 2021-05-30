@@ -112,7 +112,7 @@ public class PlayerStatusManager : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
+        /*if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
         {
             playerStatusSO.runtimePlayerName = "テストプレイなう";
             playerStatusSO.runtimeStr = 40;
@@ -143,6 +143,7 @@ public class PlayerStatusManager : MonoBehaviour
 
             Debug.Log("デバッグ用ステータスをセットしました");
         }
+        */
 
         KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().ToArray();
 
