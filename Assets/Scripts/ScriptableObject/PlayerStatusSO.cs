@@ -137,7 +137,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         }
     }
 
-    public void OnAfterDeserialize()
+    public void Initialization()
     {
         runtimePlayerName = playerName;
         runtimeStr = str;
@@ -159,6 +159,10 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         runtimeMatchAmount = matchAmount;
         runtimeWinAmount = winAmount;
         runtimeMagicLevel = magicLevel;
+    }
+
+    public void OnAfterDeserialize()
+    {
     }
 
     public void OnBeforeSerialize()

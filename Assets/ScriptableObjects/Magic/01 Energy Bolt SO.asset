@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec09f684c59f457096bb86e754577c7, type: 3}
   m_Name: 01 Energy Bolt SO
   m_EditorClassIdentifier: 
-  boltEffect: {fileID: 2241476459956965221, guid: 59cb47e48c341430f9f4f47424737400,
+  boltEffect: {fileID: 3839219209509176032, guid: 7c2c8ba2cda9743d28ec785323063a19,
     type: 3}

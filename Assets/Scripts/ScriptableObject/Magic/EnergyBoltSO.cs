@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class EnergyBoltSO: MagicBaseSO
 {
+    [SerializeField] GameObject boltEffect;
+
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
@@ -27,6 +29,8 @@ public class EnergyBoltSO: MagicBaseSO
 
         Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceMagic / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100)})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{user.unitName}のエナジーボルトで{target.unitName}に{(int)damage}のダメージ");
+
+        Instantiate(boltEffect, target.transform.transform.position, Quaternion.identity);
 
         if (target is EnemyManager)
         {

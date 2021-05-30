@@ -37,6 +37,14 @@ public class Battler : MonoBehaviour
     public bool silence;
 
     //[SerializeField] DamageUI damageUI;
+    [SerializeField] DamageUI DamageUICanvas = default;
+
+    [SerializeField] GameObject attackEffect;
+//    [SerializeField] GameObject boltEffect;
+    [SerializeField] GameObject fireEffect;
+//    [SerializeField] GameObject lightningEffect;
+//    [SerializeField] GameObject deathEffect;
+    [SerializeField] GameObject debuffEffect;
 
     public virtual void Damage(float amount, Battler attacker, Battler target)
     {
@@ -49,6 +57,8 @@ public class Battler : MonoBehaviour
             sleep = false;
             Debug.Log($"{unitName}のSleep状態が解除");
         }
+        DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.position, Quaternion.identity);
+        damageUICanvus.ShowDamage(amount);
     }
 
     public virtual void ExecuteDirectAttack(Battler attacker, Battler target)
@@ -98,11 +108,15 @@ public class Battler : MonoBehaviour
             target.Damage(damage,attacker,target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}~{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{(int)damage}のダメージ");
+            Instantiate(attackEffect, target.transform.transform.position, Quaternion.identity);
         }
         else
         {
             Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃を{target.unitName}が回避した");
+
+            DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.position, Quaternion.identity);
+            damageUICanvus.ShowMiss();
         }
     }
 
@@ -129,6 +143,7 @@ public class Battler : MonoBehaviour
         target.Damage(damage,attacker,target);
         Debug.Log($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{(int)damage}のダメージ");
+        Instantiate(fireEffect, target.transform.transform.position, Quaternion.identity);
     }
 
     public virtual void ExecuteBowAttack(Battler attacker, Battler target)
@@ -177,6 +192,7 @@ public class Battler : MonoBehaviour
             target.Damage(damage,attacker,target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の矢で{target.unitName}に{(int)damage}のダメージ");
+            Instantiate(attackEffect, target.transform.transform.position, Quaternion.identity);
         }
         else
         {

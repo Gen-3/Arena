@@ -199,7 +199,19 @@ MonoBehaviour:
   power: 0
   quick: 0
   silence: 0
-  damageUI: {fileID: 0}
+  DamageUICanvas: {fileID: 9085722725637557281, guid: 65c4d4aaffcd14d4a90b2433cee6b525,
+    type: 3}
+  attackEffect: {fileID: 4526972209230973821, guid: d295b0b81885d4f08a40f53585d55bab,
+    type: 3}
+  boltEffect: {fileID: 3839219209509176032, guid: 7c2c8ba2cda9743d28ec785323063a19,
+    type: 3}
+  FireEffect: {fileID: 8355672305754362968, guid: a1e83a7139cb842659c60d3724956df4,
+    type: 3}
+  LightningEffect: {fileID: 3023575618949629898, guid: 6d784a1f77dd3481e8384dd013d3a658,
+    type: 3}
+  DeathEffect: {fileID: 7238243331946212994, guid: 0c97f2261ee4c4e84b7f0e5041f2d2b3,
+    type: 3}
+  DebuffEffect: {fileID: 0}
   tilemap: {fileID: 0}
   player: {fileID: 0}
   exp: 0

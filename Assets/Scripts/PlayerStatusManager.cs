@@ -84,12 +84,16 @@ public class PlayerStatusManager : MonoBehaviour
             fameText.text = playerStatusSO.runtimeFame.ToString();
             maxFameText.text = playerStatusSO.runtimeMaxFame.ToString();
         }
+        else
+        {
+            playerStatusSO.Initialization();
+        }
     }
 
     private void Update()//押下したキーボードの名前を調べるためのコード、開発用。
     {
 
-        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.LeftBracket))
         {
             playerStatusSO.runtimeStr += 5;
             playerStatusSO.runtimeDex += 5;
@@ -100,7 +104,7 @@ public class PlayerStatusManager : MonoBehaviour
             Start();
             return;
         }
-        if (Input.GetKeyDown(KeyCode.RightBracket))
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.RightBracket))
         {
             playerStatusSO.runtimeStr -= 5;
             playerStatusSO.runtimeDex -= 5;
@@ -111,39 +115,6 @@ public class PlayerStatusManager : MonoBehaviour
             Start();
             return;
         }
-
-        /*if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
-        {
-            playerStatusSO.runtimePlayerName = "テストプレイなう";
-            playerStatusSO.runtimeStr = 40;
-            playerStatusSO.runtimeDex = 40;
-            playerStatusSO.runtimeAgi = 40;
-            playerStatusSO.runtimeVit = 40;
-            playerStatusSO.runtimeMen = 40;
-            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            playerStatusSO.runtimeMagicLevel = 10;
-            usablePoint = 0;
-
-            playerNameText.text = playerStatusSO.runtimePlayerName;
-            strText.text = playerStatusSO.runtimeStr.ToString();
-            dexText.text = playerStatusSO.runtimeDex.ToString();
-            agiText.text = playerStatusSO.runtimeAgi.ToString();
-            vitText.text = playerStatusSO.runtimeVit.ToString();
-            menText.text = playerStatusSO.runtimeMen.ToString();
-            if (SceneManager.GetActiveScene().name == "Home")
-            {
-                hpText.text = playerStatusSO.runtimeHp.ToString();
-                MagicLevelText.text = playerStatusSO.runtimeMagicLevel.ToString();
-            }
-            else
-            {
-                magicLevelTextFirstTime.text = playerStatusSO.runtimeMagicLevel.ToString();
-                usablePointText.text = "0(デバッグ)";
-            }
-
-            Debug.Log("デバッグ用ステータスをセットしました");
-        }
-        */
 
         KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().ToArray();
 

@@ -14518,6 +14518,12 @@ MonoBehaviour:
   power: 0
   quick: 0
   silence: 0
+  DamageUICanvas: {fileID: 9085722725637557281, guid: 65c4d4aaffcd14d4a90b2433cee6b525,
+    type: 3}
+  attackEffect: {fileID: 4526972209230973821, guid: d295b0b81885d4f08a40f53585d55bab,
+    type: 3}
+  fireEffect: {fileID: 0}
+  debuffEffect: {fileID: 0}
   PlayerStatusSO: {fileID: 11400000, guid: f86ec52a916d94e828a7eb780a293f98, type: 2}
   battleManager: {fileID: 148473276}
   weapon: {fileID: 0}
@@ -14530,16 +14536,12 @@ MonoBehaviour:
   stacked: 0
   continueMoving: 0
   destinationAtContinueMoving: {x: 0, y: 0, z: 0}
-  hitEffect: {fileID: 0}
   magicList: []
   weaponShopItemDatabaseSO: {fileID: 11400000, guid: 25bd2a78c93d94803a3f2cff16fc52e0,
     type: 2}
   shieldShopItemDatabaseSO: {fileID: 11400000, guid: 24719afd9c2fa4a30a893ebc5948b8a4,
     type: 2}
   textManager: {fileID: 929845327}
-  attackEffect: {fileID: 0}
-  boltEffect: {fileID: 0}
-  FireEffect: {fileID: 0}
 --- !u!1 &2042776076
 GameObject:
   m_ObjectHideFlags: 0

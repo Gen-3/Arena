@@ -9,7 +9,7 @@ public class DamageUI : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(true);//あとでfalseにする
+        //gameObject.SetActive(true);//あとでfalseにする
     }
 
     //// エフェクトの移動
@@ -22,26 +22,32 @@ public class DamageUI : MonoBehaviour
     //    }
     //}
 
-    public void ShowDamage(float amount,Battler attacker,Battler target)
+    public void ShowDamage(float amount)
     {
         int amountInt = (int)amount;
         text.text = amountInt.ToString();
-        transform.position = target.transform.position;
-        Debug.Log(text.transform.position);
-        gameObject.SetActive(true);
+        StartCoroutine(MoveUpCor());
     }
 
-/*    IEnumerator MoveUpCor()
+    public void ShowMiss()
     {
-        gameObject.SetActive(true);
-        transform.position = initPosition;
-        for (int i = 0; i < 20; i++)
-        {
-            transform.position += new Vector3(0, 0.1f);
-            yield return new WaitForSeconds(0.01f);
-        }
-        yield return new WaitForSeconds(0.1f);
-        gameObject.SetActive(false);
+        text.text = "Miss";
+        StartCoroutine(MoveUpCor());
     }
-*/
+
+    IEnumerator MoveUpCor()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            transform.position += new Vector3(0, 0.01f);
+            yield return new WaitForSeconds(0.001f);
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            transform.position -= new Vector3(0, 0.01f);
+            yield return new WaitForSeconds(0.001f);
+        }
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
+    }
 }

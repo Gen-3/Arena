@@ -26,18 +26,10 @@ public class PlayerManager : Battler
     public bool continueMoving = false;
     public Vector3Int destinationAtContinueMoving;
 
-    public GameObject hitEffect;
-
     public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
     [SerializeField] ShopItemDatabaseSO weaponShopItemDatabaseSO;
     [SerializeField] ShopItemDatabaseSO shieldShopItemDatabaseSO;
     [SerializeField] TextManager textManager;
-
-    [SerializeField] GameObject attackEffect;
-    [SerializeField] GameObject boltEffect;
-    [SerializeField] GameObject FireEffect;
-
-
 
     private void Start()
     {

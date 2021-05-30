@@ -95,15 +95,15 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("デバッグ用コマンド　S：全ステータスを40にセットする");
-        Debug.Log("デバッグ用コマンド　[：全ステータスを＋５");
-        Debug.Log("デバッグ用コマンド　]：全ステータスをー５");
-        Debug.Log("デバッグ用コマンド　N：敵を全滅させてステージを進める");
-        Debug.Log("デバッグ用コマンド　R：Arenaシーンをリロード");
-        Debug.Log("デバッグ用コマンド　M：MAP情報を表示");
-        Debug.Log("デバッグ用コマンド　P：プレイヤーの情報を表示");
-        Debug.Log("デバッグ用コマンド　E：敵の情報を表示");
-        Debug.Log("デバッグ用コマンド　D：デバッグモード　ゲームオーバーにならない");
+        Debug.Log("デバッグ用コマンド Space+S：全ステータスを40にセットする");
+        Debug.Log("デバッグ用コマンド Space+[：全ステータスを＋５");
+        Debug.Log("デバッグ用コマンド Space+]：全ステータスをー５");
+        Debug.Log("デバッグ用コマンド Space+N：敵を全滅させてステージを進める");
+        Debug.Log("デバッグ用コマンド Space+R：Arenaシーンをリロード");
+        Debug.Log("デバッグ用コマンド Space+M：MAP情報を表示");
+        Debug.Log("デバッグ用コマンド Space+P：プレイヤーの情報を表示");
+        Debug.Log("デバッグ用コマンド Space+E：敵の情報を表示");
+        Debug.Log("デバッグ用コマンド Space+D：デバッグモード　ゲームオーバーにならない");
 
         selectRankPanel.SetActive(true);
     }
@@ -914,12 +914,12 @@ public class BattleManager : MonoBehaviour
     [SerializeField] TextManager textManager;
     private void Update()//デバッグ用コマンド！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
     {
-        if (Input.GetKeyDown(KeyCode.R))//Reset
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.R))//Reset
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Arena");
             Debug.Log("デバッグコマンド：Arenaシーンを再読み込みしました");
         }
-        if (Input.GetKeyDown(KeyCode.N))//NextStage
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.N))//NextStage
         {
             playerStatusSO.runtimeWinAmount += 1;
             if (stage % 5 != 4)
@@ -939,7 +939,7 @@ public class BattleManager : MonoBehaviour
             }
             Debug.Log("デバッグコマンド：ステージを進めました");
         }
-        if (Input.GetKeyDown(KeyCode.M))//MapDebug
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.M))//MapDebug
         {
             for (int i = 6; i >= 0; i--)//y軸方向に７マスなのでiが6,5,4,3,2,1,0の7回まわるようにしている
             {
@@ -952,12 +952,12 @@ public class BattleManager : MonoBehaviour
             }
             Debug.Log("デバッグコマンド：マップ情報を表示しました");
         }
-        if (Input.GetKeyDown(KeyCode.H))//HpSliderDebug
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.H))//HpSliderDebug
         {
             Debug.Log($"{player.hp}/{playerStatusSO.runtimeHp}={HPSlider.value}");
             Debug.Log("デバッグコマンド：HPSliderの情報を表示しました");
         }
-        if (Input.GetKeyDown(KeyCode.E))//EnemiesDebug
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.E))//EnemiesDebug
         {
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
@@ -965,7 +965,7 @@ public class BattleManager : MonoBehaviour
             }
             Debug.Log("デバッグコマンド：敵のリストを表示しました");
         }
-        if (Input.GetKeyDown(KeyCode.P))// PlayerStatusLogDebug
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.P))// PlayerStatusLogDebug
         {
             Debug.Log("ステータスのデバッグ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             Debug.Log("wt=" + player.wt);
@@ -985,7 +985,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log("armor=" + player.armor);
             Debug.Log($"expPoolは{expPool}、goldPoolは{goldPool}、famePoolは{famePool}");
         }
-        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.LeftBracket))
         {
             playerStatusSO.runtimeStr += 5;
             playerStatusSO.runtimeDex += 5;
@@ -996,7 +996,7 @@ public class BattleManager : MonoBehaviour
             player.LoadStatus();
             Debug.Log($"ステータス＋５({playerStatusSO.runtimeStr})");
         }
-        if (Input.GetKeyDown(KeyCode.RightBracket))
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.RightBracket))
         {
             playerStatusSO.runtimeStr -= 5;
             playerStatusSO.runtimeDex -= 5;
@@ -1008,8 +1008,9 @@ public class BattleManager : MonoBehaviour
             Debug.Log($"ステータス−５({playerStatusSO.runtimeStr})");
         }
 
-        if (Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
         {
+            playerStatusSO.Initialization();
             playerStatusSO.runtimePlayerName = "テストプレイなう";
             playerStatusSO.runtimeStr = 40;
             playerStatusSO.runtimeDex = 40;
@@ -1027,12 +1028,12 @@ public class BattleManager : MonoBehaviour
             debugMode = true;
             Debug.Log("デバッグ用ステータスをセットしました");
         }
-        if (Input.GetKeyDown(KeyCode.C))//ConsoleTest:コンソールの表示送りテスト
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.C))//ConsoleTest:コンソールの表示送りテスト
         {
             textManager.UpdateConsole(((int)Random.Range(0,101)).ToString());
         }
 
-        if (Input.GetKeyDown(KeyCode.D))//DebugModeオン
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.D))//DebugModeオン
         {
             if (debugMode)
             {
