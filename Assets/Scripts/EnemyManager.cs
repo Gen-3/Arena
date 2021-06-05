@@ -67,6 +67,8 @@ public class EnemyManager : Battler
                 if (1.5 <= Vector3.Distance(player.transform.position, this.transform.position) && Vector3.Distance(player.transform.position, this.transform.position) <= 4)//①
                 {
                     ExecuteFireAttack(this, player);
+                    yield return new WaitForSeconds(1f);
+
                 }
                 else if(4 < Vector3.Distance(player.transform.position, this.transform.position))//②
                 {
@@ -95,9 +97,10 @@ public class EnemyManager : Battler
                     if (beforeposition == currentPosition)
                     {
                         ExecuteDirectAttack(this,player);
+                        yield return new WaitForSeconds(1f);
+
                     }
                 }
-                yield return new WaitForSeconds(0.1f);
                 done = true;
                 break;
 
@@ -108,17 +111,19 @@ public class EnemyManager : Battler
                     if (men > player.men)
                     {
                         player.magicList[1].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
                     }
                     else
                     {
                         ExecuteDirectAttack(this, player);
+                        yield return new WaitForSeconds(1f);
                     }
                 }
                 else
                 {
                     player.magicList[1].Execute(this, player);
+                    yield return new WaitForSeconds(1f);
                 }
-                yield return new WaitForSeconds(0.1f);
                 done = true;
                 break;
 
@@ -140,13 +145,14 @@ public class EnemyManager : Battler
                     if (beforeposition == currentPosition)
                     {
                         player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
+                        yield return new WaitForSeconds(1f);
                     }
                 }
                 else//②
                 {
                     player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
+                    yield return new WaitForSeconds(1f);
                 }
-                yield return new WaitForSeconds(0.1f);
                 done = true;
                 break;
 
@@ -154,6 +160,7 @@ public class EnemyManager : Battler
                 if (Vector3.Distance(player.transform.position, this.transform.position) < 1.5)
                 {
                     ExecuteDirectAttack(this, player);
+                    yield return new WaitForSeconds(1f);
                 }
                 else
                 {
@@ -166,7 +173,6 @@ public class EnemyManager : Battler
                         yield return new WaitForSeconds(0.1f);
                     }
                 }
-                yield return new WaitForSeconds(0.1f);
                 done = true;
                 break;
         }

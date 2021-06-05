@@ -10,7 +10,7 @@ public class EnergyBoltSO: MagicBaseSO
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
-
+        
         float damageMin = (user.men - target.men) / 10 * (1 - target.resistanceMagic / 100);
         if (damageMin < -9)
         {
@@ -23,14 +23,13 @@ public class EnergyBoltSO: MagicBaseSO
         }
         float damage = Random.Range(damageMin, damageMax);
         if (damage < 0) { damage = 0; }
-        target.Damage(damage,user,target);
 
-        //Instantiate(boltEffect, target.transform.position,Quaternion.identity);
+        Instantiate(boltEffect, target.transform.position, Quaternion.identity);
+        //ここでエフェクトが出ている間進行を止めたい（）エフェクト終了後にダメージ表示＆敵オブジェクト破壊をしたい
+        target.Damage(damage,user,target);
 
         Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceMagic / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100)})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{user.unitName}のエナジーボルトで{target.unitName}に{(int)damage}のダメージ");
-
-        Instantiate(boltEffect, target.transform.transform.position, Quaternion.identity);
 
         if (target is EnemyManager)
         {

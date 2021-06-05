@@ -6519,6 +6519,12 @@ MonoBehaviour:
   expText: {fileID: 720037045}
   fameText: {fileID: 346866984}
   maxFameText: {fileID: 385631070}
+  weaponShopItemDatabaseSO: {fileID: 11400000, guid: 25bd2a78c93d94803a3f2cff16fc52e0,
+    type: 2}
+  shieldShopItemDatabaseSO: {fileID: 11400000, guid: 24719afd9c2fa4a30a893ebc5948b8a4,
+    type: 2}
+  armorShopItemDatabaseSO: {fileID: 11400000, guid: 9525f972680af4a40b4e84e6cb7b7169,
+    type: 2}
 --- !u!1 &1979171577
 GameObject:
   m_ObjectHideFlags: 0

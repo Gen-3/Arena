@@ -44,11 +44,16 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] Text fameText = default;
     [SerializeField] Text maxFameText = default;
 
+    //武器nullバグ対策
+    [SerializeField] ShopItemDatabaseSO weaponShopItemDatabaseSO = default;
+    [SerializeField] ShopItemDatabaseSO shieldShopItemDatabaseSO = default;
+    [SerializeField] ShopItemDatabaseSO armorShopItemDatabaseSO = default;
+
     public void Start()
     {
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName != "Home_FirstTime")
+        if (sceneName == "Home")
         {
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
             playerNameText.text = playerStatusSO.runtimePlayerName;
@@ -59,26 +64,39 @@ public class PlayerStatusManager : MonoBehaviour
             menText.text = playerStatusSO.runtimeMen.ToString();
             hpText.text = playerStatusSO.runtimeHp.ToString();
             MagicLevelText.text = playerStatusSO.runtimeMagicLevel.ToString();
-            if (playerStatusSO.runtimeWeapon != null)
+            
+            if (playerStatusSO.runtimeWeapon == null)
             {
-                weaponText.text = playerStatusSO.runtimeWeapon.equipName;
+                Debug.Log($"playerStatusSO.runtimeWeaponがnullだったので0番をセットしました");
+                playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             }
-            if (playerStatusSO.runtimeSubWeapon1 != null)
+            if (playerStatusSO.runtimeSubWeapon1 == null)
             {
-                subWeapon1Text.text = playerStatusSO.runtimeSubWeapon1.equipName;
+                Debug.Log($"playerStatusSO.runtimeSubWeapon1がnullだったので0番をセットしました");
+                playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             }
-            if (playerStatusSO.runtimeSubWeapon2 != null)
+            if (playerStatusSO.runtimeSubWeapon2 == null)
             {
-                subWeapon2Text.text = playerStatusSO.runtimeSubWeapon2.equipName;
+                Debug.Log($"playerStatusSO.runtimeSubWeapon2がnullだったので0番をセットしました");
+                playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             }
-            if (playerStatusSO.runtimeShield != null)
+            if (playerStatusSO.runtimeShield == null)
             {
-                shieldText.text = playerStatusSO.runtimeShield.equipName;
+                Debug.Log($"playerStatusSO.runtimeShieldがnullだったので0番をセットしました");
+                playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;
             }
-            if (playerStatusSO.runtimeArmor != null)
+            if (playerStatusSO.runtimeArmor == null)
             {
-                armorText.text = playerStatusSO.runtimeArmor.equipName;
+                Debug.Log($"playerStatusSO.runtimeArmorがnullだったので0番をセットしました");
+                playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;
             }
+
+            weaponText.text = playerStatusSO.runtimeWeapon.equipName;
+            subWeapon1Text.text = playerStatusSO.runtimeSubWeapon1.equipName;
+            subWeapon2Text.text = playerStatusSO.runtimeSubWeapon2.equipName;
+            shieldText.text = playerStatusSO.runtimeShield.equipName;
+            armorText.text = playerStatusSO.runtimeArmor.equipName;
+
             goldText.text = playerStatusSO.runtimeGold.ToString();
             expText.text = playerStatusSO.runtimeExp.ToString();
             fameText.text = playerStatusSO.runtimeFame.ToString();

@@ -143,7 +143,10 @@ public class Battler : MonoBehaviour
         target.Damage(damage,attacker,target);
         Debug.Log($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{(int)damage}のダメージ");
-        Instantiate(fireEffect, target.transform.transform.position, Quaternion.identity);
+
+        Vector3 effectPos =new Vector3(attacker.transform.position.x, attacker.transform.position.y, attacker.transform.position.z-1);
+        Instantiate(fireEffect, effectPos, Quaternion.identity);
+        //ターゲットのポジションに移動させて、到着したらDestroy
     }
 
     public virtual void ExecuteBowAttack(Battler attacker, Battler target)

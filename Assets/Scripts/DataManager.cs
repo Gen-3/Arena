@@ -46,7 +46,7 @@ public class DataManager : MonoBehaviour
         playerStatusManager.Start();
 
         Debug.Log("Load()");
-        Debug.Log(json);
+        Debug.Log($"jsonの中身を表示：{json}");
     }
 
     public void ShowSavepanel()

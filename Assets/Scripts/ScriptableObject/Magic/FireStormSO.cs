@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class FireStormSO: MagicBaseSO
 {
+    [SerializeField] GameObject fireEffect;
+
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
