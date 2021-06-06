@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class FlashSO : MagicBaseSO
 {
+    [SerializeField] GameObject effect;
+
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
@@ -21,5 +23,7 @@ public class FlashSO : MagicBaseSO
         {
             Debug.Log($"{target}のフラッシュが失敗({successRate}%/R={rundomNumber})");
         }
+        target.MagicEffectNoDamage(user, target, effect, 2f);
+        TextManager.instance.UpdateConsole($"{user.unitName}はフラッシュを唱えた");
     }
 }

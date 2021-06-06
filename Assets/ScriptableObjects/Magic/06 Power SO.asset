@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473bf462387754ec789eb20015f0492f, type: 3}
   m_Name: 06 Power SO
   m_EditorClassIdentifier: 
+  effect: {fileID: 1398715381730784680, guid: 2bc3de577b5be42ada52f8a5c4db6553, type: 3}

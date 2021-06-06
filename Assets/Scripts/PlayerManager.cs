@@ -173,11 +173,13 @@ public class PlayerManager : Battler
 
             if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
             {
+                battleManager.ClickedAttackButton = false;
+                BattleManager.instance.commandButtons.SetActive(false);
+
                 if (Vector3.Distance(transform.position, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0].transform.position) <= 1)
                 {
                     ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
-                    battleManager.playerDone = true;
                 }
             }
         }
@@ -190,58 +192,70 @@ public class PlayerManager : Battler
             {
                 if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
                 {
+                    battleManager.ClickedMagicButton = false;
+                    BattleManager.instance.commandButtons.SetActive(false);
+
                     for (int i = BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count; i > 0; i--)
                     {
                         magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[i - 1]);
                     }
                     battleManager.selectedMagicID = default;
-                    battleManager.playerDone = true;
                 }
             }
             else if (battleManager.selectedMagicID == 11)//ライトニング選択時、どのタイルであれ発動させる
             {
+                battleManager.ClickedMagicButton = false;
+                BattleManager.instance.commandButtons.SetActive(false);
+
                 for (int i = battleManager.enemies.Count; i > 0; i--)
                 {
                     magicList[battleManager.selectedMagicID].Execute(this, battleManager.enemies[i - 1]);
                 }
                 battleManager.selectedMagicID = default;
-                battleManager.playerDone = true;
             }
             else if(battleManager.selectedMagicID ==1 || battleManager.selectedMagicID == 2 || battleManager.selectedMagicID == 4 || battleManager.selectedMagicID == 5
                 || battleManager.selectedMagicID == 9 || battleManager.selectedMagicID == 12)//その他敵単体への魔法を選択時、敵のいるタイルでのみ処理する
             {
                 if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
                 {
+                    battleManager.ClickedMagicButton = false;
+                    BattleManager.instance.commandButtons.SetActive(false);
+
                     magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.selectedMagicID = default;
-                    battleManager.playerDone = true;
                 }
             }
             else if (battleManager.selectedMagicID == 3 || battleManager.selectedMagicID == 6 || battleManager.selectedMagicID == 8)//プロテクト・パワー・クイックは自分のタイルのときのみ
             {
                 if(tilemap.WorldToCell(clickedPosition) == tilemap.WorldToCell(transform.position))
                 {
+                    battleManager.ClickedMagicButton = false;
+                    BattleManager.instance.commandButtons.SetActive(false);
+
                     magicList[battleManager.selectedMagicID].Execute(this, this);
                     battleManager.selectedMagicID = default;
-                    battleManager.playerDone = true;
                 }
             }
             else if (battleManager.selectedMagicID == 10)//ディスペルは敵味方問わず発動
             {
                 if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
                 {
+                    battleManager.ClickedMagicButton = false;
+                    BattleManager.instance.commandButtons.SetActive(false);
+
                     magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.selectedMagicID = default;
-                    battleManager.playerDone = true;
                 }
                 else if (tilemap.WorldToCell(clickedPosition) == tilemap.WorldToCell(transform.position))
                 {
+                    battleManager.ClickedMagicButton = false;
+                    BattleManager.instance.commandButtons.SetActive(false);
+
                     magicList[battleManager.selectedMagicID].Execute(this, this);
                     battleManager.selectedMagicID = default;
-                    battleManager.playerDone = true;
                 }
             }
-            if (battleManager.playerDone)
+            if (done)
             {
                 hp -= 2;
             }
@@ -252,14 +266,15 @@ public class PlayerManager : Battler
 
             if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
             {
+                battleManager.ClickedThrowButton = false;
+                BattleManager.instance.commandButtons.SetActive(false);
+
                 ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                 battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
 
                 weapon = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;//投げた装備を外してステータスを更新
                 textManager.ReloadEquipStatus();
                 ReloadStatus();
-
-                battleManager.playerDone = true;
             }
         }
         if(battleManager.ClickedBowButton)//ボウ
@@ -268,20 +283,16 @@ public class PlayerManager : Battler
 
             if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
             {
+                battleManager.ClickedBowButton = false;
+                BattleManager.instance.commandButtons.SetActive(false);
+
                 if (Vector3.Distance(transform.position, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0].transform.position) > 1)
                 {
-
                     ExecuteBowAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
-
-
-
-
-                    battleManager.playerDone = true;
                 }
             }
         }
-
     }
 
     public IEnumerator Moving(Vector3Int destinationCell)
@@ -320,7 +331,7 @@ public class PlayerManager : Battler
                 stacked = false;
             }
         }
-        battleManager.playerDone = true;
+        done = true;
         if (!reachDestination&&!stacked)//目的地に着いている、または移動していない場合は移動継続は無し、移動したのに目的地についていれば移動継続あり
         {
             continueMoving = true;

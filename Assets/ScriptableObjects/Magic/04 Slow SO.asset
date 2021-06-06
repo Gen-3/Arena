@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c04bfe8fa2f4bc48a1cf7c85d4afa8, type: 3}
   m_Name: 04 Slow SO
   m_EditorClassIdentifier: 
+  effect: {fileID: 370995989829579738, guid: f8539715e1c724e33b00a46089a22d31, type: 3}

@@ -1231,7 +1231,6 @@ MonoBehaviour:
     type: 3}
   enemies: []
   player: {fileID: 2031294631}
-  playerDone: 0
   MoveButton: {fileID: 129144424}
   AttackButton: {fileID: 387387361}
   ThrowButton: {fileID: 1242626802}
@@ -14495,6 +14494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d005377f34ed14fbd595e370654712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  done: 0
   unitName: 
   str: 0
   dex: 0
