@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
     public List<EnemyManager> enemies = new List<EnemyManager>();//敵を一括管理
 
     public PlayerManager player;//プレイヤー
+    public bool playerDone = false;//プレイヤーの行動終了判定
 
     public GameObject MoveButton;
     public GameObject AttackButton;
@@ -416,7 +417,7 @@ public class BattleManager : MonoBehaviour
                 if (player.continueMoving)//前のターンの移動を継続中の場合
                 {
                     player.StartCoroutine(player.Moving(player.destinationAtContinueMoving));
-                    yield return new WaitUntil(() => player.done);
+                    yield return new WaitUntil(() => playerDone);
                     commandButtons.SetActive(false);
                     yield return new WaitForSeconds(0.2f);
                 }
@@ -507,15 +508,13 @@ public class BattleManager : MonoBehaviour
 
                     commandButtons.SetActive(true);
 
-                    yield return new WaitUntil(() => player.done);//プレイヤーがコマンドを入力するまで待機
+                    yield return new WaitUntil(() => playerDone);//プレイヤーがコマンドを入力するまで待機
                     HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
                     ClickedButtonReset();
-                    BattleManager.instance.commandButtons.SetActive(false);
-                    yield return new WaitForSeconds(0.0f);
+                    commandButtons.SetActive(false);
+                    yield return new WaitForSeconds(1);
                 }
-            }//if (player.wt >= enemies[0].wt)に対応
-
-
+            }
 
 
             //敵を全滅させると変数battleEndをtrueにします
@@ -532,21 +531,11 @@ public class BattleManager : MonoBehaviour
             {
                 if (enemy.done == true) { enemy.wt = 0; enemy.done = false; }
             }
-            if (player.done) { player.wt = 0; player.done = false; }
-
-            //消えない攻撃エフェクト（fire）を消す
-            for (int i = 1; i < 7; i++)
-            {
-                Destroy(GameObject.Find("Effect_Fire(Clone)"));
-                Destroy(GameObject.Find("Effect_Buff(Clone)"));
-                Destroy(GameObject.Find("Effect_Sleep(Clone)"));
-            }
-
-
+            if (playerDone == true) { player.wt = 0; playerDone = false; }
         }
 
         //while (battleEnd == false)に対応
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         StageClear();
     }
 
@@ -602,7 +591,7 @@ public class BattleManager : MonoBehaviour
         ClickedButtonReset();
         ClickedWaitButton = true;
         //        Debug.Log("待機ボタンが押されました");
-        player.done = true;
+        playerDone = true;
     }
 
     //移動に関する関数
@@ -677,7 +666,7 @@ public class BattleManager : MonoBehaviour
         }
         textManager.ReloadEquipStatus();
         player.ReloadStatus();
-        player.done = true;
+        playerDone = true;
     }
     public void OnClickCanselChange()
     {
@@ -979,14 +968,21 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.P))// PlayerStatusLogDebug
         {
             Debug.Log("ステータスのデバッグ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Debug.Log("wt=" + player.wt);
             Debug.Log("hp=" + player.hp);
-            Debug.Log($"atk/def/weight/mob={ player.atk}/{ player.def}/{ player.weight}/{ player.mob}");
-            Debug.Log($"str/dex/agi/vit/men={player.str}/{player.dex}/{player.agi}/{player.vit}/{player.men}");
-            Debug.Log("weapon=" + player.weapon.equipName);
-            Debug.Log("sub1=" + player.subWeapon1.equipName);
-            Debug.Log("sub2=" + player.subWeapon2.equipName);
-            Debug.Log("shield=" + player.shield.equipName);
-            Debug.Log("armor=" + player.armor.equipName);
+            Debug.Log("atk=" + player.atk);
+            Debug.Log("def=" + player.def);
+            Debug.Log("weight=" + player.weight);
+            Debug.Log("mob=" + player.mob);
+            Debug.Log("str=" + player.str);
+            Debug.Log("dex=" + player.dex);
+            Debug.Log("agi=" + player.agi);
+            Debug.Log("vit=" + player.vit);
+            Debug.Log("weapon=" + player.weapon);
+            Debug.Log("sub1=" + player.subWeapon1);
+            Debug.Log("sub2=" + player.subWeapon2);
+            Debug.Log("shield=" + player.shield);
+            Debug.Log("armor=" + player.armor);
             Debug.Log($"expPoolは{expPool}、goldPoolは{goldPool}、famePoolは{famePool}");
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.LeftBracket))

@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e40026c9f8f04b2e941b2c96ba3115f, type: 3}
   m_Name: 02 Flash SO
   m_EditorClassIdentifier: 
-  effect: {fileID: 7435410874906603453, guid: 26e96db9ca117488dbbaa44497ed03ae, type: 3}

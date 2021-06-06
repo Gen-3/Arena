@@ -24,19 +24,17 @@ public class EnergyBoltSO: MagicBaseSO
         float damage = Random.Range(damageMin, damageMax);
         if (damage < 0) { damage = 0; }
 
-        target.DamageAndEffect(damage, user, target, boltEffect, 1f);
-
-        //Instantiate(boltEffect, target.transform.position, Quaternion.identity);
+        Instantiate(boltEffect, target.transform.position, Quaternion.identity);
         //ここでエフェクトが出ている間進行を止めたい（）エフェクト終了後にダメージ表示＆敵オブジェクト破壊をしたい
-        //target.Damage(damage,user,target);
+        target.Damage(damage,user,target);
 
         Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceMagic / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100)})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{user.unitName}のエナジーボルトで{target.unitName}に{(int)damage}のダメージ");
 
-//        if (target is EnemyManager)
-//        {
-//            ((EnemyManager)target).CheckHP();
-//        }
+        if (target is EnemyManager)
+        {
+            ((EnemyManager)target).CheckHP();
+        }
         //敵の攻撃の場合のプレイヤーノックアウト判定やゲーオーバー処理はBattleManagerに記述
     }
 }

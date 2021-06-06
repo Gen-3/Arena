@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d150254a5549e4370ba4567e1442ba06, type: 3}
   m_Name: 05 Sleep SO
   m_EditorClassIdentifier: 
-  effect: {fileID: 8398200565444672619, guid: 300c7679f2db34106a2588d92d18979f, type: 3}

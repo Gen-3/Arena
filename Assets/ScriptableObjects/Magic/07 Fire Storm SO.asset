@@ -12,5 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b7fde2ed6814ed29918db3210576a6, type: 3}
   m_Name: 07 Fire Storm SO
   m_EditorClassIdentifier: 
-  fireEffect: {fileID: 8355672305754362968, guid: a1e83a7139cb842659c60d3724956df4,
-    type: 3}

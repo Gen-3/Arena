@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class SlowSO : MagicBaseSO
 {
-    [SerializeField] GameObject effect;
-
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
@@ -23,7 +21,5 @@ public class SlowSO : MagicBaseSO
         {
             Debug.Log($"{target}のスロウが失敗({successRate}%/R={rundomNumber})");
         }
-        target.MagicEffectNoDamage(user, target, effect, 2f);
-        TextManager.instance.UpdateConsole($"{user.unitName}はスロウを唱えた");
     }
 }
