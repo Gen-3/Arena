@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Battler : MonoBehaviour
 {
+    public bool done = false; 
+
     public string unitName;
     //ユニット自身のパラメータ
     public float str;
@@ -46,8 +49,25 @@ public class Battler : MonoBehaviour
 //    [SerializeField] GameObject deathEffect;
     [SerializeField] GameObject debuffEffect;
 
+    public virtual void DamageAndEffect(float amount, Battler attacker, Battler target, GameObject effectPrefab, float delayTime)
+    {
+        StartCoroutine(DamageAndEffectCor(amount, attacker, target, effectPrefab, delayTime));
+    }
+    public virtual IEnumerator DamageAndEffectCor(float amount, Battler attacker, Battler target, GameObject effectPrefab, float delayTime)
+    {
+        Vector3 effectPosition = new Vector3(target.transform.transform.position.x, target.transform.transform.position.y, target.transform.transform.position.z - 1);
+        Instantiate(effectPrefab, effectPosition, Quaternion.identity);
+        yield return new WaitForSeconds(delayTime);
+        Damage(amount,attacker,target);//ダメージ処理→Sleep解除処理→テキスト処理
+    }
     public virtual void Damage(float amount, Battler attacker, Battler target)
     {
+        StartCoroutine(DamageCoroutine(amount,attacker,target));
+    }
+
+    IEnumerator DamageCoroutine(float amount, Battler attacker, Battler target)
+    {
+        //ここに攻撃エフェクト呼び出しを入れる
         hp -= amount;
 
         //damageUI.ShowDamage(amount,attacker,target);
@@ -57,11 +77,40 @@ public class Battler : MonoBehaviour
             sleep = false;
             Debug.Log($"{unitName}のSleep状態が解除");
         }
-        DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.position, Quaternion.identity);
+        DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.transform.position, Quaternion.identity);
         damageUICanvus.ShowDamage(amount);
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (target is EnemyManager)
+        {
+            ((EnemyManager)target).CheckHP();
+        }
+
+        attacker.done = true;
     }
 
+
+
+    public void MagicEffectNoDamage(Battler attacker, Battler target, GameObject effectPrefab, float delayTime)
+    {
+        StartCoroutine(MagicEffectNoDamageCoroutine(attacker, target, effectPrefab, delayTime));
+    }
+    IEnumerator MagicEffectNoDamageCoroutine(Battler attacker, Battler target, GameObject effectPrefab, float delayTime)
+    {
+        Vector3 effectPosition = new Vector3(target.transform.transform.position.x, target.transform.transform.position.y, target.transform.transform.position.z - 1);
+        Instantiate(effectPrefab, effectPosition, Quaternion.identity);
+        yield return new WaitForSeconds(delayTime);
+        attacker.done = true;
+    }
+
+
+
     public virtual void ExecuteDirectAttack(Battler attacker, Battler target)
+    {
+        StartCoroutine(ExecuteDirectAttackCoroutine(attacker, target));
+    }
+    IEnumerator ExecuteDirectAttackCoroutine(Battler attacker, Battler target)
     {
         float hit = 70 + attacker.dex - target.agi;
         if (flash)
@@ -94,7 +143,6 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        //float damageAverage = (attacker.atk + powerCoefficient * attacker.atk - target.def - protectCoefficient * target.def) / 10;
         float damageMin = ((attacker.atk + powerCoefficient * attacker.str) * (attacker.dex / 100) - target.def - protectCoefficient * target.vit) / 5;
         if (damageMin < -9) { damageMin = -9; }
         float damageMax = (attacker.atk + powerCoefficient * attacker.str - target.def - protectCoefficient * target.vit) / 5;
@@ -105,10 +153,13 @@ public class Battler : MonoBehaviour
         {
             float damage = Random.Range(damageMin, damageMax);
             if (damage < 0) { damage = 0; };
-            target.Damage(damage,attacker,target);
+
+            Instantiate(attackEffect, target.transform.transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(0.1f);
+
+            target.Damage(damage, attacker, target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}~{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{(int)damage}のダメージ");
-            Instantiate(attackEffect, target.transform.transform.position, Quaternion.identity);
         }
         else
         {
@@ -117,10 +168,17 @@ public class Battler : MonoBehaviour
 
             DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.position, Quaternion.identity);
             damageUICanvus.ShowMiss();
+            done = true;
         }
     }
 
+    private GameObject fireBreathEffect;
     public virtual void ExecuteFireAttack(Battler attacker, Battler target)
+    {
+        StartCoroutine(ExecuteFireAttackCoroutine(attacker, target));
+    }
+
+    IEnumerator ExecuteFireAttackCoroutine(Battler attacker, Battler target)
     {
         float damageMin;
         float damageMax;
@@ -140,13 +198,19 @@ public class Battler : MonoBehaviour
 
         float damage = Random.Range(damageMin, damageMax);
         if (damage < 0) { damage = 0; };
-        target.Damage(damage,attacker,target);
+
+        Vector3 effectPos = new Vector3(attacker.transform.position.x, attacker.transform.position.y, attacker.transform.position.z - 2);
+        fireBreathEffect = Instantiate(fireEffect, effectPos, Quaternion.identity);
+        Vector3 effectTargetPosition = (target.transform.position - new Vector3(0, 0, 1));
+        fireBreathEffect.transform.DOMove(effectTargetPosition, 0.3f).SetEase(Ease.Linear);
+
+        yield return new WaitForSeconds(0.3f);
+
+        target.Damage(damage, attacker, target);
         Debug.Log($"{attacker.unitName}の炎で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{attacker.unitName}の炎で{target.unitName}に{(int)damage}のダメージ");
 
-        Vector3 effectPos =new Vector3(attacker.transform.position.x, attacker.transform.position.y, attacker.transform.position.z-1);
-        Instantiate(fireEffect, effectPos, Quaternion.identity);
-        //ターゲットのポジションに移動させて、到着したらDestroy
+        Destroy(fireBreathEffect.gameObject);
     }
 
     public virtual void ExecuteBowAttack(Battler attacker, Battler target)
@@ -201,6 +265,10 @@ public class Battler : MonoBehaviour
         {
             Debug.Log($"{attacker.unitName}の攻撃を{target.unitName}が回避した({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の矢を{target.unitName}が回避した");
+
+            DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.position, Quaternion.identity);
+            damageUICanvus.ShowMiss();
+            done = true;
         }
 
     }

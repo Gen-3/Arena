@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f0acf8521e61427996edb2e82846706, type: 3}
   m_Name: 03 Protect SO
   m_EditorClassIdentifier: 
+  effect: {fileID: 856444962849021408, guid: 08139aa2a80d84f42b13ffcc0ed2cbc5, type: 3}

@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class LightningSO : MagicBaseSO
 {
+    [SerializeField] GameObject lightningEffect;
+
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
@@ -21,15 +23,20 @@ public class LightningSO : MagicBaseSO
         }
         float damage = Random.Range(damageMin, damageMax);
         if (damage < 0) { damage = 0; }
-        target.Damage(damage,user,target);
+
+        target.DamageAndEffect(damage, user, target, lightningEffect, 1f);
+
+
+
+
 
         Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceMagic / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100)})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{user.unitName}のライトニングで{target.unitName}に{(int)damage}のダメージ");
-
+        /*
         if (target is EnemyManager)
         {
             ((EnemyManager)target).CheckHP();
-        }
+        }*/
         //敵の攻撃の場合のプレイヤーノックアウト判定やゲーオーバー処理はBattleManagerに記述
     }
 }

@@ -13,8 +13,6 @@ public class EnemyManager : Battler
     public int exp;
     public int gold;
     public int fame;
-    //行動済みフラグ
-    public bool done = false;
 
     public Vector3Int currentCell = default;
 
@@ -79,7 +77,8 @@ public class EnemyManager : Battler
                         MoveTo(tilemap.WorldToCell(player.transform.position));
                         moveCount++;
                         yield return new WaitForSeconds(0.1f);
-                    }                    
+                    }
+                    done = true;
                 }
                 else//③
                 {
@@ -100,8 +99,8 @@ public class EnemyManager : Battler
                         yield return new WaitForSeconds(1f);
 
                     }
+                    done = true;
                 }
-                done = true;
                 break;
 
             case "レッサーデーモン":
@@ -124,7 +123,6 @@ public class EnemyManager : Battler
                     player.magicList[1].Execute(this, player);
                     yield return new WaitForSeconds(1f);
                 }
-                done = true;
                 break;
 
             case "ウィル":
@@ -147,13 +145,13 @@ public class EnemyManager : Battler
                         player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
                         yield return new WaitForSeconds(1f);
                     }
+                    done = true;
                 }
                 else//②
                 {
                     player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
                     yield return new WaitForSeconds(1f);
                 }
-                done = true;
                 break;
 
             default: //その他近接系の敵全般のルーチン。優先順位は　①距離１なら直接攻撃　②距離２以上なら接近
@@ -172,8 +170,8 @@ public class EnemyManager : Battler
                         moveCount++;
                         yield return new WaitForSeconds(0.1f);
                     }
+                    done = true;
                 }
-                done = true;
                 break;
         }
 

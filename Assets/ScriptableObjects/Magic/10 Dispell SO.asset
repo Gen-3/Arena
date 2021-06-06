@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba0a87ddcf0e412c974435980177d77, type: 3}
   m_Name: 10 Dispell SO
   m_EditorClassIdentifier: 
+  effect: {fileID: 6072968488706365359, guid: a029ca36754dd497997214a355d01b31, type: 3}

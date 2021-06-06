@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eab137501bd44d0ba5724850e5c86bf, type: 3}
   m_Name: 09 Silence SO
   m_EditorClassIdentifier: 
+  effect: {fileID: 8631346213281787284, guid: bb8800569b1d249e3a53592eb0428558, type: 3}

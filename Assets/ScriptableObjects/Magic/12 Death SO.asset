@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05512d1f7ff5d4d519982c76977ed8f1, type: 3}
   m_Name: 12 Death SO
   m_EditorClassIdentifier: 
+  deathEffect: {fileID: 7238243331946212994, guid: 0c97f2261ee4c4e84b7f0e5041f2d2b3,
+    type: 3}

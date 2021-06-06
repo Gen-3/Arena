@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9d9e2506a5bf4a868ae4f26e5346bb3, type: 3}
   m_Name: 11 Lightning SO
   m_EditorClassIdentifier: 
+  lightningEffect: {fileID: 3023575618949629898, guid: 6d784a1f77dd3481e8384dd013d3a658,
+    type: 3}
