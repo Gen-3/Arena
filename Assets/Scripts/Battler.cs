@@ -143,9 +143,9 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        float damageMin = ((attacker.atk + powerCoefficient * attacker.str) * (attacker.dex / 100) - target.def - protectCoefficient * target.vit) / 5;
-        if (damageMin < -9) { damageMin = -9; }
-        float damageMax = (attacker.atk + powerCoefficient * attacker.str - target.def - protectCoefficient * target.vit) / 5;
+        float damageMin = (attacker.atk + powerCoefficient * attacker.str / 2 - target.def - protectCoefficient * target.vit / 2) / 5 - (1 - attacker.dex / 100) * 10 - 10;
+        if (damageMin < -5) { damageMin = -5; }
+        float damageMax = (attacker.atk + powerCoefficient * attacker.str / 2 - target.def - protectCoefficient * target.vit / 2) / 5;
         if (damageMax < 1) { damageMax = 1; }
 
         float rundomNumber = Random.Range(0f, 100f);
@@ -159,6 +159,7 @@ public class Battler : MonoBehaviour
 
             target.Damage(damage, attacker, target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}~{damageMax}/{hit}%)(残りHPは{target.hp})");
+            Debug.Log($"atk{attacker.atk} + Pc{powerCoefficient} * str{attacker.str} - def{target.def} - Pc{protectCoefficient} * vit{target.vit}");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{(int)damage}のダメージ");
         }
         else
@@ -184,15 +185,15 @@ public class Battler : MonoBehaviour
         float damageMax;
         if (attacker.atk > target.def)
         {
-            damageMin = (attacker.atk - target.def) / 5 * (1 - target.resistanceFire / 100);
-            damageMax = (attacker.atk - target.vit) / 5 * (1 - target.resistanceFire / 100);
+            damageMin = (attacker.atk - target.def) / 5 * (1 - target.resistanceFire / 100)-10;
+            damageMax = (attacker.atk - target.def) / 5 * (1 - target.resistanceFire / 100);
             if (damageMax < 1) { damageMax = 1; }
         }
         else
         {
             damageMin = (attacker.atk - target.def) / 5;
             if (damageMin < -9) { damageMin = -9; }
-            damageMax = (attacker.atk - target.vit) / 5;
+            damageMax = (attacker.atk - target.def) / 5;
             if (damageMax < 1) { damageMax = 1; }
         }
 

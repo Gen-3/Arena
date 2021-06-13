@@ -20,11 +20,11 @@ MonoBehaviour:
   men: 0
   hp: 0
   magicLevel: 0
-  weapon: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  subWeapon1: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  subWeapon2: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  shield: {fileID: 11400000, guid: 2d05df5dbfe074155a177239a9bc84ef, type: 2}
-  armor: {fileID: 11400000, guid: 32348d0006d2b4eaa8d02aadc7ea460d, type: 2}
+  weapon: {fileID: 0}
+  subWeapon1: {fileID: 0}
+  subWeapon2: {fileID: 0}
+  shield: {fileID: 0}
+  armor: {fileID: 0}
   gold: 0
   exp: 0
   fame: 100
@@ -45,22 +45,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0b1c82e48445e46528d1493118b21f40, type: 2}
   - {fileID: 11400000, guid: 48f6d8b88f5f14bb1b29cd6f6c4d3633, type: 2}
   - {fileID: 11400000, guid: 64cca868031a64cb2b2561ca03a9174b, type: 2}
-  runtimePlayerName: "\u5C71\u7530\u592A\u90CE"
-  runtimeStr: 60
-  runtimeDex: 30
-  runtimeAgi: 30
-  runtimeVit: 60
-  runtimeMen: 20
-  runtimeHp: 52
-  runtimeMagicLevel: 99
-  runtimeWeapon: {fileID: 11400000, guid: 8f7a0904117d448949c7e16b93264c96, type: 2}
+  runtimePlayerName: 
+  runtimeStr: 55
+  runtimeDex: 40
+  runtimeAgi: 55
+  runtimeVit: 50
+  runtimeMen: 0
+  runtimeHp: 41
+  runtimeMagicLevel: 6
+  runtimeWeapon: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
   runtimeSubWeapon1: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
   runtimeSubWeapon2: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  runtimeShield: {fileID: 11400000, guid: 70827efb5ceee43fbaaa1fefa708247b, type: 2}
+  runtimeShield: {fileID: 11400000, guid: 2d05df5dbfe074155a177239a9bc84ef, type: 2}
   runtimeArmor: {fileID: 11400000, guid: 32348d0006d2b4eaa8d02aadc7ea460d, type: 2}
-  runtimeGold: 163000
-  runtimeExp: 480
-  runtimeFame: 1480
-  runtimeMaxFame: 1480
-  runtimeMatchAmount: 31
-  runtimeWinAmount: 55
+  runtimeGold: 900
+  runtimeExp: 35
+  runtimeFame: 235
+  runtimeMaxFame: 235
+  runtimeMatchAmount: 4
+  runtimeWinAmount: 6

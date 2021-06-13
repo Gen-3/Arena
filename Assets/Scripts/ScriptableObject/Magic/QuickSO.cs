@@ -10,7 +10,7 @@ public class QuickSO : MagicBaseSO
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
-        user.power = true;
+        user.quick = true;
 
         target.MagicEffectNoDamage(user, target, effect, 2f);
         TextManager.instance.UpdateConsole($"{user.unitName}はクイックを唱えた");

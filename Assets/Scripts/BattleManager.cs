@@ -351,15 +351,17 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                    slowCoefficient = 1;
+                    slowCoefficient = 0;
                 }
-                if (player.agi - player.weight >= 10)
+                if (player.agi * (quickCoefficient - slowCoefficient) - player.weight >= 10)
                 {
-                    player.wt += (player.agi - player.weight) * quickCoefficient * slowCoefficient;
+                    player.wt += player.agi * (quickCoefficient - slowCoefficient) - player.weight;
+                    Debug.Log("wt増加量" + $"agi{player.agi} * (Qc{quickCoefficient} - Sc{slowCoefficient}) - weight{player.weight}");
                 }
                 else
                 {
-                    player.wt += 10 * quickCoefficient * slowCoefficient;
+                    player.wt += 10;
+                    Debug.Log("wt増加量は下限を下回った" + $"agi{player.agi} * (Qc{quickCoefficient} - Sc{slowCoefficient}) - weight{player.weight}");
                 }
             }
 

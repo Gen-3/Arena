@@ -17,7 +17,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 939693fd79241bc41bcfed94b0979800, type: 3}
     str: 0
     dex: 0
-    agi: 50
+    agi: 60
     vit: 0
     men: 50
     resistanceFire: 100

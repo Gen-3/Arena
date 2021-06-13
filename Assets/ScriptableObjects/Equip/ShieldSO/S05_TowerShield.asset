@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: S05_TowerShield
   m_EditorClassIdentifier: 
   equipName: "\u30BF\u30EF\u30FC\u30B7\u30FC\u30EB\u30C9"
-  weight: 100
+  weight: 25
   price: 5000
   def: 50
-  resistanceFire: 80
+  resistanceFire: 95

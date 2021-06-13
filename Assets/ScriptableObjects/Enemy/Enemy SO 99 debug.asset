@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: Enemy SO 99 debug
   m_EditorClassIdentifier: 
   enemyData:
-    name: deathball
+    name: "\u30C7\u30D0\u30C3\u30B0\u7528\u30E2\u3093\u30B9\u30BF\u30FC"
     sprite: {fileID: 21300000, guid: 32e506994ec70d444810c862d914089a, type: 3}
     str: 0
     dex: 30
     agi: 30
     vit: 0
     men: 30
+    resistanceFire: 0
+    resistanceMagic: 0
     wt: 0
     hp: 10
     atk: 30
     def: 20
     mob: 4
+    weight: 0
     exp: 20
     gold: 20
     fame: 20

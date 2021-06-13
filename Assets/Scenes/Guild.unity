@@ -1717,18 +1717,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: a2e1135d37c3552429765a3d54afffef, type: 3}
-    m_FontSize: 40
+    m_FontSize: 35
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 42
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u9B54\u6CD5\u30EC\u30D9\u30EB\u304C\u304Cx\u4E0A\u304C\u3063\u305F"
+  m_Text: "\u9B54\u6CD5\u30EC\u30D9\u30EB\u304C\u304C9\u4E0A\u304C\u308A\u300C\u30A8\u30CA\u30B8\u30FC\u30DC\u30EB\u30C8\u300D\u3092\u899A\u3048\u305F"
 --- !u!222 &1537720192
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -109,7 +109,7 @@ public class PlayerManager : Battler
         if (shield != null) { weight += shield.weight; }
         if (armor != null) { weight += armor.weight; }
 
-        mob = 2 + agi / 15 - weight * 3 / (str + 1);//暫定的な式
+        mob = 2 + agi / 15 - weight * 3 / (str + 1);
         if (mob < 1) { mob = 1; }
 
         resistanceMagic = 0;
@@ -173,11 +173,10 @@ public class PlayerManager : Battler
 
             if (BattleManager.instance.GetEnemyOnTheTileOf(targetPosition).Count != 0)
             {
-                battleManager.ClickedAttackButton = false;
-                BattleManager.instance.commandButtons.SetActive(false);
-
                 if (Vector3.Distance(transform.position, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0].transform.position) <= 1)
                 {
+                    battleManager.ClickedAttackButton = false;
+                    BattleManager.instance.commandButtons.SetActive(false);
                     ExecuteDirectAttack(this, battleManager.GetEnemyOnTheTileOf(targetPosition)[0]);
                     battleManager.GetEnemyOnTheTileOf(targetPosition)[0].CheckHP();
                 }
@@ -199,6 +198,7 @@ public class PlayerManager : Battler
                     {
                         magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[i - 1]);
                     }
+                    hp -= 2;
                     battleManager.selectedMagicID = default;
                 }
             }
@@ -211,6 +211,7 @@ public class PlayerManager : Battler
                 {
                     magicList[battleManager.selectedMagicID].Execute(this, battleManager.enemies[i - 1]);
                 }
+                hp -= 2;
                 battleManager.selectedMagicID = default;
             }
             else if(battleManager.selectedMagicID ==1 || battleManager.selectedMagicID == 2 || battleManager.selectedMagicID == 4 || battleManager.selectedMagicID == 5
@@ -222,6 +223,7 @@ public class PlayerManager : Battler
                     BattleManager.instance.commandButtons.SetActive(false);
 
                     magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0]);
+                    hp -= 2;
                     battleManager.selectedMagicID = default;
                 }
             }
@@ -233,6 +235,7 @@ public class PlayerManager : Battler
                     BattleManager.instance.commandButtons.SetActive(false);
 
                     magicList[battleManager.selectedMagicID].Execute(this, this);
+                    hp -= 2;
                     battleManager.selectedMagicID = default;
                 }
             }
@@ -244,6 +247,7 @@ public class PlayerManager : Battler
                     BattleManager.instance.commandButtons.SetActive(false);
 
                     magicList[battleManager.selectedMagicID].Execute(this, BattleManager.instance.GetEnemyOnTheTileOf(targetPosition)[0]);
+                    hp -= 2;
                     battleManager.selectedMagicID = default;
                 }
                 else if (tilemap.WorldToCell(clickedPosition) == tilemap.WorldToCell(transform.position))
@@ -252,12 +256,9 @@ public class PlayerManager : Battler
                     BattleManager.instance.commandButtons.SetActive(false);
 
                     magicList[battleManager.selectedMagicID].Execute(this, this);
+                    hp -= 2;
                     battleManager.selectedMagicID = default;
                 }
-            }
-            if (done)
-            {
-                hp -= 2;
             }
         }
         if (battleManager.ClickedThrowButton)//投擲

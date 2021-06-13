@@ -49,6 +49,7 @@ public class WizardGuildManager : MonoBehaviour
         }
         else
         {
+            int beforeMagiclevel = playerStatusSO.runtimeMagicLevel;
             if (playerStatusSO.runtimeMagicLevel < 90)
             {
                 randomNumberMemo = Random.Range(1, 10);
@@ -56,6 +57,51 @@ public class WizardGuildManager : MonoBehaviour
                 playerStatusSO.runtimeExp -= 100;
                 playerStatusSO.runtimeMagicLevel += randomNumberMemo;
                 resultText.text = $"魔法レベルが{randomNumberMemo}上がった";
+
+                if (beforeMagiclevel < 1 && playerStatusSO.runtimeMagicLevel >= 1)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「エナジーボルト」をおぼえた";
+                }
+                if (beforeMagiclevel < 5 && playerStatusSO.runtimeMagicLevel >= 5)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「フラッシュ」をおぼえた";
+                }
+                if (beforeMagiclevel < 10 && playerStatusSO.runtimeMagicLevel >= 10)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「プロテクト」をおぼえた";
+                }
+                if (beforeMagiclevel < 15 && playerStatusSO.runtimeMagicLevel >= 15)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「スロウ」をおぼえた";
+                }
+                if (beforeMagiclevel < 20 && playerStatusSO.runtimeMagicLevel >= 20)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「スリープ」をおぼえた";
+                }
+                if (beforeMagiclevel < 25 && playerStatusSO.runtimeMagicLevel >= 25)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「パワー」をおぼえた";
+                }
+                if (beforeMagiclevel < 30 && playerStatusSO.runtimeMagicLevel >= 30)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「ファイアストーム」をおぼえた";
+                }
+                if (beforeMagiclevel < 40 && playerStatusSO.runtimeMagicLevel >= 40)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「クイック」をおぼえた";
+                }
+                if (beforeMagiclevel < 50 && playerStatusSO.runtimeMagicLevel >= 50)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「サイレンス」をおぼえた";
+                }
+                if (beforeMagiclevel < 60 && playerStatusSO.runtimeMagicLevel >= 60)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「ディスペル」をおぼえた";
+                }
+                if (beforeMagiclevel < 80 && playerStatusSO.runtimeMagicLevel >= 80)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「ライトニング」をおぼえた";
+                }
             }
             else if(playerStatusSO.runtimeMagicLevel < 99)
             {
@@ -65,6 +111,10 @@ public class WizardGuildManager : MonoBehaviour
                 playerStatusSO.runtimeExp -= 100;
                 playerStatusSO.runtimeMagicLevel += randomNumberMemo;
                 resultText.text = $"魔法レベルが{randomNumberMemo}上がった";
+                if (playerStatusSO.runtimeMagicLevel >= 99)
+                {
+                    resultText.text = $"魔法レベルが{randomNumberMemo}上がり　「デス」をおぼえた";
+                }
             }
             else
             {

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: W02_Clab
   m_EditorClassIdentifier: 
   equipName: "\u30AF\u30E9\u30D6"
-  weight: 3
+  weight: 5
   price: 50
-  atk: 30
+  atk: 20
   twoHand: 0
   through: 0
   bow: 0

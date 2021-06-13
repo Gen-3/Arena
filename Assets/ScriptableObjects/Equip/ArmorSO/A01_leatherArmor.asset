@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A01_leatherArmor
   m_EditorClassIdentifier: 
   equipName: "\u30EC\u30B6\u30FC\u30A2\u30FC\u30DE\u30FC"
-  weight: 10
+  weight: 7
   price: 200
   def: 20
   resistanceFire: 10

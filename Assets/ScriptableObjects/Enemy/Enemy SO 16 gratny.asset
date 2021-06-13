@@ -25,7 +25,7 @@ MonoBehaviour:
     wt: 0
     hp: 80
     atk: 250
-    def: 255
+    def: 150
     mob: 2
     weight: 0
     exp: 100
