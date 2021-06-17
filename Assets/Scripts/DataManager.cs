@@ -65,4 +65,13 @@ public class DataManager : MonoBehaviour
         confirmLoadPanel.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.H))
+        {
+            Load();
+        }
+
+    }
+
 }

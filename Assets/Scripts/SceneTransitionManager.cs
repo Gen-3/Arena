@@ -9,4 +9,14 @@ public class SceneTransitionManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.H))
+        {
+            SceneManager.LoadScene("Home");
+        }
+
+    }
+
 }

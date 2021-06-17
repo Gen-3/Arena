@@ -730,7 +730,7 @@ public class BattleManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(commandButtons);
 
-        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 100)
+        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 200)
         {
             textManager.Quit();
 
@@ -793,7 +793,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject gameoverPanel;
     public GameObject gameover2Panel;
-    bool debugMode=false;
+    bool debugMode = false;
     public void GameOver()
     {
         playerStatusSO.runtimeExp += expPool;
@@ -807,7 +807,7 @@ public class BattleManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(commandButtons);
         //ここで死亡判定、引退判定
-        if (Random.Range(-100f, 100f) < player.vit)
+        if (Random.Range(-500f, 100f) < player.vit)
         {
             textManager.GameOver();
 

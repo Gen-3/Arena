@@ -46,21 +46,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 48f6d8b88f5f14bb1b29cd6f6c4d3633, type: 2}
   - {fileID: 11400000, guid: 64cca868031a64cb2b2561ca03a9174b, type: 2}
   runtimePlayerName: 
-  runtimeStr: 55
-  runtimeDex: 40
-  runtimeAgi: 55
-  runtimeVit: 50
+  runtimeStr: 0
+  runtimeDex: 0
+  runtimeAgi: 0
+  runtimeVit: 0
   runtimeMen: 0
-  runtimeHp: 41
-  runtimeMagicLevel: 6
-  runtimeWeapon: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  runtimeSubWeapon1: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  runtimeSubWeapon2: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
-  runtimeShield: {fileID: 11400000, guid: 2d05df5dbfe074155a177239a9bc84ef, type: 2}
-  runtimeArmor: {fileID: 11400000, guid: 32348d0006d2b4eaa8d02aadc7ea460d, type: 2}
-  runtimeGold: 900
-  runtimeExp: 35
-  runtimeFame: 235
-  runtimeMaxFame: 235
-  runtimeMatchAmount: 4
-  runtimeWinAmount: 6
+  runtimeHp: 0
+  runtimeMagicLevel: 0
+  runtimeWeapon: {fileID: 0}
+  runtimeSubWeapon1: {fileID: 0}
+  runtimeSubWeapon2: {fileID: 0}
+  runtimeShield: {fileID: 0}
+  runtimeArmor: {fileID: 0}
+  runtimeGold: 0
+  runtimeExp: 0
+  runtimeFame: 100
+  runtimeMaxFame: 100
+  runtimeMatchAmount: 0
+  runtimeWinAmount: 0
