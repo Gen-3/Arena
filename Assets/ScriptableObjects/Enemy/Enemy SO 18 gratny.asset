@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0528a6e08e27943a4bbe5ddb02f81c6e, type: 3}
-  m_Name: Enemy SO 10 will
+  m_Name: Enemy SO 18 gratny
   m_EditorClassIdentifier: 
   enemyData:
-    name: "\u30A6\u30A3\u30EB"
-    sprite: {fileID: 21300000, guid: 939693fd79241bc41bcfed94b0979800, type: 3}
+    name: "\u30B0\u30E9\u30C8\u30CB\u30FC"
+    sprite: {fileID: 21300000, guid: ab28a1397e902044a86f29494b6deb01, type: 3}
     str: 0
-    dex: 0
-    agi: 60
+    dex: 75
+    agi: 50
     vit: 0
-    men: 50
-    resistanceFire: 100
-    resistanceMagic: 100
+    men: 75
+    resistanceFire: 30
+    resistanceMagic: 20
     wt: 0
-    hp: 1
-    atk: 0
-    def: 0
-    mob: 3
+    hp: 80
+    atk: 250
+    def: 150
+    mob: 2
     weight: 0
-    exp: 20
-    gold: 20
-    fame: 20
+    exp: 100
+    gold: 500
+    fame: 50

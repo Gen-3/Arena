@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0528a6e08e27943a4bbe5ddb02f81c6e, type: 3}
-  m_Name: Enemy SO 15 lesserdaemon
+  m_Name: Enemy SO 13 drake
   m_EditorClassIdentifier: 
   enemyData:
-    name: "\u30EC\u30C3\u30B5\u30FC\u30C7\u30FC\u30E2\u30F3"
-    sprite: {fileID: 21300000, guid: e106b8c63c610f84496a56dea15a1b0f, type: 3}
+    name: "\u30C9\u30EC\u30A4\u30AF"
+    sprite: {fileID: 21300000, guid: ecd68e24a6459db4c81ed700ff9de8e3, type: 3}
     str: 0
-    dex: 60
-    agi: 60
+    dex: 40
+    agi: 50
     vit: 0
-    men: 60
-    resistanceFire: 50
-    resistanceMagic: 40
+    men: 30
+    resistanceFire: 40
+    resistanceMagic: 0
     wt: 0
-    hp: 65
-    atk: 210
-    def: 120
-    mob: 3
+    hp: 60
+    atk: 170
+    def: 60
+    mob: 4
     weight: 0
-    exp: 100
-    gold: 500
-    fame: 50
+    exp: 20
+    gold: 20
+    fame: 20

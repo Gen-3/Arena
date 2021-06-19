@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0528a6e08e27943a4bbe5ddb02f81c6e, type: 3}
-  m_Name: Enemy SO 11 golem
+  m_Name: Enemy SO 8 kong
   m_EditorClassIdentifier: 
   enemyData:
-    name: "\u30B4\u30EC\u30E0"
-    sprite: {fileID: 21300000, guid: 88dd54d26baf75c4384e412d1bb71cbd, type: 3}
+    name: "\u30B3\u30F3\u30B0"
+    sprite: {fileID: 21300000, guid: c86c89e1d0b29b14f81208ec9d0750b7, type: 3}
     str: 0
-    dex: 10
-    agi: 20
+    dex: 30
+    agi: 30
     vit: 0
     men: 30
-    resistanceFire: 30
-    resistanceMagic: 50
+    resistanceFire: 0
+    resistanceMagic: 0
     wt: 0
-    hp: 60
-    atk: 250
-    def: 80
+    hp: 40
+    atk: 130
+    def: 30
     mob: 1
     weight: 0
-    exp: 20
-    gold: 20
-    fame: 20
+    exp: 10
+    gold: 10
+    fame: 10
