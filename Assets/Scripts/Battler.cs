@@ -261,6 +261,7 @@ public class Battler : MonoBehaviour
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}-{damageMax}/{hit}%)(残りHPは{target.hp})");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の矢で{target.unitName}に{(int)damage}のダメージ");
             Instantiate(attackEffect, target.transform.transform.position, Quaternion.identity);
+
         }
         else
         {
@@ -268,9 +269,8 @@ public class Battler : MonoBehaviour
             TextManager.instance.UpdateConsole($"{attacker.unitName}の矢を{target.unitName}が回避した");
 
             DamageUI damageUICanvus = Instantiate(DamageUICanvas, target.transform.position, Quaternion.identity);
-            damageUICanvus.ShowMiss();
-            done = true;
+            damageUICanvus.ShowMiss();            
         }
-
+        done = true;
     }
 }

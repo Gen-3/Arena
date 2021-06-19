@@ -28,6 +28,6 @@ MonoBehaviour:
     def: 150
     mob: 3
     weight: 0
-    exp: 500
-    gold: 0
-    fame: 500
+    exp: 999
+    gold: 999
+    fame: 999

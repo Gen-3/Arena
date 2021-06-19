@@ -56,6 +56,11 @@ public class PlayerStatusManager : MonoBehaviour
         if (sceneName == "Home")
         {
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            if(playerStatusSO.runtimePlayerName == "")//名前入力できないUnityRoom用の設定
+
+            {
+                playerStatusSO.runtimePlayerName = "あなた";
+            }
             playerNameText.text = playerStatusSO.runtimePlayerName;
             strText.text = playerStatusSO.runtimeStr.ToString();
             dexText.text = playerStatusSO.runtimeDex.ToString();
@@ -100,7 +105,7 @@ public class PlayerStatusManager : MonoBehaviour
             goldText.text = playerStatusSO.runtimeGold.ToString();
             expText.text = playerStatusSO.runtimeExp.ToString();
             fameText.text = playerStatusSO.runtimeFame.ToString();
-            maxFameText.text = playerStatusSO.runtimeMaxFame.ToString();
+            maxFameText.text = "("+playerStatusSO.runtimeMaxFame.ToString()+")";
         }
         else
         {
