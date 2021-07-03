@@ -21,6 +21,7 @@ public class Battler : MonoBehaviour
     public float atk;
     public float def;
     public float mob;
+    public float bowAtk;
 
     //敵は既定値、自身は装備依存のパラメータ
     public float resistanceFire;//減衰割合を0-100で表す
@@ -255,9 +256,9 @@ public class Battler : MonoBehaviour
             powerCoefficient = 0;
         }
 
-        float damageMin = ((attacker.atk + powerCoefficient * attacker.str) * attacker.dex / 100 - target.def - protectCoefficient * target.vit) / 5;
+        float damageMin = (attacker.bowAtk + powerCoefficient * attacker.dex / 2 - target.def - protectCoefficient * target.vit / 2) / 5 - (1 - attacker.dex / 100) * 10 - 10;
         if (damageMin < -9) { damageMin = -9; }
-        float damageMax = (attacker.atk + powerCoefficient * attacker.str - target.def - protectCoefficient * target.vit) / 5;
+        float damageMax = (attacker.bowAtk + powerCoefficient * attacker.dex / 2 - target.def - protectCoefficient * target.vit / 2) / 5;
         if (damageMax < 1) { damageMax = 1; }
 
         float rundomNumber = Random.Range(0f, 100f);

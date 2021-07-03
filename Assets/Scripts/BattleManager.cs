@@ -215,21 +215,21 @@ public class BattleManager : MonoBehaviour
         //Tableから敵の組み合わせを選ぶ
         int stageCountMax = enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList.Count;
         int r = Random.Range(0, stageCountMax);
-        Debug.Log($"最初に出たrは「{r}」");
-        Debug.Log($"このステージの先頭の敵は{enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name}");
+        //Debug.Log($"最初に出たrは「{r}」");
+        //Debug.Log($"このステージの先頭の敵は{enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name}");
         if (stage != 0)
         {
-            Debug.Log($"前のステージの先頭の敵は{enemyTableSO.enemyGroupParent[rank * 5 + stage - 1].enemyGroupsSetList[latestEnemyTableID].enemyAndPositions[0].enemy.name}");
+            //Debug.Log($"前のステージの先頭の敵は{enemyTableSO.enemyGroupParent[rank * 5 + stage - 1].enemyGroupsSetList[latestEnemyTableID].enemyAndPositions[0].enemy.name}");
         }
-        int debugCount = 0;
+//        int debugCount = 0;
         if (stage != 0)
         {
             while (enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name == enemyTableSO.enemyGroupParent[rank * 5 + stage - 1].enemyGroupsSetList[latestEnemyTableID].enemyAndPositions[0].enemy.name)
             {
-                debugCount++;
-                Debug.Log($"再抽選{debugCount}回目");
+                //debugCount++;
+                //Debug.Log($"再抽選{debugCount}回目");
                 r = Random.Range(0, stageCountMax);
-                Debug.Log($"再抽選の結果r={r}/{enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name}");
+                //Debug.Log($"再抽選の結果r={r}/{enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name}");
             }
         }
         latestEnemyTableID = r;

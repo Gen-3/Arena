@@ -19,3 +19,4 @@ MonoBehaviour:
   twoHand: 1
   through: 0
   bow: 1
+  bowAtk: 10

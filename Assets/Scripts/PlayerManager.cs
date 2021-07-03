@@ -75,6 +75,10 @@ public class PlayerManager : Battler
         if (weapon != null)
         {
             atk = str + weapon.atk * (1 + dex / 100);
+            if (weapon.bow)
+            {
+                bowAtk = str + weapon.bowAtk * (1 + dex / 100);
+            }
         }
         else
         {
@@ -119,7 +123,11 @@ public class PlayerManager : Battler
     {
         if (weapon != null)
         {
-            atk = (int)(str + weapon.atk * (1 + dex / 100));
+            atk = str + weapon.atk * (1 + dex / 100);
+            if (weapon.bow)
+            {
+                bowAtk = str + weapon.bowAtk * (1 + dex / 100);
+            }
         }
         else
         {

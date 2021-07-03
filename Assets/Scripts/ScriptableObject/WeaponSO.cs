@@ -9,5 +9,6 @@ public class WeaponSO : EquipDataSO
     public bool twoHand;
     public bool through;
     public bool bow;
+    public int bowAtk;
 
 }
