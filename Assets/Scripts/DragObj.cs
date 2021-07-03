@@ -11,7 +11,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     // 親要素?
     public Transform parentTransform;
 
-    [SerializeField] weaponChangePanelAtHome weaponChangePanel = default;
+    [SerializeField] WeaponChangePanel weaponChangePanel = default;
 
     public void Set(WeaponSO weaponSO)//引数WeaponSOをドラッグオブジェクトのGameObjectの中身としてセットする。textの表記も変える。
     {
@@ -46,7 +46,7 @@ public class DragObj : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     {
         transform.SetParent(parentTransform);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-        weaponChangePanel.SetPlayerEquip();
+        weaponChangePanel.SetPlayerWeapon();
     }
 }
 // OnBeginDrag:親を変更

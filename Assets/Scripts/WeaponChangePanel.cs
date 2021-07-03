@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class weaponChangePanelAtHome : MonoBehaviour
+public class WeaponChangePanel : MonoBehaviour
 {
     [SerializeField] PlayerManager playerManager = default;
     public DropArea[] dropAreas = new DropArea[3];
 
 
-    public void SetPlayerEquip()
+    public void SetPlayerWeapon()
     {
         for (int i = 0; i < dropAreas.Length; i++)//①PlayerManagerの装備をドラッグオブジェクトに応じて変更する
         {

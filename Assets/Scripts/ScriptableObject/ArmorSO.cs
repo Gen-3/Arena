@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ArmorSO : WeaponSO
+public class ArmorSO : EquipDataSO
 {
     public int def;
     public int resistanceFire;

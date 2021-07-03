@@ -816,7 +816,7 @@ public class BattleManager : MonoBehaviour
     public WeaponSO beforeWeapon;
     public WeaponSO beforeSub1;
     public WeaponSO beforeSub2;
-    public weaponChangePanelAtHome weaponChangePanel;
+    public WeaponChangePanel weaponChangePanel;
     public void OnClickChangeButton()
     {
         ClickedButtonReset();

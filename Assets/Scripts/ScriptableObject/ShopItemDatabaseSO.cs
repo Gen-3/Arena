@@ -6,5 +6,5 @@ using UnityEngine;
 public class ShopItemDatabaseSO : ScriptableObject
 {
     //一覧
-    public List<WeaponSO> EquipList = new List<WeaponSO>();
+    public List<EquipDataSO> EquipList = new List<EquipDataSO>();
 }
