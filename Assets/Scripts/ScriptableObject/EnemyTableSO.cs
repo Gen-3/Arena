@@ -5,19 +5,19 @@ using UnityEngine;
 [CreateAssetMenu]
 public class EnemyTableSO : ScriptableObject
 {
-    public List<EnemyGroupParent> enemyTable = new List<EnemyGroupParent>();
+    public List<EnemyGroupParent> enemyGroupParent = new List<EnemyGroupParent>();//最も上位で全てを含む一覧リスト、SO自体
 }
 
 [System.Serializable]
 public class EnemyGroupParent
 {
-    public List<EnemyGroup> enemyTable = new List<EnemyGroup>();
+    public List<EnemyGroupSetList> enemyGroupsSetList = new List<EnemyGroupSetList>();//そのステージで登場する敵グループの候補
 }
 
 [System.Serializable]
-public class EnemyGroup
+public class EnemyGroupSetList
 {
-    public List<EnemyAndPosition> enemyList = new List<EnemyAndPosition>();
+    public List<EnemyAndPosition> enemyAndPositions = new List<EnemyAndPosition>();//
 }
 
 [System.Serializable]

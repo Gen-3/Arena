@@ -19,7 +19,7 @@ MonoBehaviour:
     dex: 75
     agi: 50
     vit: 0
-    men: 75
+    men: 40
     resistanceFire: 30
     resistanceMagic: 20
     wt: 0
@@ -30,4 +30,4 @@ MonoBehaviour:
     weight: 0
     exp: 100
     gold: 500
-    fame: 50
+    fame: 22

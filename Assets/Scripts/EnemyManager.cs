@@ -61,6 +61,7 @@ public class EnemyManager : Battler
         switch (unitName)
         {
             case "グレムリン":
+            case "ドレイク":
             case "バグ"://優先順位は　①距離1.5〜3なら炎を吐く　②距離3以上なら距離3まで接近　③距離1.5未満（接触状態）なら逃げようとして無理なら直接攻撃　　　
                 if (1.5 <= Vector3.Distance(player.transform.position, this.transform.position) && Vector3.Distance(player.transform.position, this.transform.position) <= 4)//①
                 {
@@ -104,6 +105,7 @@ public class EnemyManager : Battler
                 break;
 
             case "レッサーデーモン":
+            case "グレイデビル":
             case "アークデーモン"://PlayerよりMenが高ければ魔法連射、そうでないなら接近されるまで魔法を撃って接近されたら直接攻撃
                 if (Vector3.Distance(player.transform.position, this.transform.position) < 1.5)
                 {

@@ -10,7 +10,7 @@ public class SlowSO : MagicBaseSO
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
-        float successRate = user.men - target.men;
+        float successRate = 20 + user.men - target.men;
         if (successRate < 5) { successRate = 5; }
         float rundomNumber = Random.Range(0, 101);
 
@@ -18,12 +18,13 @@ public class SlowSO : MagicBaseSO
         {
             target.slow = true;
             Debug.Log($"{target}のスロウが成功({successRate}%/R={rundomNumber})");
+            TextManager.instance.UpdateConsole($"{target.unitName}の動きが遅くなった");
         }
         else
         {
             Debug.Log($"{target}のスロウが失敗({successRate}%/R={rundomNumber})");
+            TextManager.instance.UpdateConsole($"{user.unitName}のスロウは失敗した");
         }
         target.MagicEffectNoDamage(user, target, effect, 2f);
-        TextManager.instance.UpdateConsole($"{user.unitName}はスロウを唱えた");
     }
 }

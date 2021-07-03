@@ -24,6 +24,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     [SerializeField] int maxFame = default;
     [SerializeField] int matchAmount = default;
     [SerializeField] int winAmount = default;
+    [SerializeField] int gameClearFlag = 0;
 
     //存在する魔法のリスト
     public List<MagicBaseSO> magicList = new List<MagicBaseSO>();
@@ -47,6 +48,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     public int runtimeMaxFame = default;
     public int runtimeMatchAmount = default;
     public int runtimeWinAmount = default;
+    public int runtimeGameClearFlag;
 
     public enum Status
     {
@@ -139,6 +141,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
 
     public void Initialization()
     {
+        Debug.Log("PlayerSOのInitialization()を呼んだ");
         runtimePlayerName = playerName;
         runtimeStr = str;
         runtimeDex = dex;
@@ -159,6 +162,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         runtimeMatchAmount = matchAmount;
         runtimeWinAmount = winAmount;
         runtimeMagicLevel = magicLevel;
+        runtimeGameClearFlag = gameClearFlag;
     }
 
     public void OnAfterDeserialize()

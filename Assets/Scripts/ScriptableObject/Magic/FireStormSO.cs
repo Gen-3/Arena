@@ -11,12 +11,12 @@ public class FireStormSO: MagicBaseSO
     {
         base.Execute(user, target);
 
-        float damageMin = (user.men - target.men) / 10 * (1 - target.resistanceMagic / 100);
+        float damageMin = (user.men - target.men) / 10 * (1 - target.resistanceFire / 100);
         if (damageMin < -9)
         {
             damageMin = -9;
         }
-        float damageMax = ((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100);
+        float damageMax = ((user.men - target.men) / 10 + 10) * (1 - target.resistanceFire / 100);
         if (damageMax < 0)
         {
             damageMax = 0;
@@ -30,7 +30,7 @@ public class FireStormSO: MagicBaseSO
 
 
 
-        Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceMagic / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceMagic / 100)})(残りHPは{target.hp})");
+        Debug.Log($"{user.name}のエナジーボルトで{target.name}に{damage}のダメージ({(user.men - target.men) / 10 * (1 - target.resistanceFire / 100)}~{((user.men - target.men) / 10 + 10) * (1 - target.resistanceFire / 100)})(残りHPは{target.hp})");
         TextManager.instance.UpdateConsole($"{user.unitName}のファイアストームで{target.unitName}に{(int)damage}のダメージ");
         /*
         if (target is EnemyManager)

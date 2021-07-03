@@ -30,4 +30,4 @@ MonoBehaviour:
     weight: 0
     exp: 999
     gold: 999
-    fame: 999
+    fame: 100

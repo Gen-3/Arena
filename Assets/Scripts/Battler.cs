@@ -112,11 +112,19 @@ public class Battler : MonoBehaviour
     }
     IEnumerator ExecuteDirectAttackCoroutine(Battler attacker, Battler target)
     {
-        float hit = 70 + attacker.dex - target.agi;
+        float flashCoefficient = 0;
+        float slowCoefficient = 0;
+
         if (flash)
         {
-            hit /= 2;
+            flashCoefficient = 0.5f;
         }
+        if (target.slow)
+        {
+            slowCoefficient = 0.5f;
+        }
+
+        float hit = 70 + attacker.dex * (1 - flashCoefficient) - target.agi * (1 - slowCoefficient);
         if (hit < 5)
         {
             hit = 5;
@@ -144,7 +152,7 @@ public class Battler : MonoBehaviour
         }
 
         float damageMin = (attacker.atk + powerCoefficient * attacker.str / 2 - target.def - protectCoefficient * target.vit / 2) / 5 - (1 - attacker.dex / 100) * 10 - 10;
-        if (damageMin < -5) { damageMin = -5; }
+        if (damageMin < -1) { damageMin = -1; }
         float damageMax = (attacker.atk + powerCoefficient * attacker.str / 2 - target.def - protectCoefficient * target.vit / 2) / 5;
         if (damageMax < 1) { damageMax = 1; }
 
@@ -159,7 +167,7 @@ public class Battler : MonoBehaviour
 
             target.Damage(damage, attacker, target);
             Debug.Log($"{attacker.unitName}の攻撃で{target.unitName}に{damage}のダメージ！({damageMin}~{damageMax}/{hit}%)(残りHPは{target.hp})");
-            Debug.Log($"atk{attacker.atk} + Pc{powerCoefficient} * str{attacker.str} - def{target.def} - Pc{protectCoefficient} * vit{target.vit}");
+//            Debug.Log($"atk{attacker.atk} + Pc{powerCoefficient} * str{attacker.str} - def{target.def} - Pc{protectCoefficient} * vit{target.vit}");
             TextManager.instance.UpdateConsole($"{attacker.unitName}の攻撃で{target.unitName}に{(int)damage}のダメージ");
         }
         else

@@ -30,6 +30,7 @@ public class DataManager : MonoBehaviour
         string json = JsonUtility.ToJson(playerStatusSO, true);
         PlayerPrefs.SetString(SaveKey, json);
         confirmSavePanel.SetActive(false);
+
         Debug.Log("Save()");
         Debug.Log(json);
     }
@@ -42,8 +43,19 @@ public class DataManager : MonoBehaviour
 
         string json = PlayerPrefs.GetString(SaveKey);
         JsonUtility.FromJsonOverwrite(json, playerStatusSO);
+
         confirmLoadPanel.SetActive(false);
         playerStatusManager.Start();
+
+        Debug.Log("Load()");
+        Debug.Log($"jsonの中身を表示：{json}");
+    }
+    public void LoadAtStartScene()
+    {
+        playerStatusSO.Initialization();
+
+        string json = PlayerPrefs.GetString(SaveKey);
+        JsonUtility.FromJsonOverwrite(json, playerStatusSO);
 
         Debug.Log("Load()");
         Debug.Log($"jsonの中身を表示：{json}");

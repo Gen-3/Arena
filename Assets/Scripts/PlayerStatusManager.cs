@@ -56,11 +56,12 @@ public class PlayerStatusManager : MonoBehaviour
         if (sceneName == "Home")
         {
             playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            if(playerStatusSO.runtimePlayerName == "")//名前入力できないUnityRoom用の設定
 
+            if(playerStatusSO.runtimePlayerName == "")//名前入力できないUnityRoom用の設定
             {
                 playerStatusSO.runtimePlayerName = "あなた";
             }
+
             playerNameText.text = playerStatusSO.runtimePlayerName;
             strText.text = playerStatusSO.runtimeStr.ToString();
             dexText.text = playerStatusSO.runtimeDex.ToString();
@@ -139,8 +140,8 @@ public class PlayerStatusManager : MonoBehaviour
             return;
         }
 
+        /*
         KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().ToArray();
-
         if (Input.anyKeyDown) //※KeyDown のみ
         {
             foreach (var key in keyCodes)
@@ -152,7 +153,7 @@ public class PlayerStatusManager : MonoBehaviour
                 }
             }
         }
-
+        */
     }
 
     public void DicideEdit(string sceneName)

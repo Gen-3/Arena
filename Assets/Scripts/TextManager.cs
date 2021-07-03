@@ -72,7 +72,7 @@ public class TextManager : MonoBehaviour
         gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage+1}回戦で敗退しました";
         gameOvertext2.text = $"経験点：＋{BattleManager.instance.expPool}";
         gameOvertext3.text = $"金貨：＋{BattleManager.instance.goldPool}";
-        gameOvertext4.text = $"名声点：{BattleManager.instance.FameAtEntry}→{playerStatusSO.runtimeFame}";
+        gameOvertext4.text = $"名声点：{BattleManager.instance.fameAtEntry}→{playerStatusSO.runtimeFame}";
     }
     public void GameOver2()
     {
@@ -85,11 +85,65 @@ public class TextManager : MonoBehaviour
         gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で敗退しました";
         gameOvertext2.text = $"経験点：＋{BattleManager.instance.expPool}";
         gameOvertext3.text = $"金貨：＋{BattleManager.instance.goldPool}";
-        gameOvertext4.text = $"名声点：{BattleManager.instance.FameAtEntry}→{playerStatusSO.runtimeFame}";
+        gameOvertext4.text = $"名声点：{BattleManager.instance.fameAtEntry}→{playerStatusSO.runtimeFame}";
     }
     public void Quit2()
     {
         quit2text1.text = $"{playerStatusSO.runtimePlayerName}の名声は地に堕ちた...";
         quit2text2.text = $"最終成績：{playerStatusSO.runtimeMatchAmount}戦{playerStatusSO.runtimeWinAmount}勝";
+    }
+
+    [SerializeField] Text gameClearText;
+    public void GameClear()
+    {
+        gameClearText.text = $"{playerStatusSO.runtimePlayerName}の名は";
+    }
+
+
+    [SerializeField] Text magicExplain;
+    public void SelectMagicExplain(int id)
+    {
+        switch (id)
+        {
+        default:
+                magicExplain.text = "";
+                break;
+            case 1:
+                magicExplain.text = "敵１体を選択して使用\n対象を攻撃する";
+                break;
+            case 2:
+                magicExplain.text = "敵１体を選択して使用\n対象の命中率を下げる";
+                break;
+            case 3:
+                magicExplain.text = "自分を選択して使用\n自分の防御力を上げる";
+                break;
+            case 4:
+                magicExplain.text = "敵１体を選択して使用\n対象の素早さを下げる";
+                break;
+            case 5:
+                magicExplain.text = "敵１体を選択して使用\n対象を眠らせる";
+                break;
+            case 6:
+                magicExplain.text = "自分を選択して使用\n自分の攻撃力を上げる";
+                break;
+            case 7:
+                magicExplain.text = "中心となるマスを選択して使用\n中心とその周囲の計７セルにいる全ての敵を攻撃する";
+                break;
+            case 8:
+                magicExplain.text = "自分を選択して使用\n自分の行動速度を上げる";
+                break;
+            case 9:
+                magicExplain.text = "敵１体を選択して使用\n対象の魔法を封じる";
+                break;
+            case 10:
+                magicExplain.text = "自分または敵１体を選択して使用\n対象にかかっている魔法の効果を打ち消す";
+                break;
+            case 11:
+                magicExplain.text = "任意のセルを選択して使用\n全ての敵を攻撃する";
+                break;
+            case 12:
+                magicExplain.text = "敵１体を選択して使用\n敵は死ぬ";
+                break;
+        }
     }
 }

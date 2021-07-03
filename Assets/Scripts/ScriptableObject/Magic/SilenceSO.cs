@@ -10,7 +10,7 @@ public class SilenceSO : MagicBaseSO
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
-        float successRate = user.men - target.men;
+        float successRate = 30 + user.men - target.men;
         if (successRate < 5) { successRate = 5; }
         float rundomNumber = Random.Range(0, 101);
 
@@ -18,12 +18,13 @@ public class SilenceSO : MagicBaseSO
         {
             target.silence = true;
             Debug.Log($"{target}へのサイレンスが成功({successRate}%/R={rundomNumber})");
+            TextManager.instance.UpdateConsole($"{target.unitName}は魔法を使えなくなった");
         }
         else
         {
             Debug.Log($"{target}へのサイレンスが失敗({successRate}%/R={rundomNumber})");
+            TextManager.instance.UpdateConsole($"{user.unitName}のサイレンスは失敗した");
         }
         target.MagicEffectNoDamage(user, target, effect, 2f);
-        TextManager.instance.UpdateConsole($"{user.unitName}はサイレンスを唱えた");
     }
 }

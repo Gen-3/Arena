@@ -45,6 +45,21 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject magic11;
     [SerializeField] GameObject magic12;
 
+    //魔法実行ボタン
+    [SerializeField] GameObject magic01execute;
+    [SerializeField] GameObject magic02execute;
+    [SerializeField] GameObject magic03execute;
+    [SerializeField] GameObject magic04execute;
+    [SerializeField] GameObject magic05execute;
+    [SerializeField] GameObject magic06execute;
+    [SerializeField] GameObject magic07execute;
+    [SerializeField] GameObject magic08execute;
+    [SerializeField] GameObject magic09execute;
+    [SerializeField] GameObject magic10execute;
+    [SerializeField] GameObject magic11execute;
+    [SerializeField] GameObject magic12execute;
+
+
     //ボタン押下判定に使う
     public bool ClickedWaitButton = false;//待機
     public bool ClickedMoveButton = false;//移動
@@ -86,14 +101,18 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Text enemyName = default;
     [SerializeField] Image enemyImage = default;
 
-    public int FameAtEntry=default;
+    public int fameAtEntry = default;
 
     public int selectedMagicID = default;
 
     [SerializeField] GameObject changePanel = default;
 
+    private int reduceFameCoefficient = default;
+
+    private int latestEnemyTableID = default;
     private void Start()
     {
+        /*
         Debug.Log("デバッグ用コマンド Space+S：全ステータスを40にセットする");
         Debug.Log("デバッグ用コマンド Space+[：全ステータスを＋５");
         Debug.Log("デバッグ用コマンド Space+]：全ステータスをー５");
@@ -103,13 +122,13 @@ public class BattleManager : MonoBehaviour
         Debug.Log("デバッグ用コマンド Space+P：プレイヤーの情報を表示");
         Debug.Log("デバッグ用コマンド Space+E：敵の情報を表示");
         Debug.Log("デバッグ用コマンド Space+D：デバッグモード　ゲームオーバーにならない");
-
+        */
         selectRankPanel.SetActive(true);
     }
 
     public void SelectRank(int selectedRank)
     {
-        FameAtEntry = playerStatusSO.runtimeFame;
+        fameAtEntry = playerStatusSO.runtimeFame;
         rank = selectedRank;
         Setup(rank);
         selectRankPanel.SetActive(false);
@@ -194,9 +213,28 @@ public class BattleManager : MonoBehaviour
 
 
         //Tableから敵の組み合わせを選ぶ
-        int stageCountMax = enemyTableSO.enemyTable[rank * 5 + stage].enemyTable.Count;
+        int stageCountMax = enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList.Count;
         int r = Random.Range(0, stageCountMax);
-        List<EnemyAndPosition> enemyGroups = enemyTableSO.enemyTable[rank * 5 + stage].enemyTable[r].enemyList;
+        Debug.Log($"最初に出たrは「{r}」");
+        Debug.Log($"このステージの先頭の敵は{enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name}");
+        if (stage != 0)
+        {
+            Debug.Log($"前のステージの先頭の敵は{enemyTableSO.enemyGroupParent[rank * 5 + stage - 1].enemyGroupsSetList[latestEnemyTableID].enemyAndPositions[0].enemy.name}");
+        }
+        int debugCount = 0;
+        if (stage != 0)
+        {
+            while (enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name == enemyTableSO.enemyGroupParent[rank * 5 + stage - 1].enemyGroupsSetList[latestEnemyTableID].enemyAndPositions[0].enemy.name)
+            {
+                debugCount++;
+                Debug.Log($"再抽選{debugCount}回目");
+                r = Random.Range(0, stageCountMax);
+                Debug.Log($"再抽選の結果r={r}/{enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions[0].enemy.name}");
+            }
+        }
+        latestEnemyTableID = r;
+
+        List<EnemyAndPosition> enemyGroups = enemyTableSO.enemyGroupParent[rank * 5 + stage].enemyGroupsSetList[r].enemyAndPositions;
         foreach (EnemyAndPosition enemyAndPosition in enemyGroups)
         {
             EnemyData enemyData = enemyAndPosition.enemy.GetEnemy();
@@ -356,7 +394,7 @@ public class BattleManager : MonoBehaviour
                 if (player.agi * (quickCoefficient - slowCoefficient) - player.weight >= 10)
                 {
                     player.wt += player.agi * (quickCoefficient - slowCoefficient) - player.weight;
-                    Debug.Log("wt増加量" + $"agi{player.agi} * (Qc{quickCoefficient} - Sc{slowCoefficient}) - weight{player.weight}");
+                    //Debug.Log("wt増加量" + $"agi{player.agi} * (Qc{quickCoefficient} - Sc{slowCoefficient}) - weight{player.weight}");
                 }
                 else
                 {
@@ -542,6 +580,7 @@ public class BattleManager : MonoBehaviour
                 Destroy(GameObject.Find("Effect_Fire(Clone)"));
                 Destroy(GameObject.Find("Effect_Buff(Clone)"));
                 Destroy(GameObject.Find("Effect_Sleep(Clone)"));
+                Destroy(GameObject.Find("Effect_Sleep(Clone)"));
             }
 
 
@@ -644,10 +683,10 @@ public class BattleManager : MonoBehaviour
     {
         ClickedButtonReset();
         ClickedMagicButton = true;
-
+        ResetSelectMagicButton();
         selectMagicPanel.SetActive(true);
     }
-    public void OnClickSelectMagicButton(int ID)
+    public void OnClickSelectMagicExecuteButton(int ID)//実行時
     {
         selectedMagicID = ID;
         selectMagicPanel.SetActive(false);
@@ -656,6 +695,122 @@ public class BattleManager : MonoBehaviour
     {
         selectMagicPanel.SetActive(false);
         selectedMagicID = default;
+        ResetSelectMagicButton();
+    }
+    private void ResetSelectMagicButton()
+    {
+        magic01execute.SetActive(false);
+        magic02execute.SetActive(false);
+        magic03execute.SetActive(false);
+        magic04execute.SetActive(false);
+        magic05execute.SetActive(false);
+        magic06execute.SetActive(false);
+        magic07execute.SetActive(false);
+        magic08execute.SetActive(false);
+        magic09execute.SetActive(false);
+        magic10execute.SetActive(false);
+        magic11execute.SetActive(false);
+        magic12execute.SetActive(false);
+        textManager.SelectMagicExplain(0);
+    }
+    public void OnClickSelectMagicButton(int id)//選択時
+    {
+        ResetSelectMagicButton();
+        textManager.SelectMagicExplain(id);
+        switch (id)
+        {            
+            case 1:
+                magic01execute.SetActive(true);                
+                break;
+            case 2:
+                magic02execute.SetActive(true);
+                break;
+            case 3:
+                magic03execute.SetActive(true);
+                break;
+            case 4:
+                magic04execute.SetActive(true);
+                break;
+            case 5:
+                magic05execute.SetActive(true);
+                break;
+            case 6:
+                magic06execute.SetActive(true);
+                break;
+            case 7:
+                magic07execute.SetActive(true);
+                break;
+            case 8:
+                magic08execute.SetActive(true);
+                break;
+            case 9:
+                magic09execute.SetActive(true);
+                break;
+            case 10:
+                magic10execute.SetActive(true);
+                break;
+            case 11:
+                magic11execute.SetActive(true);
+                break;
+            case 12:
+                magic12execute.SetActive(true);
+                break;
+        }
+    }
+
+    private void ReduceByFame()
+    {
+        reduceFameCoefficient = 0;
+        if (playerStatusSO.runtimeMaxFame > 300 && rank <= 0)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 750 && rank <= 0)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 2000 && rank <= 0)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 0)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 750 && rank <= 1)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 2000 && rank <= 1)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 1)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 2000 && rank <= 2)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 2)
+        {
+            reduceFameCoefficient++;
+        }
+        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 3)
+        {
+            reduceFameCoefficient++;
+        }
+        if (reduceFameCoefficient > 0)
+        {
+            Debug.Log($"経験は{expPool}からの");
+            expPool = (int)(expPool * (float)((10.0 - reduceFameCoefficient) / 10));
+            Debug.Log($"{expPool}に減らされました");
+            Debug.Log($"名声は{famePool}からの");
+            famePool -= reduceFameCoefficient * 10;
+            Debug.Log($"{famePool}に減らされました");
+        }
+        reduceFameCoefficient = 0;
     }
 
     public WeaponSO beforeWeapon;
@@ -719,9 +874,10 @@ public class BattleManager : MonoBehaviour
     public GameObject quit2Panel;
     public void QuitConfirm()
     {
+        ReduceByFame();
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
-        playerStatusSO.runtimeFame += famePool - 80;
+        playerStatusSO.runtimeFame += famePool - 50;
         if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame)
         {
             playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
@@ -730,12 +886,12 @@ public class BattleManager : MonoBehaviour
         Destroy(player.gameObject);
         Destroy(commandButtons);
 
-        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 200)
+        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 100)
         {
             textManager.Quit();
 
             Debug.Log("逃げ出した……");
-            Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 80}の名声を得た");
+            Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 50}の名声を得た");
             (expPool, goldPool, famePool) = (0, 0, 0);
 
             QuitConfirmButtons.SetActive(false);
@@ -749,7 +905,7 @@ public class BattleManager : MonoBehaviour
                 textManager.Quit();
 
                 Debug.Log("逃げ出した……");
-                Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 80}の名声を得た");
+                Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool - 50}の名声を得た");
                 (expPool, goldPool, famePool) = (0, 0, 0);
 
                 QuitConfirmButtons.SetActive(false);
@@ -757,10 +913,9 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("?????????????????????????");
                 textManager.Quit2();
                 //名声が地に堕ちてゲームオーバー処理
-                playerStatusSO.runtimePlayerName = default;
+  /*              playerStatusSO.runtimePlayerName = default;
                 playerStatusSO.runtimeStr = default;
                 playerStatusSO.runtimeDex = default;
                 playerStatusSO.runtimeAgi = default;
@@ -779,7 +934,7 @@ public class BattleManager : MonoBehaviour
                 playerStatusSO.runtimeMaxFame = default;
                 playerStatusSO.runtimeMatchAmount = default;
                 playerStatusSO.runtimeWinAmount = default;
-
+  */
                 Debug.Log("名声は地に落ちた……");
                 QuitConfirmButtons.SetActive(false);
                 quit2Panel.SetActive(true);
@@ -796,6 +951,7 @@ public class BattleManager : MonoBehaviour
     bool debugMode = false;
     public void GameOver()
     {
+        ReduceByFame();
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
         playerStatusSO.runtimeFame += famePool;
@@ -832,7 +988,7 @@ public class BattleManager : MonoBehaviour
             {
                 textManager.GameOver2();
 
-                playerStatusSO.runtimePlayerName = default;
+/*                playerStatusSO.runtimePlayerName = default;
                 playerStatusSO.runtimeStr = default;
                 playerStatusSO.runtimeDex = default;
                 playerStatusSO.runtimeAgi = default;
@@ -851,7 +1007,7 @@ public class BattleManager : MonoBehaviour
                 playerStatusSO.runtimeMaxFame = default;
                 playerStatusSO.runtimeMatchAmount = default;
                 playerStatusSO.runtimeWinAmount = default;
-
+*/
                 Debug.Log("死亡した（キャラクターロスト）");
                 gameover2Panel.SetActive(true);
             }
@@ -882,7 +1038,8 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    public GameObject rankClear;
+    public GameObject rankClearPanel;
+    public GameObject gameClearPanel;
     IEnumerator RankClear()
     {
         switch (rank)
@@ -904,6 +1061,7 @@ public class BattleManager : MonoBehaviour
                 break;
         }
 
+        ReduceByFame();
         playerStatusSO.runtimeExp += expPool;
         playerStatusSO.runtimeGold += goldPool;
         playerStatusSO.runtimeFame += famePool;
@@ -913,10 +1071,17 @@ public class BattleManager : MonoBehaviour
         }
 
         textManager.RankClear();
+        rankClearPanel.SetActive(true);//あとで修正する。メッセージウインドウを出すなど。
 
-        rankClear.SetActive(true);//あとで修正する。メッセージウインドウを出すなど。
         Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
         (expPool, goldPool, famePool) = (0, 0, 0);
+
+        if (rank== 4 && stage == 4 && playerStatusSO.runtimeGameClearFlag == 0)
+        {
+            textManager.GameClear();
+            gameClearPanel.SetActive(true);
+            playerStatusSO.runtimeGameClearFlag += 1;
+        }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         sceneTransitionManager.LoadTo("Home");
     }

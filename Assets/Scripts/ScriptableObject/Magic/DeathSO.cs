@@ -19,7 +19,7 @@ public class DeathSO: MagicBaseSO
         {
             float damage = target.hp;
             target.DamageAndEffect(damage, user, target, deathEffect, 1f);
-            TextManager.instance.UpdateConsole($"{user.unitName}のデスで{target.unitName}に{(int)damage}のダメージ");
+            TextManager.instance.UpdateConsole($"{user.unitName}は息の根を止められた");
             Debug.Log($"デス成功(成功率{successRate}%)");
         }
         else
