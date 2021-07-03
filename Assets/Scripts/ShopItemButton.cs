@@ -11,9 +11,9 @@ public class ShopItemButton : MonoBehaviour
     [SerializeField] Text priceText = default;
     [SerializeField] Text weightText = default;
 
-    EquipDataSO equipDataSO = default;
+    WeaponSO equipDataSO = default;
 
-    public void Set(EquipDataSO equipDataSO)
+    public void Set(WeaponSO equipDataSO)
     {
         this.equipDataSO = equipDataSO;
         nameText.text = equipDataSO.equipName;

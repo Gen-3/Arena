@@ -19,7 +19,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] Text exchangeSubWeapon1Text = default;
     [SerializeField] Text exchangeSubWeapon2Text = default;
 
-    EquipDataSO selectedEquipSO = default;
+    WeaponSO selectedEquipSO = default;
 
     [SerializeField] PlayerStatusSO playerStatusSO = default;
 
@@ -43,7 +43,7 @@ public class ShopManager : MonoBehaviour
     public void ShowItemList()
     {
         listPanel.SetActive(true);
-        foreach(EquipDataSO equipDataSO in shopItemDatabase.EquipList)
+        foreach(WeaponSO equipDataSO in shopItemDatabase.EquipList)
         {
             ShopItemButton itemButton = Instantiate(itemButtonPrefab, listPanel.transform);
             itemButton.Set(equipDataSO);
@@ -113,7 +113,7 @@ public class ShopManager : MonoBehaviour
         confirmPanel.SetActive(false);
     }
 
-    public void SelectItem(EquipDataSO equipDataSO)
+    public void SelectItem(WeaponSO equipDataSO)
     {
         //ボタンをクリックしたときに、引数としてそのボタンのequipDataSOを渡させてここでShopManagerのequipDataSOを書き換える
         selectedEquipSO = equipDataSO;

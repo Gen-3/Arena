@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class WeaponSO : EquipDataSO
+public class WeaponSO : WeaponSO
 {
     public int atk;
     public bool twoHand;

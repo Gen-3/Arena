@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public abstract class EquipDataSO : ScriptableObject
+public abstract class WeaponSO : ScriptableObject
 {
     public string equipName;
     public int weight;

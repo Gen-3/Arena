@@ -5,33 +5,33 @@ using UnityEngine.UI;
 
 public class WeaponChangePanelAtHome : MonoBehaviour
 {
-    /*
+    
     [SerializeField] PlayerStatusSO playerStatusSO = default;
-    public DropArea[] dropAreas = new DropArea[3];
+    public DropArea[] dropAreas = new DropArea[5];
 
 
-    public void SetPlayerWeapon()
+    public void SetPlayerEquip()
     {
-        for (int i = 0; i < dropAreas.Length; i++)//①PlayerManagerの装備をドラッグオブジェクトに応じて変更する
+        for (int i = 0; i < dropAreas.Length; i++)//①PlayerStatusSOの装備をドラッグオブジェクトに応じて変更する
         {
-            DragObj dragObj = dropAreas[i].GetComponentInChildren<DragObj>();
-            if (dragObj != null)
+            DragObjAtHome dragObjAtHome = dropAreas[i].GetComponentInChildren<DragObjAtHome>();
+            if (dragObjAtHome != null)
             {
-                if (dragObj.weaponSO == null)
+                if (dragObjAtHome.equipDataSO == null)
                 {
                     continue;
                 }
                 if (i == 0)
                 {
-                    playerManager.weapon = dragObj.weaponSO;
+                    playerManager.weapon = dragObjAtHome.equipDataSO;
                 }
                 if (i == 1)
                 {
-                    playerManager.subWeapon1 = dragObj.weaponSO;
+                    playerManager.subWeapon1 = dragObjAtHome.equipDataSO;
                 }
                 if (i == 2)
                 {
-                    playerManager.subWeapon2 = dragObj.weaponSO;
+                    playerManager.subWeapon2 = dragObjAtHome.equipDataSO;
                 }
             }
         }
@@ -67,5 +67,4 @@ public class WeaponChangePanelAtHome : MonoBehaviour
         }
 
     }
-    */
 }
