@@ -51,8 +51,8 @@ MonoBehaviour:
   runtimeDex: 52
   runtimeAgi: 57
   runtimeVit: 59
-  runtimeMen: 99
-  runtimeHp: 65
+  runtimeMen: 60
+  runtimeHp: 58
   runtimeMagicLevel: 99
   runtimeWeapon: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
   runtimeSubWeapon1: {fileID: 11400000, guid: 4a5208a00045d4f6db9ce49e52a40ddf, type: 2}
@@ -63,6 +63,6 @@ MonoBehaviour:
   runtimeExp: 4873
   runtimeFame: 8223
   runtimeMaxFame: 8223
-  runtimeMatchAmount: 176
-  runtimeWinAmount: 160
+  runtimeMatchAmount: 206
+  runtimeWinAmount: 184
   runtimeGameClearFlag: 0

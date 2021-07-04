@@ -10,7 +10,7 @@ public class DispellSO : MagicBaseSO
     public override void Execute(Battler user, Battler target)
     {
         base.Execute(user, target);
-        float successRate = 50 + user.men - target.men ;
+        float successRate = 80 + user.men - target.men ;
         if (successRate < 5) { successRate = 5; }
         float rundomNumber = Random.Range(0, 100);
 
@@ -33,6 +33,5 @@ public class DispellSO : MagicBaseSO
         }
 
         target.MagicEffectNoDamage(user, target, effect, 2f);
-        TextManager.instance.UpdateConsole($"{user.unitName}はディスペルを唱えた");
     }
 }

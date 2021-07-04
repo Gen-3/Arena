@@ -28,6 +28,7 @@ public class EnemyManager : Battler
         wt = 0;
         hp = enemyData.hp;
         atk = enemyData.atk;
+        bowAtk = enemyData.bowAtk;
         def = enemyData.def;
         mob = enemyData.mob;
         GetComponent<SpriteRenderer>().sprite = enemyData.sprite;    //画像を変える
@@ -36,7 +37,6 @@ public class EnemyManager : Battler
         fame = enemyData.fame;
         resistanceFire = enemyData.resistanceFire;
         resistanceMagic = enemyData.resistanceMagic;
-        
     }
 
     public void SetTarget(PlayerManager player)
@@ -105,11 +105,10 @@ public class EnemyManager : Battler
                 break;
 
             case "レッサーデーモン":
-            case "グレイデビル":
-            case "アークデーモン"://PlayerよりMenが高ければ魔法連射、そうでないなら接近されるまで魔法を撃って接近されたら直接攻撃
+            case "グレイデビル"://PlayerよりMenが高ければ魔法連射、そうでないなら接近されるまで魔法を撃って接近されたら直接攻撃
                 if (Vector3.Distance(player.transform.position, this.transform.position) < 1.5)
                 {
-                    if (men > player.men)
+                    if ((atk - player.def) / 5 < 10)
                     {
                         player.magicList[1].Execute(this, player);
                         yield return new WaitForSeconds(1f);
@@ -122,8 +121,116 @@ public class EnemyManager : Battler
                 }
                 else
                 {
+                    if (!player.slow)//かかっていなければ20%スロウ
+                    {
+                        float r = Random.Range(0, 100);
+                        if (r < 20)
+                        {
+                            player.magicList[4].Execute(this, player);
+                            yield return new WaitForSeconds(1f);
+                            break;
+                        }
+                    }
+                    if (!player.flash)//かかっていなければ20%フラッシュ
+                    {
+                        float r = Random.Range(0, 100);
+                        if (r < 20)
+                        {
+                            player.magicList[2].Execute(this, player);
+                            yield return new WaitForSeconds(1f);
+                            break;
+                        }
+                    }
                     player.magicList[1].Execute(this, player);
                     yield return new WaitForSeconds(1f);
+                }
+                break;
+
+
+            case "アークデーモン"://
+                if (player.power || player.quick || player.protect)//プレイヤーに強化魔法がかかっていたら50%でディスペル
+                {
+                    float r = Random.Range(0, 100);
+                    if (r < 50)
+                    {
+                        player.magicList[10].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    }
+                }
+                if (this.slow||this.flash)//スロウかフラッシュをかけられていたら50%ディスペル
+                {
+                    float r = Random.Range(0, 100);
+                    if (r < 50)
+                    {
+                        player.magicList[10].Execute(this, this);
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    }
+                }
+                if (!player.slow)//かかっていなければ20%スロウ
+                {
+                    float r = Random.Range(0, 100);
+                    if (r < 20)
+                    {
+                        player.magicList[4].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    }
+                }
+                if (!player.flash)//かかっていなければ20%フラッシュ
+                {
+                    float r = Random.Range(0, 100);
+                    if (r < 20)
+                    {
+                        player.magicList[2].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    }
+                }
+                if (!player.silence)//かかっていなければ20%サイレンス
+                {
+                    float r = Random.Range(0, 100);
+                    if (r < 20)
+                    {
+                        player.magicList[9].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    }
+                }
+                if (Vector3.Distance(player.transform.position, this.transform.position) < 1.5)//近接の場合
+                {
+                    if((atk - player.def) / 5<10)//ダメージが通らないならエナボル
+                    {
+                        player.magicList[1].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
+                    }
+                    else//通るなら直接攻撃
+                    {
+                        ExecuteDirectAttack(this, player);
+                        yield return new WaitForSeconds(1f);
+                    }
+                }
+                else
+                {
+                    if ((atk - player.def) / 5 < 10)//ダメージが通らないならエナボル
+                    {
+                        player.magicList[1].Execute(this, player);
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    }
+                    else//通るなら近づく
+                    {
+                        int moveCount = 1;
+                        while (moveCount <= mob && Vector3.Distance(player.transform.position, transform.position) >= 1.5)
+                        {
+                            if (player == null) { break; }
+                            MoveTo(tilemap.WorldToCell(player.transform.position));
+                            moveCount++;
+                            yield return new WaitForSeconds(0.1f);
+                        }
+                        done = true;
+                    }
                 }
                 break;
 
@@ -151,6 +258,16 @@ public class EnemyManager : Battler
                 }
                 else//②
                 {
+                    if (!player.flash)//かかっていなければ20%フラッシュ
+                    {
+                        float r = Random.Range(0, 100);
+                        if (r < 20)
+                        {
+                            player.magicList[2].Execute(this, player);
+                            break;
+                        }
+                    }
+
                     player.magicList[1].Execute(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
                     yield return new WaitForSeconds(1f);
                 }

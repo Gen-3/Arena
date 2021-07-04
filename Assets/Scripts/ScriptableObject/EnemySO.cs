@@ -35,6 +35,7 @@ public class EnemyData
     public int wt;
     public int hp;
     public int atk;
+    public int bowAtk;
     public int def;
     public int mob;
     public int weight;
@@ -60,6 +61,7 @@ public class EnemyData
         wt = enemyData.wt;
         hp = enemyData.hp;
         atk = enemyData.atk;
+        bowAtk = enemyData.bowAtk;
         def = enemyData.def;
         mob = enemyData.mob;
 

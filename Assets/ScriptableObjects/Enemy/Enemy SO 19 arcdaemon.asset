@@ -19,12 +19,13 @@ MonoBehaviour:
     dex: 80
     agi: 80
     vit: 0
-    men: 80
+    men: 90
     resistanceFire: 50
     resistanceMagic: 50
     wt: 0
     hp: 100
     atk: 250
+    bowAtk: 0
     def: 150
     mob: 3
     weight: 0

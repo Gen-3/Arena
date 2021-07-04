@@ -74,8 +74,6 @@ public class BattleManager : MonoBehaviour
 
     public int[,] map = new int[11, 7];
 
-    public GameObject hitEffect;
-
     [SerializeField] EnemyTableSO enemyTableSO = default;
 
     int rank = 0;
@@ -539,8 +537,8 @@ public class BattleManager : MonoBehaviour
                         QuitButton.GetComponent<Button>().interactable = true;
                     }
 
-                    //hpが2以下のとき魔法ボタンを表示しない
-                    if (player.hp <= 2)
+                    //hpが2以下のとき または サイレンス状態の時魔法ボタンを表示しない
+                    if (player.hp <= 2||player.silence)
                     {
                         MagicButton.GetComponent<Button>().interactable = false;
                     }
