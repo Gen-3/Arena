@@ -1,28 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DropAreaAtHome : MonoBehaviour//, IDropHandler
+public class DropAreaAtHome : MonoBehaviour, IDropHandler
 {
-    /*
-    public void Setup()
+/*
+ * public void Setup()
     {
-        DragObj child = GetComponentInChildren<DragObj>();
+        DragObjAtHome child = GetComponentInChildren<DragObjAtHome>();
 
     }
-
+*/
     public void OnDrop(PointerEventData data)
     {
-        DragObj dragObj = data.pointerDrag.GetComponent<DragObj>();
+        DragObjAtHome dragObjAtHome = data.pointerDrag.GetComponent<DragObjAtHome>();
 
-        if (dragObj != null)
+        if (dragObjAtHome != null)
         {
-            Debug.Log("OnDrop()のdragObjがった場合を発動");
-            DragObj child = GetComponentInChildren<DragObj>();
+            Debug.Log("OnDrop()のdragObjがあった場合を発動");
+            DragObjAtHome child = GetComponentInChildren<DragObjAtHome>();
             // すでにオブジェクトを持っていれば,dragObjの情報を与える
             if (child)
             {
                 Debug.Log("チャイルドありました");
-                child.parentTransform = dragObj.parentTransform;//もともとのチャイルドを、ドラッグしてきたオブジェクトのピアレント（ドロップフィールド）のもとへ移動
+                child.parentTransform = dragObjAtHome.parentTransform;//もともとのチャイルドを、ドラッグしてきたオブジェクトのピアレント（ドロップフィールド）のもとへ移動
                 child.OnEndDrag(null);
             }
             else
@@ -30,12 +30,11 @@ public class DropAreaAtHome : MonoBehaviour//, IDropHandler
                 Debug.Log("チャイルドありませんでした");
             }
 
-            dragObj.parentTransform = this.transform;            // dragObjを自分の子にする
+            dragObjAtHome.parentTransform = this.transform;            // dragObjを自分の子にする
         }
         else
         {
             Debug.Log("dragObjがありません（何もドラッグしてへんで）");
         }
     }
-    */
 }

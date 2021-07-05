@@ -5,67 +5,90 @@ using UnityEngine.UI;
 
 public class WeaponChangePanelAtHome : MonoBehaviour
 {
-    /*
+    
     [SerializeField] PlayerStatusSO playerStatusSO = default;
-    public DropArea[] dropAreas = new DropArea[3];
+    public DropAreaAtHome[] dropAreasAtHome = new DropAreaAtHome[3];
 
+    private void Start()
+    {
+        DisplayPlayersWeapon();
+    }
 
     public void SetPlayerWeapon()
     {
-        for (int i = 0; i < dropAreas.Length; i++)//①PlayerManagerの装備をドラッグオブジェクトに応じて変更する
+        for (int i = 0; i < dropAreasAtHome.Length; i++)//①playerStatusSOの装備をドラッグオブジェクトに応じて変更する
         {
-            DragObj dragObj = dropAreas[i].GetComponentInChildren<DragObj>();
-            if (dragObj != null)
+            DragObjAtHome dragObjAtHome = dropAreasAtHome[i].GetComponentInChildren<DragObjAtHome>();
+            if (dragObjAtHome != null)
             {
-                if (dragObj.weaponSO == null)
+                if (dragObjAtHome.weaponSO == null)
                 {
                     continue;
                 }
                 if (i == 0)
                 {
-                    playerManager.weapon = dragObj.weaponSO;
+                    playerStatusSO.runtimeWeapon = dragObjAtHome.weaponSO;
                 }
                 if (i == 1)
                 {
-                    playerManager.subWeapon1 = dragObj.weaponSO;
+                    playerStatusSO.runtimeSubWeapon1 = dragObjAtHome.weaponSO;
                 }
                 if (i == 2)
                 {
-                    playerManager.subWeapon2 = dragObj.weaponSO;
+                    playerStatusSO.runtimeSubWeapon2 = dragObjAtHome.weaponSO;
                 }
             }
         }
 
     }
 
+
+    [SerializeField] Text shieldText = default;
+    [SerializeField] Text armorText = default;
     public void DisplayPlayersWeapon()
     {
-        for (int i = 0; i < dropAreas.Length; i++)//②PlayerManagerに反映された引数WeaponSOをドラッグオブジェクトのGameObjectの中身としてセットする。textの表記も変える。
+        for (int i = 0; i < dropAreasAtHome.Length; i++)//②playerStatusSOに反映された引数WeaponSOをドラッグオブジェクトのGameObjectの中身としてセットする。textの表記も変える。
         {
-            DragObj dragObj = dropAreas[i].GetComponentInChildren<DragObj>();
+            DragObjAtHome dragObjAtHome = dropAreasAtHome[i].GetComponentInChildren<DragObjAtHome>();
 
-            if (dragObj != null)
+            if (dragObjAtHome != null)
             {
 
                 if (i == 0)
                 {
-                    dragObj.Set(playerManager.weapon);
+                    dragObjAtHome.Set(playerStatusSO.runtimeWeapon);
                 }
                 if (i == 1)
                 {
-                    dragObj.Set(playerManager.subWeapon1);
+                    dragObjAtHome.Set(playerStatusSO.runtimeSubWeapon1);
                 }
                 if (i == 2)
                 {
-                    dragObj.Set(playerManager.subWeapon2);
+                    dragObjAtHome.Set(playerStatusSO.runtimeSubWeapon2);
                 }
             }
             else
             {
                 Debug.Log(i + "dragObjがsnullらしい");
             }
-        }
 
+            if (playerStatusSO.runtimeShield != null)
+            {
+                shieldText.text = playerStatusSO.runtimeShield.equipName;
+            }
+            else
+            {
+                shieldText.text = "";
+            }
+
+            if (playerStatusSO.runtimeArmor != null)
+            {
+                armorText.text = playerStatusSO.runtimeArmor.equipName;
+            }
+            else
+            {
+                armorText.text = "";
+            }
+        }
     }
-    */
 }

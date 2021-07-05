@@ -292,6 +292,35 @@ public class EnemyManager : Battler
                     done = true;
                 }
                 break;
+
+            case "アーチャー（未実装）"://優先順位は　①距離1.5未満（接触状態）なら逃げようとして無理なら直接攻撃　②距離1.5以上なら投射攻撃　　　
+                if (Vector3.Distance(player.transform.position, this.transform.position) <= 1.5)//①
+                {
+                    int moveCount = 1;
+                    Vector3 beforeposition = transform.position;
+                    while (moveCount <= mob)
+                    {
+                        if (player == null) { break; }
+                        MoveAwayFrom(tilemap.WorldToCell(player.transform.position));//移動しようとして無理やったらエナジーボルトを撃つようにする
+                        moveCount++;
+                        yield return new WaitForSeconds(0.1f);
+                    }
+
+                    Vector3 currentPosition = transform.position;
+                    if (beforeposition == currentPosition)
+                    {
+                        ExecuteBowAttack(this,player);
+                        yield return new WaitForSeconds(1f);
+                    }
+                    done = true;
+                }
+                else//②
+                {
+                    ExecuteBowAttack(this, player);//魔法を打つのにplayerの魔法リストを借りているだけ
+                    yield return new WaitForSeconds(1f);
+                }
+                break;
+                
         }
 
     }

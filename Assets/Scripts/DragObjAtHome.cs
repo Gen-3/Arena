@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DragObjAtHome : MonoBehaviour//, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragObjAtHome : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    /*
+    
     public WeaponSO weaponSO = default;
     [SerializeField] Text text = default;
     // 親要素?
     public Transform parentTransform;
 
-    [SerializeField] WeaponChangePanel weaponChangePanel = default;
+    [SerializeField] WeaponChangePanelAtHome weaponChangePanelAtHome = default;
 
     public void Set(WeaponSO weaponSO)//引数WeaponSOをドラッグオブジェクトのGameObjectの中身としてセットする。textの表記も変える。
     {
@@ -32,7 +32,7 @@ public class DragObjAtHome : MonoBehaviour//, IBeginDragHandler, IDragHandler, I
     {
         parentTransform = transform.parent;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
-        transform.SetParent(transform.parent.parent);
+        transform.SetParent(transform.parent.parent.parent);//transform.SetParent(transform.parent.parent)から変更してみた
         //transform.SetParent(transform.parent);
     }
 
@@ -47,9 +47,8 @@ public class DragObjAtHome : MonoBehaviour//, IBeginDragHandler, IDragHandler, I
     {
         transform.SetParent(parentTransform);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-        weaponChangePanel.SetPlayerWeapon();
-    }
-    */
+        weaponChangePanelAtHome.SetPlayerWeapon();
+    }    
 }
 // OnBeginDrag:親を変更
 // OnDrag:位置の変更
