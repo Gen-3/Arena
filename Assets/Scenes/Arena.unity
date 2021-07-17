@@ -1353,7 +1353,6 @@ MonoBehaviour:
   ClickedChangeButton: 0
   AttackButtonToggle: 0
   sceneTransitionManager: {fileID: 1030569220}
-  hitEffect: {fileID: 0}
   enemyTableSO: {fileID: 11400000, guid: c9d66a1ea1aa74b749af0ff91a5f9607, type: 2}
   stage: 0
   playerStatusSO: {fileID: 11400000, guid: f86ec52a916d94e828a7eb780a293f98, type: 2}
@@ -1374,7 +1373,7 @@ MonoBehaviour:
   playerName: {fileID: 439745135}
   enemyName: {fileID: 1965220614}
   enemyImage: {fileID: 1061186041}
-  FameAtEntry: 0
+  fameAtEntry: 0
   selectedMagicID: 0
   changePanel: {fileID: 613070049}
   selectMagicPanel: {fileID: 1373127946}
@@ -3823,7 +3822,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Home_FirstTime
+          m_StringArgument: Start
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &471755635
@@ -5551,7 +5550,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Home_FirstTime
+          m_StringArgument: Start
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &649301362
@@ -7713,7 +7712,6 @@ MonoBehaviour:
   rankClearText1: {fileID: 1993384299}
   rankClearText2: {fileID: 76656114}
   rankClearText3: {fileID: 341837541}
-  playerStatusSO: {fileID: 11400000, guid: f86ec52a916d94e828a7eb780a293f98, type: 2}
   gameOvertext1: {fileID: 1522066303}
   gameOvertext2: {fileID: 1459335668}
   gameOvertext3: {fileID: 84120355}
@@ -16934,6 +16932,7 @@ MonoBehaviour:
   atk: 0
   def: 0
   mob: 0
+  bowAtk: 0
   resistanceFire: 0
   resistanceMagic: 0
   weight: 0

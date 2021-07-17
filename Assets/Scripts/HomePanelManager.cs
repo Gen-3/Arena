@@ -5,7 +5,7 @@ using UnityEngine;
 public class HomePanelManager : MonoBehaviour
 {
     [SerializeField] GameObject changeEquipPanelAtHome = default;
-    [SerializeField] PlayerStatusSO playerStatusSO = default;
+//    [SerializeField] PlayerStatusSO playerStatusSO = default;
     [SerializeField] WeaponSO W00_None = default;
     [SerializeField] ShieldSO S00_None = default;
     [SerializeField] ArmorSO A00_None = default;
@@ -28,7 +28,7 @@ public class HomePanelManager : MonoBehaviour
     public void ThrowAwayWeapon()//各ボタンにアタッチ
     {
         n = 1;
-        if (playerStatusSO.runtimeWeapon != W00_None)
+        if (PlayerStatusSO.Entity.runtimeWeapon != W00_None)
         {
             confirmThrowAwayPanel.SetActive(true);
         }
@@ -36,7 +36,7 @@ public class HomePanelManager : MonoBehaviour
     public void ThrowAwaySubWeapon1()//各ボタンにアタッチ
     {
         n = 2;
-        if (playerStatusSO.runtimeSubWeapon1 != W00_None)
+        if (PlayerStatusSO.Entity.runtimeSubWeapon1 != W00_None)
         {
             confirmThrowAwayPanel.SetActive(true);
         }
@@ -44,7 +44,7 @@ public class HomePanelManager : MonoBehaviour
     public void ThrowAwaySubWeapon2()//各ボタンにアタッチ
     {
         n = 3;
-        if (playerStatusSO.runtimeSubWeapon2 != W00_None)
+        if (PlayerStatusSO.Entity.runtimeSubWeapon2 != W00_None)
         {
             confirmThrowAwayPanel.SetActive(true);
         }
@@ -52,7 +52,7 @@ public class HomePanelManager : MonoBehaviour
     public void ThrowAwayShield()//各ボタンにアタッチ
     {
         n = 4;
-        if (playerStatusSO.runtimeShield != S00_None)
+        if (PlayerStatusSO.Entity.runtimeShield != S00_None)
         {
             confirmThrowAwayPanel.SetActive(true);
         }
@@ -60,7 +60,7 @@ public class HomePanelManager : MonoBehaviour
     public void ThrowAwayArmor()//各ボタンにアタッチ
     {
         n = 5;
-        if (playerStatusSO.runtimeArmor != A00_None)
+        if (PlayerStatusSO.Entity.runtimeArmor != A00_None)
         {
             confirmThrowAwayPanel.SetActive(true);
         }
@@ -70,19 +70,19 @@ public class HomePanelManager : MonoBehaviour
         switch (n)
         {
             case 1:
-                playerStatusSO.runtimeWeapon = W00_None;
+                PlayerStatusSO.Entity.runtimeWeapon = W00_None;
                 break;
             case 2:
-                playerStatusSO.runtimeSubWeapon1 = W00_None;
+                PlayerStatusSO.Entity.runtimeSubWeapon1 = W00_None;
                 break;
             case 3:
-                playerStatusSO.runtimeSubWeapon2 = W00_None;
+                PlayerStatusSO.Entity.runtimeSubWeapon2 = W00_None;
                 break;
             case 4:
-                playerStatusSO.runtimeShield = S00_None;
+                PlayerStatusSO.Entity.runtimeShield = S00_None;
                 break;
             case 5:
-                playerStatusSO.runtimeArmor = A00_None;
+                PlayerStatusSO.Entity.runtimeArmor = A00_None;
                 break;
             default:
                 break;

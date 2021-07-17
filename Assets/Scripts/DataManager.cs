@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    [SerializeField] PlayerStatusSO playerStatusSO = default;
+//    [SerializeField] PlayerStatusSO PlayerStatusSO.Entity = default;
     [SerializeField] PlayerStatusManager playerStatusManager = default;
     [SerializeField] GameObject confirmSavePanel;
     [SerializeField] GameObject confirmLoadPanel;
@@ -27,7 +27,7 @@ public class DataManager : MonoBehaviour
     // PlayerStatusSOをセーブしたい
     public void Save()
     {
-        string json = JsonUtility.ToJson(playerStatusSO, true);
+        string json = JsonUtility.ToJson(PlayerStatusSO.Entity, true);
         PlayerPrefs.SetString(SaveKey, json);
         confirmSavePanel.SetActive(false);
 
@@ -39,10 +39,10 @@ public class DataManager : MonoBehaviour
 
     public void Load()
     {
-        playerStatusSO.Initialization();
+        PlayerStatusSO.Entity.Initialization();
 
         string json = PlayerPrefs.GetString(SaveKey);
-        JsonUtility.FromJsonOverwrite(json, playerStatusSO);
+        JsonUtility.FromJsonOverwrite(json, PlayerStatusSO.Entity);
 
         confirmLoadPanel.SetActive(false);
         playerStatusManager.Start();
@@ -52,10 +52,10 @@ public class DataManager : MonoBehaviour
     }
     public void LoadAtStartScene()
     {
-        playerStatusSO.Initialization();
+        PlayerStatusSO.Entity.Initialization();
 
         string json = PlayerPrefs.GetString(SaveKey);
-        JsonUtility.FromJsonOverwrite(json, playerStatusSO);
+        JsonUtility.FromJsonOverwrite(json, PlayerStatusSO.Entity);
 
         Debug.Log("Load()");
         Debug.Log($"jsonの中身を表示：{json}");

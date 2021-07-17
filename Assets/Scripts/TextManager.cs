@@ -53,10 +53,10 @@ public class TextManager : MonoBehaviour
     {
         rankClearText1.text = $"経験点：＋{BattleManager.instance.expPool}";
         rankClearText2.text = $"金貨：＋{BattleManager.instance.goldPool}";
-        rankClearText3.text = $"名声点：{playerStatusSO.runtimeFame - BattleManager.instance.famePool}→{playerStatusSO.runtimeFame}";
+        rankClearText3.text = $"名声点：{PlayerStatusSO.Entity.runtimeFame - BattleManager.instance.famePool}→{PlayerStatusSO.Entity.runtimeFame}";
     }
 
-    public PlayerStatusSO playerStatusSO;
+//    public PlayerStatusSO playerStatusSO;
     [SerializeField] Text gameOvertext1;
     [SerializeField] Text gameOvertext2;
     [SerializeField] Text gameOvertext3;
@@ -69,34 +69,34 @@ public class TextManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage+1}回戦で敗退しました";
+        gameOvertext1.text = $"{PlayerStatusSO.Entity.runtimePlayerName}は{BattleManager.instance.stage+1}回戦で敗退しました";
         gameOvertext2.text = $"経験点：＋{BattleManager.instance.expPool}";
         gameOvertext3.text = $"金貨：＋{BattleManager.instance.goldPool}";
-        gameOvertext4.text = $"名声点：{BattleManager.instance.fameAtEntry}→{playerStatusSO.runtimeFame}";
+        gameOvertext4.text = $"名声点：{BattleManager.instance.fameAtEntry}→{PlayerStatusSO.Entity.runtimeFame}";
     }
     public void GameOver2()
     {
-        gameOver2text1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で死亡しました...";
-        gameOver2text2.text = $"最終成績：{playerStatusSO.runtimeMatchAmount}戦{playerStatusSO.runtimeWinAmount}勝";
-        gameOver2text3.text = $"最終名声点：{playerStatusSO.runtimeFame}";
+        gameOver2text1.text = $"{PlayerStatusSO.Entity.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で死亡しました...";
+        gameOver2text2.text = $"最終成績：{PlayerStatusSO.Entity.runtimeMatchAmount}戦{PlayerStatusSO.Entity.runtimeWinAmount}勝";
+        gameOver2text3.text = $"最終名声点：{PlayerStatusSO.Entity.runtimeFame}";
     }
     public void Quit()
     {
-        gameOvertext1.text = $"{playerStatusSO.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で敗退しました";
+        gameOvertext1.text = $"{PlayerStatusSO.Entity.runtimePlayerName}は{BattleManager.instance.stage + 1}回戦で敗退しました";
         gameOvertext2.text = $"経験点：＋{BattleManager.instance.expPool}";
         gameOvertext3.text = $"金貨：＋{BattleManager.instance.goldPool}";
-        gameOvertext4.text = $"名声点：{BattleManager.instance.fameAtEntry}→{playerStatusSO.runtimeFame}";
+        gameOvertext4.text = $"名声点：{BattleManager.instance.fameAtEntry}→{PlayerStatusSO.Entity.runtimeFame}";
     }
     public void Quit2()
     {
-        quit2text1.text = $"{playerStatusSO.runtimePlayerName}の名声は地に堕ちた...";
-        quit2text2.text = $"最終成績：{playerStatusSO.runtimeMatchAmount}戦{playerStatusSO.runtimeWinAmount}勝";
+        quit2text1.text = $"{PlayerStatusSO.Entity.runtimePlayerName}の名声は地に堕ちた...";
+        quit2text2.text = $"最終成績：{PlayerStatusSO.Entity.runtimeMatchAmount}戦{PlayerStatusSO.Entity.runtimeWinAmount}勝";
     }
 
     [SerializeField] Text gameClearText;
     public void GameClear()
     {
-        gameClearText.text = $"{playerStatusSO.runtimePlayerName}の名は";
+        gameClearText.text = $"{PlayerStatusSO.Entity.runtimePlayerName}の名は";
     }
 
 

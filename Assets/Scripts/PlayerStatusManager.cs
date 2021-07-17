@@ -23,7 +23,7 @@ public class PlayerStatusManager : MonoBehaviour
     int usablePoint = 200;
     [SerializeField] Text usablePointText = default;
     [SerializeField] Text magicLevelTextFirstTime = default;
-    [SerializeField] PlayerStatusSO playerStatusSO = default;
+    //[SerializeField] PlayerStatusSO playerStatusSO = default;
 
     //UI関連
     [SerializeField] Text playerNameText = default;
@@ -55,62 +55,62 @@ public class PlayerStatusManager : MonoBehaviour
 
         if (sceneName == "Home")
         {
-            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            PlayerStatusSO.Entity.runtimeHp = PlayerStatusSO.Entity.runtimeVit * 33 / 40 + PlayerStatusSO.Entity.runtimeMen * 7 / 40;
 
-            if(playerStatusSO.runtimePlayerName == "")//名前入力できないUnityRoom用の設定
+            if(PlayerStatusSO.Entity.runtimePlayerName == "")//名前入力できないUnityRoom用の設定
             {
-                playerStatusSO.runtimePlayerName = "あなた";
+                PlayerStatusSO.Entity.runtimePlayerName = "あなた";
             }
 
-            playerNameText.text = playerStatusSO.runtimePlayerName;
-            strText.text = playerStatusSO.runtimeStr.ToString();
-            dexText.text = playerStatusSO.runtimeDex.ToString();
-            agiText.text = playerStatusSO.runtimeAgi.ToString();
-            vitText.text = playerStatusSO.runtimeVit.ToString();
-            menText.text = playerStatusSO.runtimeMen.ToString();
-            hpText.text = playerStatusSO.runtimeHp.ToString();
-            MagicLevelText.text = playerStatusSO.runtimeMagicLevel.ToString();
+            playerNameText.text = PlayerStatusSO.Entity.runtimePlayerName;
+            strText.text = PlayerStatusSO.Entity.runtimeStr.ToString();
+            dexText.text = PlayerStatusSO.Entity.runtimeDex.ToString();
+            agiText.text = PlayerStatusSO.Entity.runtimeAgi.ToString();
+            vitText.text = PlayerStatusSO.Entity.runtimeVit.ToString();
+            menText.text = PlayerStatusSO.Entity.runtimeMen.ToString();
+            hpText.text = PlayerStatusSO.Entity.runtimeHp.ToString();
+            MagicLevelText.text = PlayerStatusSO.Entity.runtimeMagicLevel.ToString();
             
-            if (playerStatusSO.runtimeWeapon == null)
+            if (PlayerStatusSO.Entity.runtimeWeapon == null)
             {
-                Debug.Log($"playerStatusSO.runtimeWeaponがnullだったので0番をセットしました");
-                playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
+                Debug.Log($"PlayerStatusSO.Entity.runtimeWeaponがnullだったので0番をセットしました");
+                PlayerStatusSO.Entity.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             }
-            if (playerStatusSO.runtimeSubWeapon1 == null)
+            if (PlayerStatusSO.Entity.runtimeSubWeapon1 == null)
             {
-                Debug.Log($"playerStatusSO.runtimeSubWeapon1がnullだったので0番をセットしました");
-                playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
+                Debug.Log($"PlayerStatusSO.Entity.runtimeSubWeapon1がnullだったので0番をセットしました");
+                PlayerStatusSO.Entity.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             }
-            if (playerStatusSO.runtimeSubWeapon2 == null)
+            if (PlayerStatusSO.Entity.runtimeSubWeapon2 == null)
             {
-                Debug.Log($"playerStatusSO.runtimeSubWeapon2がnullだったので0番をセットしました");
-                playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
+                Debug.Log($"PlayerStatusSO.Entity.runtimeSubWeapon2がnullだったので0番をセットしました");
+                PlayerStatusSO.Entity.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
             }
-            if (playerStatusSO.runtimeShield == null)
+            if (PlayerStatusSO.Entity.runtimeShield == null)
             {
-                Debug.Log($"playerStatusSO.runtimeShieldがnullだったので0番をセットしました");
-                playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;
+                Debug.Log($"PlayerStatusSO.Entity.runtimeShieldがnullだったので0番をセットしました");
+                PlayerStatusSO.Entity.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;
             }
-            if (playerStatusSO.runtimeArmor == null)
+            if (PlayerStatusSO.Entity.runtimeArmor == null)
             {
-                Debug.Log($"playerStatusSO.runtimeArmorがnullだったので0番をセットしました");
-                playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;
+                Debug.Log($"PlayerStatusSO.Entity.runtimeArmorがnullだったので0番をセットしました");
+                PlayerStatusSO.Entity.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;
             }
 
-            weaponText.text = playerStatusSO.runtimeWeapon.equipName;
-            subWeapon1Text.text = playerStatusSO.runtimeSubWeapon1.equipName;
-            subWeapon2Text.text = playerStatusSO.runtimeSubWeapon2.equipName;
-            shieldText.text = playerStatusSO.runtimeShield.equipName;
-            armorText.text = playerStatusSO.runtimeArmor.equipName;
+            weaponText.text = PlayerStatusSO.Entity.runtimeWeapon.equipName;
+            subWeapon1Text.text = PlayerStatusSO.Entity.runtimeSubWeapon1.equipName;
+            subWeapon2Text.text = PlayerStatusSO.Entity.runtimeSubWeapon2.equipName;
+            shieldText.text = PlayerStatusSO.Entity.runtimeShield.equipName;
+            armorText.text = PlayerStatusSO.Entity.runtimeArmor.equipName;
 
-            goldText.text = playerStatusSO.runtimeGold.ToString();
-            expText.text = playerStatusSO.runtimeExp.ToString();
-            fameText.text = playerStatusSO.runtimeFame.ToString();
-            maxFameText.text = "("+playerStatusSO.runtimeMaxFame.ToString()+")";
+            goldText.text = PlayerStatusSO.Entity.runtimeGold.ToString();
+            expText.text = PlayerStatusSO.Entity.runtimeExp.ToString();
+            fameText.text = PlayerStatusSO.Entity.runtimeFame.ToString();
+            maxFameText.text = "("+PlayerStatusSO.Entity.runtimeMaxFame.ToString()+")";
         }
         else
         {
-            playerStatusSO.Initialization();
+            PlayerStatusSO.Entity.Initialization();
         }
     }
 
@@ -119,22 +119,22 @@ public class PlayerStatusManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.LeftBracket))
         {
-            playerStatusSO.runtimeStr += 5;
-            playerStatusSO.runtimeDex += 5;
-            playerStatusSO.runtimeAgi += 5;
-            playerStatusSO.runtimeVit += 5;
-            playerStatusSO.runtimeMen += 5;
+            PlayerStatusSO.Entity.runtimeStr += 5;
+            PlayerStatusSO.Entity.runtimeDex += 5;
+            PlayerStatusSO.Entity.runtimeAgi += 5;
+            PlayerStatusSO.Entity.runtimeVit += 5;
+            PlayerStatusSO.Entity.runtimeMen += 5;
             Debug.Log("ステータス＋５");
             Start();
             return;
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.RightBracket))
         {
-            playerStatusSO.runtimeStr -= 5;
-            playerStatusSO.runtimeDex -= 5;
-            playerStatusSO.runtimeAgi -= 5;
-            playerStatusSO.runtimeVit -= 5;
-            playerStatusSO.runtimeMen -= 5;
+            PlayerStatusSO.Entity.runtimeStr -= 5;
+            PlayerStatusSO.Entity.runtimeDex -= 5;
+            PlayerStatusSO.Entity.runtimeAgi -= 5;
+            PlayerStatusSO.Entity.runtimeVit -= 5;
+            PlayerStatusSO.Entity.runtimeMen -= 5;
             Debug.Log("ステータス−５");
             Start();
             return;
@@ -174,7 +174,7 @@ public class PlayerStatusManager : MonoBehaviour
         }
         usablePoint -= 5;
         usablePointText.text = $"残りポイント:{usablePoint}";
-        playerStatusSO.SetStatus(type, 5);
+        PlayerStatusSO.Entity.SetStatus(type, 5);
         SetMagicLevel();
     }
     public void DownStatus(PlayerStatusSO.Status type)
@@ -187,34 +187,34 @@ public class PlayerStatusManager : MonoBehaviour
         }
         usablePoint += 5 ;
         usablePointText.text = $"残りポイント:{usablePoint}";
-        playerStatusSO.SetStatus(type, -5);
+        PlayerStatusSO.Entity.SetStatus(type, -5);
         SetMagicLevel();
     }
 
     public int GetStatus(PlayerStatusSO.Status type)
     {
-        return playerStatusSO.GetStatus(type);
+        return PlayerStatusSO.Entity.GetStatus(type);
     }
 
     public void SetMagicLevel()
     {
-        if (playerStatusSO.runtimeMen < 20)
+        if (PlayerStatusSO.Entity.runtimeMen < 20)
         {
-            playerStatusSO.runtimeMagicLevel = 0;
+            PlayerStatusSO.Entity.runtimeMagicLevel = 0;
         }
-        else if (playerStatusSO.runtimeMen < 30)
-            playerStatusSO.runtimeMagicLevel = 1;
-        else if (playerStatusSO.runtimeMen < 40)
-            playerStatusSO.runtimeMagicLevel = 5;
-        else if (playerStatusSO.runtimeMen < 50)
-            playerStatusSO.runtimeMagicLevel = 10;
-        else if (playerStatusSO.runtimeMen < 65)
-            playerStatusSO.runtimeMagicLevel = 15;
-        else if (playerStatusSO.runtimeMen < 80)
-            playerStatusSO.runtimeMagicLevel = 20;
-        else if (playerStatusSO.runtimeMen < 100)
-            playerStatusSO.runtimeMagicLevel = 25;
-        magicLevelTextFirstTime.text = playerStatusSO.runtimeMagicLevel.ToString();
+        else if (PlayerStatusSO.Entity.runtimeMen < 30)
+            PlayerStatusSO.Entity.runtimeMagicLevel = 1;
+        else if (PlayerStatusSO.Entity.runtimeMen < 40)
+            PlayerStatusSO.Entity.runtimeMagicLevel = 5;
+        else if (PlayerStatusSO.Entity.runtimeMen < 50)
+            PlayerStatusSO.Entity.runtimeMagicLevel = 10;
+        else if (PlayerStatusSO.Entity.runtimeMen < 65)
+            PlayerStatusSO.Entity.runtimeMagicLevel = 15;
+        else if (PlayerStatusSO.Entity.runtimeMen < 80)
+            PlayerStatusSO.Entity.runtimeMagicLevel = 20;
+        else if (PlayerStatusSO.Entity.runtimeMen < 100)
+            PlayerStatusSO.Entity.runtimeMagicLevel = 25;
+        magicLevelTextFirstTime.text = PlayerStatusSO.Entity.runtimeMagicLevel.ToString();
     }
 
 }

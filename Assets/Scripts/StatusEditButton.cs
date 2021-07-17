@@ -9,7 +9,7 @@ public class StatusEditButton : MonoBehaviour
     [SerializeField] Text statusText = default;
     PlayerStatusManager playerStatus = default;
 
-    [SerializeField] PlayerStatusSO playerStatusSO=default;
+//    [SerializeField] PlayerStatusSO playerStatusSO=default;
     [SerializeField] InputField inputField=default;
 
     private void Start()
@@ -32,6 +32,6 @@ public class StatusEditButton : MonoBehaviour
 
     public void InputName()
     {
-        playerStatusSO.runtimePlayerName = inputField.text;
+        PlayerStatusSO.Entity.runtimePlayerName = inputField.text;
     }
 }

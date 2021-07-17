@@ -21,7 +21,7 @@ public class ShopManager : MonoBehaviour
 
     EquipDataSO selectedEquipSO = default;
 
-    [SerializeField] PlayerStatusSO playerStatusSO = default;
+//    [SerializeField] PlayerStatusSO playerStatusSO = default;
 
     [SerializeField] Text goldAmount = default;
  
@@ -36,7 +36,7 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        goldAmount.text = playerStatusSO.runtimeGold.ToString();
+        goldAmount.text = PlayerStatusSO.Entity.runtimeGold.ToString();
         ShowItemList();
     }
 
@@ -58,7 +58,7 @@ public class ShopManager : MonoBehaviour
     //アイテムの購入
     public void BuyItem()
     {
-        if (playerStatusSO.runtimeGold < selectedEquipSO.price)
+        if (PlayerStatusSO.Entity.runtimeGold < selectedEquipSO.price)
         {
             Debug.Log("所持金がたりない");
             return;
@@ -66,27 +66,27 @@ public class ShopManager : MonoBehaviour
 
         if (selectedEquipSO is WeaponSO)
         {
-            if (playerStatusSO.TrySetWeapon(selectedEquipSO as WeaponSO))//as節抜いたらどうなる？
+            if (PlayerStatusSO.Entity.TrySetWeapon(selectedEquipSO as WeaponSO))//as節抜いたらどうなる？
             {
                 Debug.Log("武器の装備に成功（空きがあった）");
-                playerStatusSO.runtimeGold -= selectedEquipSO.price;
+                PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
                 selectedEquipSO = default;
             }
             else
             {
                 Debug.Log("どれと交換するか確認");
-                exchangeWeaponText.text = playerStatusSO.runtimeWeapon.equipName;
-                exchangeSubWeapon1Text.text = playerStatusSO.runtimeSubWeapon1.equipName;
-                exchangeSubWeapon2Text.text = playerStatusSO.runtimeSubWeapon2.equipName;
+                exchangeWeaponText.text = PlayerStatusSO.Entity.runtimeWeapon.equipName;
+                exchangeSubWeapon1Text.text = PlayerStatusSO.Entity.runtimeSubWeapon1.equipName;
+                exchangeSubWeapon2Text.text = PlayerStatusSO.Entity.runtimeSubWeapon2.equipName;
                 exchangeWeaponPanel.SetActive(true);
             }
         }
         if (selectedEquipSO is ShieldSO)
         {
-            if (playerStatusSO.TrySetShield(selectedEquipSO as ShieldSO))
+            if (PlayerStatusSO.Entity.TrySetShield(selectedEquipSO as ShieldSO))
             {
                 Debug.Log("盾の装備に成功（空きがあった）");
-                playerStatusSO.runtimeGold -= selectedEquipSO.price;
+                PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
                 selectedEquipSO = default;
             }
             else
@@ -97,10 +97,10 @@ public class ShopManager : MonoBehaviour
         }
         if(selectedEquipSO is ArmorSO)
         {
-            if(playerStatusSO.TrySetArmor(selectedEquipSO as ArmorSO))
+            if(PlayerStatusSO.Entity.TrySetArmor(selectedEquipSO as ArmorSO))
             {
                 Debug.Log("鎧の装備に成功（空きがあった）");
-                playerStatusSO.runtimeGold -= selectedEquipSO.price;
+                PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
                 selectedEquipSO = default;
             }
             else
@@ -109,7 +109,7 @@ public class ShopManager : MonoBehaviour
                 exchangePanel.SetActive(true);
             }
         }
-        goldAmount.text = playerStatusSO.runtimeGold.ToString();
+        goldAmount.text = PlayerStatusSO.Entity.runtimeGold.ToString();
         confirmPanel.SetActive(false);
     }
 
@@ -144,14 +144,14 @@ public class ShopManager : MonoBehaviour
     {
         if(selectedEquipSO is ShieldSO)
         {
-            playerStatusSO.runtimeShield = selectedEquipSO as ShieldSO;
+            PlayerStatusSO.Entity.runtimeShield = selectedEquipSO as ShieldSO;
         }
         else if(selectedEquipSO is ArmorSO)
         {
-            playerStatusSO.runtimeArmor = selectedEquipSO as ArmorSO;
+            PlayerStatusSO.Entity.runtimeArmor = selectedEquipSO as ArmorSO;
         }
-        playerStatusSO.runtimeGold -= selectedEquipSO.price;
-        goldAmount.text = playerStatusSO.runtimeGold.ToString();
+        PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
+        goldAmount.text = PlayerStatusSO.Entity.runtimeGold.ToString();
         selectedEquipSO = default;
         exchangePanel.SetActive(false);
     }
@@ -176,30 +176,30 @@ public class ShopManager : MonoBehaviour
         Debug.Log("OnYesExchangeWeapon()が呼ばれた");
         if (slot == "main")
         {
-            playerStatusSO.runtimeWeapon = selectedEquipSO as WeaponSO;
+            PlayerStatusSO.Entity.runtimeWeapon = selectedEquipSO as WeaponSO;
             Debug.Log("メインウェポンを入れ替えました");
-            playerStatusSO.runtimeGold -= selectedEquipSO.price;
+            PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
             selectedEquipSO = default;
             exchangeWeaponPanel.SetActive(false);
         }
         if (slot == "sub1")
         {
-            playerStatusSO.runtimeSubWeapon1 = selectedEquipSO as WeaponSO;
+            PlayerStatusSO.Entity.runtimeSubWeapon1 = selectedEquipSO as WeaponSO;
             Debug.Log("サブウェポン1を入れ替えました");
-            playerStatusSO.runtimeGold -= selectedEquipSO.price;
+            PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
             selectedEquipSO = default;
             exchangeWeaponPanel.SetActive(false);
         }
         if (slot == "sub2")
         {
-            playerStatusSO.runtimeSubWeapon2 = selectedEquipSO as WeaponSO;
+            PlayerStatusSO.Entity.runtimeSubWeapon2 = selectedEquipSO as WeaponSO;
             Debug.Log("サブウェポン2を入れ替えました");
-            playerStatusSO.runtimeGold -= selectedEquipSO.price;
+            PlayerStatusSO.Entity.runtimeGold -= selectedEquipSO.price;
             selectedEquipSO = default;
             exchangeWeaponPanel.SetActive(false);
         }
         slot = default;
-        goldAmount.text = playerStatusSO.runtimeGold.ToString();
+        goldAmount.text = PlayerStatusSO.Entity.runtimeGold.ToString();
     }
     public void OnNoExchangeWeapon()
     {

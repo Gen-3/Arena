@@ -3,8 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
+public class PlayerStatusSO : ScriptableObject//,ISerializationCallbackReceiver
 {
+    //MyScriptableObjectが保存してある場所のパス
+    public const string PATH = "PlayerStatusSO";
+
+    //MyScriptableObjectの実体
+    private static PlayerStatusSO _entity;
+    public static PlayerStatusSO Entity
+    {
+        get
+        {
+            //初アクセス時にロードする
+            if (_entity == null)
+            {
+                _entity = Resources.Load<PlayerStatusSO>(PATH);
+
+                //ロード出来なかった場合はエラーログを表示
+                if (_entity == null)
+                {
+                    Debug.LogError(PATH + " not found");
+                }
+            }
+
+            return _entity;
+        }
+    }
+
+
+
+
     [SerializeField] string playerName = default;
     [SerializeField] int str = default;
     [SerializeField] int dex = default;
@@ -164,7 +192,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
         runtimeMagicLevel = magicLevel;
         runtimeGameClearFlag = gameClearFlag;
     }
-
+/*
     public void OnAfterDeserialize()
     {
     }
@@ -172,7 +200,7 @@ public class PlayerStatusSO : ScriptableObject,ISerializationCallbackReceiver
     public void OnBeforeSerialize()
     {
     }
-
+*/
 }
 
 

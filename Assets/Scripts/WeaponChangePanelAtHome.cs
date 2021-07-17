@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WeaponChangePanelAtHome : MonoBehaviour
 {
     
-    [SerializeField] PlayerStatusSO playerStatusSO = default;
+//    [SerializeField] PlayerStatusSO playerStatusSO = default;
     public DropAreaAtHome[] dropAreasAtHome = new DropAreaAtHome[3];
 
     private void Start()
@@ -27,15 +27,15 @@ public class WeaponChangePanelAtHome : MonoBehaviour
                 }
                 if (i == 0)
                 {
-                    playerStatusSO.runtimeWeapon = dragObjAtHome.weaponSO;
+                    PlayerStatusSO.Entity.runtimeWeapon = dragObjAtHome.weaponSO;
                 }
                 if (i == 1)
                 {
-                    playerStatusSO.runtimeSubWeapon1 = dragObjAtHome.weaponSO;
+                    PlayerStatusSO.Entity.runtimeSubWeapon1 = dragObjAtHome.weaponSO;
                 }
                 if (i == 2)
                 {
-                    playerStatusSO.runtimeSubWeapon2 = dragObjAtHome.weaponSO;
+                    PlayerStatusSO.Entity.runtimeSubWeapon2 = dragObjAtHome.weaponSO;
                 }
             }
         }
@@ -56,15 +56,15 @@ public class WeaponChangePanelAtHome : MonoBehaviour
 
                 if (i == 0)
                 {
-                    dragObjAtHome.Set(playerStatusSO.runtimeWeapon);
+                    dragObjAtHome.Set(PlayerStatusSO.Entity.runtimeWeapon);
                 }
                 if (i == 1)
                 {
-                    dragObjAtHome.Set(playerStatusSO.runtimeSubWeapon1);
+                    dragObjAtHome.Set(PlayerStatusSO.Entity.runtimeSubWeapon1);
                 }
                 if (i == 2)
                 {
-                    dragObjAtHome.Set(playerStatusSO.runtimeSubWeapon2);
+                    dragObjAtHome.Set(PlayerStatusSO.Entity.runtimeSubWeapon2);
                 }
             }
             else
@@ -72,18 +72,18 @@ public class WeaponChangePanelAtHome : MonoBehaviour
                 Debug.Log(i + "dragObjがsnullらしい");
             }
 
-            if (playerStatusSO.runtimeShield != null)
+            if (PlayerStatusSO.Entity.runtimeShield != null)
             {
-                shieldText.text = playerStatusSO.runtimeShield.equipName;
+                shieldText.text = PlayerStatusSO.Entity.runtimeShield.equipName;
             }
             else
             {
                 shieldText.text = "";
             }
 
-            if (playerStatusSO.runtimeArmor != null)
+            if (PlayerStatusSO.Entity.runtimeArmor != null)
             {
-                armorText.text = playerStatusSO.runtimeArmor.equipName;
+                armorText.text = PlayerStatusSO.Entity.runtimeArmor.equipName;
             }
             else
             {

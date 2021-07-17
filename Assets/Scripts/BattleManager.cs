@@ -126,7 +126,7 @@ public class BattleManager : MonoBehaviour
 
     public void SelectRank(int selectedRank)
     {
-        fameAtEntry = playerStatusSO.runtimeFame;
+        fameAtEntry = PlayerStatusSO.Entity.runtimeFame;
         rank = selectedRank;
         Setup(rank);
         selectRankPanel.SetActive(false);
@@ -135,17 +135,17 @@ public class BattleManager : MonoBehaviour
 
     private void Setup(int rank)//将来的には、敵のセットリストを引数に渡して敵をセットする感じ？
     {
-        playerStatusSO.runtimeMatchAmount += 1;
+        PlayerStatusSO.Entity.runtimeMatchAmount += 1;
         StopAllCoroutines();
 
         //プレイヤーの座標とHP、装備を戦闘開始状態に戻す
-        playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+        PlayerStatusSO.Entity.runtimeHp = PlayerStatusSO.Entity.runtimeVit * 33 / 40 + PlayerStatusSO.Entity.runtimeMen * 7 / 40;
         player.LoadStatus();
         player.transform.position = tilemap.CellToWorld(new Vector3Int(0, 3, 0));
 
         //画面表示をリセットする
         TextManager.instance.ReloadEquipStatus();
-        HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
+        HPSlider.value = (float)player.hp / (float)PlayerStatusSO.Entity.runtimeHp;
 
         //魔法レベルに応じて魔法ボタンの表示を消す
         magic01.SetActive(false);
@@ -160,51 +160,51 @@ public class BattleManager : MonoBehaviour
         magic10.SetActive(false);
         magic11.SetActive(false);
         magic12.SetActive(false);
-        if (playerStatusSO.runtimeMagicLevel >= 1)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 1)
         {
             magic01.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 5)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 5)
         {
             magic02.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 10)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 10)
         {
             magic03.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 15)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 15)
         {
             magic04.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 20)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 20)
         {
             magic05.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 25)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 25)
         {
             magic06.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 30)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 30)
         {
             magic07.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 40)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 40)
         {
             magic08.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 50)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 50)
         {
             magic09.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 60)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 60)
         {
             magic10.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 80)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 80)
         {
             magic11.SetActive(true);
         }
-        if (playerStatusSO.runtimeMagicLevel >= 99)
+        if (PlayerStatusSO.Entity.runtimeMagicLevel >= 99)
         {
             magic12.SetActive(true);
         }
@@ -439,7 +439,7 @@ public class BattleManager : MonoBehaviour
                 yield return new WaitUntil(() => enemies[0].done);
 
                 //敵のターン終了時に、プレイヤーのHPバーを更新して戦闘不能判定
-                HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
+                HPSlider.value = (float)player.hp / (float)PlayerStatusSO.Entity.runtimeHp;
                 if (player.hp < 0)
                 {
                     player.hp = 0;
@@ -546,7 +546,7 @@ public class BattleManager : MonoBehaviour
                     commandButtons.SetActive(true);
 
                     yield return new WaitUntil(() => player.done);//プレイヤーがコマンドを入力するまで待機
-                    HPSlider.value = (float)player.hp / (float)playerStatusSO.runtimeHp;
+                    HPSlider.value = (float)player.hp / (float)PlayerStatusSO.Entity.runtimeHp;
                     ClickedButtonReset();
                     BattleManager.instance.commandButtons.SetActive(false);
                     yield return new WaitForSeconds(0.0f);
@@ -759,43 +759,43 @@ public class BattleManager : MonoBehaviour
     private void ReduceByFame()
     {
         reduceFameCoefficient = 0;
-        if (playerStatusSO.runtimeMaxFame > 300 && rank <= 0)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 300 && rank <= 0)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 750 && rank <= 0)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 750 && rank <= 0)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 2000 && rank <= 0)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 2000 && rank <= 0)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 0)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 3500 && rank <= 0)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 750 && rank <= 1)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 750 && rank <= 1)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 2000 && rank <= 1)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 2000 && rank <= 1)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 1)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 3500 && rank <= 1)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 2000 && rank <= 2)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 2000 && rank <= 2)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 2)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 3500 && rank <= 2)
         {
             reduceFameCoefficient++;
         }
-        if (playerStatusSO.runtimeMaxFame > 3500 && rank <= 3)
+        if (PlayerStatusSO.Entity.runtimeMaxFame > 3500 && rank <= 3)
         {
             reduceFameCoefficient++;
         }
@@ -873,18 +873,18 @@ public class BattleManager : MonoBehaviour
     public void QuitConfirm()
     {
         ReduceByFame();
-        playerStatusSO.runtimeExp += expPool;
-        playerStatusSO.runtimeGold += goldPool;
-        playerStatusSO.runtimeFame += famePool - 50;
-        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame)
+        PlayerStatusSO.Entity.runtimeExp += expPool;
+        PlayerStatusSO.Entity.runtimeGold += goldPool;
+        PlayerStatusSO.Entity.runtimeFame += famePool - 50;
+        if (PlayerStatusSO.Entity.runtimeFame > PlayerStatusSO.Entity.runtimeMaxFame)
         {
-            playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
+            PlayerStatusSO.Entity.runtimeMaxFame = PlayerStatusSO.Entity.runtimeFame;
         }
 
         Destroy(player.gameObject);
         Destroy(commandButtons);
 
-        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame - 100)
+        if (PlayerStatusSO.Entity.runtimeFame > PlayerStatusSO.Entity.runtimeMaxFame - 100)
         {
             textManager.Quit();
 
@@ -913,25 +913,25 @@ public class BattleManager : MonoBehaviour
             {
                 textManager.Quit2();
                 //名声が地に堕ちてゲームオーバー処理
-  /*              playerStatusSO.runtimePlayerName = default;
-                playerStatusSO.runtimeStr = default;
-                playerStatusSO.runtimeDex = default;
-                playerStatusSO.runtimeAgi = default;
-                playerStatusSO.runtimeVit = default;
-                playerStatusSO.runtimeMen = default;
-                playerStatusSO.runtimeHp = default;
-                playerStatusSO.runtimeMagicLevel = default;
-                playerStatusSO.runtimeWeapon = default;
-                playerStatusSO.runtimeSubWeapon1 = default;
-                playerStatusSO.runtimeSubWeapon2 = default;
-                playerStatusSO.runtimeShield = default;
-                playerStatusSO.runtimeArmor = default;
-                playerStatusSO.runtimeGold = default;
-                playerStatusSO.runtimeExp = default;
-                playerStatusSO.runtimeFame = default;
-                playerStatusSO.runtimeMaxFame = default;
-                playerStatusSO.runtimeMatchAmount = default;
-                playerStatusSO.runtimeWinAmount = default;
+  /*              PlayerStatusSO.Entity.runtimePlayerName = default;
+                PlayerStatusSO.Entity.runtimeStr = default;
+                PlayerStatusSO.Entity.runtimeDex = default;
+                PlayerStatusSO.Entity.runtimeAgi = default;
+                PlayerStatusSO.Entity.runtimeVit = default;
+                PlayerStatusSO.Entity.runtimeMen = default;
+                PlayerStatusSO.Entity.runtimeHp = default;
+                PlayerStatusSO.Entity.runtimeMagicLevel = default;
+                PlayerStatusSO.Entity.runtimeWeapon = default;
+                PlayerStatusSO.Entity.runtimeSubWeapon1 = default;
+                PlayerStatusSO.Entity.runtimeSubWeapon2 = default;
+                PlayerStatusSO.Entity.runtimeShield = default;
+                PlayerStatusSO.Entity.runtimeArmor = default;
+                PlayerStatusSO.Entity.runtimeGold = default;
+                PlayerStatusSO.Entity.runtimeExp = default;
+                PlayerStatusSO.Entity.runtimeFame = default;
+                PlayerStatusSO.Entity.runtimeMaxFame = default;
+                PlayerStatusSO.Entity.runtimeMatchAmount = default;
+                PlayerStatusSO.Entity.runtimeWinAmount = default;
   */
                 Debug.Log("名声は地に落ちた……");
                 QuitConfirmButtons.SetActive(false);
@@ -950,12 +950,12 @@ public class BattleManager : MonoBehaviour
     public void GameOver()
     {
         ReduceByFame();
-        playerStatusSO.runtimeExp += expPool;
-        playerStatusSO.runtimeGold += goldPool;
-        playerStatusSO.runtimeFame += famePool;
-        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame)
+        PlayerStatusSO.Entity.runtimeExp += expPool;
+        PlayerStatusSO.Entity.runtimeGold += goldPool;
+        PlayerStatusSO.Entity.runtimeFame += famePool;
+        if (PlayerStatusSO.Entity.runtimeFame > PlayerStatusSO.Entity.runtimeMaxFame)
         {
-            playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
+            PlayerStatusSO.Entity.runtimeMaxFame = PlayerStatusSO.Entity.runtimeFame;
         }
 
         Destroy(player.gameObject);
@@ -986,25 +986,25 @@ public class BattleManager : MonoBehaviour
             {
                 textManager.GameOver2();
 
-/*                playerStatusSO.runtimePlayerName = default;
-                playerStatusSO.runtimeStr = default;
-                playerStatusSO.runtimeDex = default;
-                playerStatusSO.runtimeAgi = default;
-                playerStatusSO.runtimeVit = default;
-                playerStatusSO.runtimeMen = default;
-                playerStatusSO.runtimeHp = default;
-                playerStatusSO.runtimeMagicLevel = default;
-                playerStatusSO.runtimeWeapon = default;
-                playerStatusSO.runtimeSubWeapon1 = default;
-                playerStatusSO.runtimeSubWeapon2 = default;
-                playerStatusSO.runtimeShield = default;
-                playerStatusSO.runtimeArmor = default;
-                playerStatusSO.runtimeGold = default;
-                playerStatusSO.runtimeExp = default;
-                playerStatusSO.runtimeFame = default;
-                playerStatusSO.runtimeMaxFame = default;
-                playerStatusSO.runtimeMatchAmount = default;
-                playerStatusSO.runtimeWinAmount = default;
+/*                PlayerStatusSO.Entity.runtimePlayerName = default;
+                PlayerStatusSO.Entity.runtimeStr = default;
+                PlayerStatusSO.Entity.runtimeDex = default;
+                PlayerStatusSO.Entity.runtimeAgi = default;
+                PlayerStatusSO.Entity.runtimeVit = default;
+                PlayerStatusSO.Entity.runtimeMen = default;
+                PlayerStatusSO.Entity.runtimeHp = default;
+                PlayerStatusSO.Entity.runtimeMagicLevel = default;
+                PlayerStatusSO.Entity.runtimeWeapon = default;
+                PlayerStatusSO.Entity.runtimeSubWeapon1 = default;
+                PlayerStatusSO.Entity.runtimeSubWeapon2 = default;
+                PlayerStatusSO.Entity.runtimeShield = default;
+                PlayerStatusSO.Entity.runtimeArmor = default;
+                PlayerStatusSO.Entity.runtimeGold = default;
+                PlayerStatusSO.Entity.runtimeExp = default;
+                PlayerStatusSO.Entity.runtimeFame = default;
+                PlayerStatusSO.Entity.runtimeMaxFame = default;
+                PlayerStatusSO.Entity.runtimeMatchAmount = default;
+                PlayerStatusSO.Entity.runtimeWinAmount = default;
 */
                 Debug.Log("死亡した（キャラクターロスト）");
                 gameover2Panel.SetActive(true);
@@ -1016,7 +1016,7 @@ public class BattleManager : MonoBehaviour
     {
         battleEnd = false;
 
-        playerStatusSO.runtimeWinAmount += 1;
+        PlayerStatusSO.Entity.runtimeWinAmount += 1;
 
         if (stage % 5 != 4)
         {
@@ -1060,12 +1060,12 @@ public class BattleManager : MonoBehaviour
         }
 
         ReduceByFame();
-        playerStatusSO.runtimeExp += expPool;
-        playerStatusSO.runtimeGold += goldPool;
-        playerStatusSO.runtimeFame += famePool;
-        if (playerStatusSO.runtimeFame > playerStatusSO.runtimeMaxFame)
+        PlayerStatusSO.Entity.runtimeExp += expPool;
+        PlayerStatusSO.Entity.runtimeGold += goldPool;
+        PlayerStatusSO.Entity.runtimeFame += famePool;
+        if (PlayerStatusSO.Entity.runtimeFame > PlayerStatusSO.Entity.runtimeMaxFame)
         {
-            playerStatusSO.runtimeMaxFame = playerStatusSO.runtimeFame;
+            PlayerStatusSO.Entity.runtimeMaxFame = PlayerStatusSO.Entity.runtimeFame;
         }
 
         textManager.RankClear();
@@ -1074,11 +1074,11 @@ public class BattleManager : MonoBehaviour
         Debug.Log($"プレイヤーは{expPool}の経験値、{goldPool}のゴールド、{famePool}の名声を得た");
         (expPool, goldPool, famePool) = (0, 0, 0);
 
-        if (rank== 4 && stage == 4 && playerStatusSO.runtimeGameClearFlag == 0)
+        if (rank== 4 && stage == 4 && PlayerStatusSO.Entity.runtimeGameClearFlag == 0)
         {
             textManager.GameClear();
             gameClearPanel.SetActive(true);
-            playerStatusSO.runtimeGameClearFlag += 1;
+            PlayerStatusSO.Entity.runtimeGameClearFlag += 1;
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         sceneTransitionManager.LoadTo("Home");
@@ -1097,7 +1097,7 @@ public class BattleManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.N))//NextStage
         {
-            playerStatusSO.runtimeWinAmount += 1;
+            PlayerStatusSO.Entity.runtimeWinAmount += 1;
             if (stage % 5 != 4)
             {
                 for (int i = enemies.Count - 1; i >= 0; i--)
@@ -1130,7 +1130,7 @@ public class BattleManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.H))//HpSliderDebug
         {
-            Debug.Log($"{player.hp}/{playerStatusSO.runtimeHp}={HPSlider.value}");
+            Debug.Log($"{player.hp}/{PlayerStatusSO.Entity.runtimeHp}={HPSlider.value}");
             Debug.Log("デバッグコマンド：HPSliderの情報を表示しました");
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.E))//EnemiesDebug
@@ -1156,43 +1156,43 @@ public class BattleManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.LeftBracket))
         {
-            playerStatusSO.runtimeStr += 5;
-            playerStatusSO.runtimeDex += 5;
-            playerStatusSO.runtimeAgi += 5;
-            playerStatusSO.runtimeVit += 5;
-            playerStatusSO.runtimeMen += 5;
-            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            PlayerStatusSO.Entity.runtimeStr += 5;
+            PlayerStatusSO.Entity.runtimeDex += 5;
+            PlayerStatusSO.Entity.runtimeAgi += 5;
+            PlayerStatusSO.Entity.runtimeVit += 5;
+            PlayerStatusSO.Entity.runtimeMen += 5;
+            PlayerStatusSO.Entity.runtimeHp = PlayerStatusSO.Entity.runtimeVit * 33 / 40 + PlayerStatusSO.Entity.runtimeMen * 7 / 40;
             player.LoadStatus();
-            Debug.Log($"ステータス＋５({playerStatusSO.runtimeStr})");
+            Debug.Log($"ステータス＋５({PlayerStatusSO.Entity.runtimeStr})");
         }
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.RightBracket))
         {
-            playerStatusSO.runtimeStr -= 5;
-            playerStatusSO.runtimeDex -= 5;
-            playerStatusSO.runtimeAgi -= 5;
-            playerStatusSO.runtimeVit -= 5;
-            playerStatusSO.runtimeMen -= 5;
-            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
+            PlayerStatusSO.Entity.runtimeStr -= 5;
+            PlayerStatusSO.Entity.runtimeDex -= 5;
+            PlayerStatusSO.Entity.runtimeAgi -= 5;
+            PlayerStatusSO.Entity.runtimeVit -= 5;
+            PlayerStatusSO.Entity.runtimeMen -= 5;
+            PlayerStatusSO.Entity.runtimeHp = PlayerStatusSO.Entity.runtimeVit * 33 / 40 + PlayerStatusSO.Entity.runtimeMen * 7 / 40;
             player.LoadStatus();
-            Debug.Log($"ステータス−５({playerStatusSO.runtimeStr})");
+            Debug.Log($"ステータス−５({PlayerStatusSO.Entity.runtimeStr})");
         }
 
         if (Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.S))//SetStatus:デバッグでいきなりArenaシーンを呼び出したときに能力値をセットするためのもの
         {
-            playerStatusSO.Initialization();
-            playerStatusSO.runtimePlayerName = "テストプレイなう";
-            playerStatusSO.runtimeStr = 40;
-            playerStatusSO.runtimeDex = 40;
-            playerStatusSO.runtimeAgi = 40;
-            playerStatusSO.runtimeVit = 40;
-            playerStatusSO.runtimeMen = 40;
-            playerStatusSO.runtimeHp = playerStatusSO.runtimeVit * 33 / 40 + playerStatusSO.runtimeMen * 7 / 40;
-            playerStatusSO.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//3ハンドアックス 4ショートソード 6ウォーハンマー 8ロングソード 10ボウ 11クロスボウ
-            playerStatusSO.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
-            playerStatusSO.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
-            playerStatusSO.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//1バックラー 2ラウンドシールド 3カイトシールド　4ラージシールド　5タワシ
-            playerStatusSO.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//1レザーアーマー 2リングメイル 3チェインメイル 4フルプレート　
-            playerStatusSO.runtimeMagicLevel = 99;
+            PlayerStatusSO.Entity.Initialization();
+            PlayerStatusSO.Entity.runtimePlayerName = "テストプレイなう";
+            PlayerStatusSO.Entity.runtimeStr = 40;
+            PlayerStatusSO.Entity.runtimeDex = 40;
+            PlayerStatusSO.Entity.runtimeAgi = 40;
+            PlayerStatusSO.Entity.runtimeVit = 40;
+            PlayerStatusSO.Entity.runtimeMen = 40;
+            PlayerStatusSO.Entity.runtimeHp = PlayerStatusSO.Entity.runtimeVit * 33 / 40 + PlayerStatusSO.Entity.runtimeMen * 7 / 40;
+            PlayerStatusSO.Entity.runtimeWeapon = weaponShopItemDatabaseSO.EquipList[3] as WeaponSO;//3ハンドアックス 4ショートソード 6ウォーハンマー 8ロングソード 10ボウ 11クロスボウ
+            PlayerStatusSO.Entity.runtimeSubWeapon1 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
+            PlayerStatusSO.Entity.runtimeSubWeapon2 = weaponShopItemDatabaseSO.EquipList[0] as WeaponSO;
+            PlayerStatusSO.Entity.runtimeShield = shieldShopItemDatabaseSO.EquipList[0] as ShieldSO;//1バックラー 2ラウンドシールド 3カイトシールド　4ラージシールド　5タワシ
+            PlayerStatusSO.Entity.runtimeArmor = armorShopItemDatabaseSO.EquipList[0] as ArmorSO;//1レザーアーマー 2リングメイル 3チェインメイル 4フルプレート　
+            PlayerStatusSO.Entity.runtimeMagicLevel = 99;
             player.LoadStatus();
             debugMode = true;
             Debug.Log("デバッグ用ステータスをセットしました");

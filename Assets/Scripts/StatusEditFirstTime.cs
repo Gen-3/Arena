@@ -8,7 +8,7 @@ public class StatusEditFirstTime : MonoBehaviour
     int usablePoint = 200;
     [SerializeField] Text usablePointText = default;
 
-    [SerializeField] PlayerStatusSO playerStatusSO = default;
+//    [SerializeField] PlayerStatusSO playerStatusSO = default;
     [SerializeField] SceneTransitionManager sceneTransitionManager=default;
 
     public void Start()
@@ -33,7 +33,7 @@ public class StatusEditFirstTime : MonoBehaviour
         }
         usablePoint -= 10;
         usablePointText.text = $"残りポイント:{usablePoint}";
-        playerStatusSO.SetStatus(type, 10);
+        PlayerStatusSO.Entity.SetStatus(type, 10);
     }
     public void DownStatus(PlayerStatusSO.Status type)
     {
@@ -45,12 +45,12 @@ public class StatusEditFirstTime : MonoBehaviour
         }
         usablePoint += 10;
         usablePointText.text = $"残りポイント:{usablePoint}";
-        playerStatusSO.SetStatus(type, -10);
+        PlayerStatusSO.Entity.SetStatus(type, -10);
     }
 
     public int GetStatus(PlayerStatusSO.Status type)
     {
-        return playerStatusSO.GetStatus(type);
+        return PlayerStatusSO.Entity.GetStatus(type);
     }
 
 }
